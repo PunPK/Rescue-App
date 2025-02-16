@@ -1,0 +1,116 @@
+<LoginScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: 'Login'
+            font_size: 24
+            size_hint_y: None
+            height: 50
+
+        TextInput:
+            id: username_input
+            hint_text: 'Username'
+            size_hint_y: None
+            height: 50
+
+        TextInput:
+            id: password_input
+            hint_text: 'Password'
+            password: True
+            size_hint_y: None
+            height: 50
+
+        Button:
+            text: 'Login'
+            size_hint_y: None
+            height: 50
+            on_press: root.login()
+
+<AdminScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: 'Admin Dashboard'
+            font_size: 24
+            size_hint_y: None
+            height: 50
+
+        Button:
+            text: 'Logout'
+            size_hint_y: None
+            height: 50
+            on_press: root.manager.current = 'login'
+
+<UserScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: 'User Dashboard'
+            font_size: 24
+            size_hint_y: None
+            height: 50
+
+        TextInput:
+            id: location_input
+            hint_text: 'Enter location'
+            size_hint_y: None
+            height: 50
+
+        TextInput:
+            id: description_input
+            hint_text: 'Enter description'
+            size_hint_y: None
+            height: 100
+
+        Button:
+            text: 'Send Report'
+            size_hint_y: None
+            height: 50
+            on_press: root.send_report()
+
+        Button:
+            text: 'Go to Receiver'
+            size_hint_y: None
+            height: 50
+            on_press: root.manager.current = 'receiver'
+
+<ReceiverScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: 'Receiver Screen'
+            font_size: 24
+            size_hint_y: None
+            height: 50
+
+        ScrollView:
+            BoxLayout:
+                id: reports_container
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 10
+
+        Button:
+            text: 'Go to User'
+            size_hint_y: None
+            height: 50
+            on_press: root.manager.current = 'user'
+
+        Button:
+            text: 'Refresh Reports'
+            size_hint_y: None
+            height: 50
+            on_press: root.load_reports()

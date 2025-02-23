@@ -61,18 +61,23 @@
 
         TextInput:
             id: location_input
-            hint_text: 'Enter location'
+            hint_text: 'สถานที่'
+            font_name: 'ThaiFont'
             size_hint_y: None
+            multiline: False
             height: 50
 
         TextInput:
             id: description_input
-            hint_text: 'Enter description'
+            hint_text: 'คำอธิบาย'
+            font_name: 'ThaiFont' 
             size_hint_y: None
+            multiline: True
             height: 100
 
         Button:
-            text: 'Send Report'
+            text: 'ส่งรายงาน'
+            font_name: 'ThaiFont'
             size_hint_y: None
             height: 50
             on_press: root.send_report()

@@ -5,24 +5,37 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.popup import Popup
-import json
-import os
+from pymongo import MongoClient, errors
+from kivy.core.text import LabelBase
+from kivy.uix.label import Label
 
-# ตรวจสอบและสร้างไฟล์ข้อมูลผู้ใช้และรายงานหากไม่มี
-if not os.path.exists("data/users.json"):
-    os.makedirs("data", exist_ok=True)
-    with open("data/users.json", "w") as f:
-        json.dump(
-            {
-                "admin": {"password": "admin123", "role": "admin"},
-                "user": {"password": "user123", "role": "user"},
-            },
-            f,
-        )
+# ตั้งค่าฟอนต์ที่รองรับภาษาไทย
+LabelBase.register(name="ThaiFont", fn_regular="../fonts/THSarabunNew.ttf")
 
-if not os.path.exists("data/reports.json"):
-    with open("data/reports.json", "w") as f:
-        json.dump([], f)
+# ใช้ฟอนต์ใน Label
+label = Label(text="สวัสดี", font_name="ThaiFont")
+
+# เชื่อมต่อกับ MongoDB
+client = MongoClient("localhost", 27017)
+db = client["rescue_app"]
+users_collection = db["users"]
+reports_collection = db["reports"]
+
+# ตรวจสอบและสร้างข้อมูลผู้ใช้และรายงานหากไม่มี
+if users_collection.count_documents({}) == 0:
+    users_collection.insert_many(
+        [
+            {"username": "admin", "password": "admin123", "role": "admin"},
+            {"username": "user", "password": "user123", "role": "user"},
+        ]
+    )
+
+# ตรวจสอบว่าคอลเลกชัน reports ว่างเปล่า
+if reports_collection.count_documents({}) == 0:
+    # เพิ่มเอกสารเริ่มต้นหากคอลเลกชันว่าง
+    reports_collection.insert_one(
+        {"location": "Initial Location", "description": "Initial Description"}
+    )
 
 
 # หน้าจอ Login
@@ -31,11 +44,10 @@ class LoginScreen(Screen):
         username = self.ids.username_input.text
         password = self.ids.password_input.text
 
-        with open("data/users.json", "r") as f:
-            users = json.load(f)
+        user = users_collection.find_one({"username": username})
 
-        if username in users and users[username]["password"] == password:
-            role = users[username]["role"]
+        if user and user["password"] == password:
+            role = user["role"]
             if role == "admin":
                 self.manager.current = "admin"
             elif role == "user":
@@ -63,14 +75,8 @@ class UserScreen(Screen):
         if location and description:
             report = {"location": location, "description": description}
 
-            # อ่านข้อมูลเดิมและเพิ่มรายงานใหม่
-            with open("data/reports.json", "r") as f:
-                reports = json.load(f)
-            reports.append(report)
-
-            # บันทึกรายงานใหม่
-            with open("data/reports.json", "w") as f:
-                json.dump(reports, f)
+            # เพิ่มรายงานใหม่ใน MongoDB
+            reports_collection.insert_one(report)
 
             # ล้างช่อง input
             self.ids.location_input.text = ""
@@ -95,9 +101,8 @@ class UserScreen(Screen):
 # หน้าจอ Receiver
 class ReceiverScreen(Screen):
     def load_reports(self):
-        # อ่านรายงานจากไฟล์
-        with open("data/reports.json", "r") as f:
-            reports = json.load(f)
+        # อ่านรายงานจาก MongoDB
+        reports = reports_collection.find()
 
         # ล้างรายการเก่า
         self.ids.reports_container.clear_widgets()
@@ -106,7 +111,9 @@ class ReceiverScreen(Screen):
         for report in reports:
             report_text = f"Location: {report['location']}\nDescription: {report['description']}\n"
             self.ids.reports_container.add_widget(
-                Label(text=report_text, size_hint_y=None, height=100)
+                Label(
+                    text=report_text, font_name="ThaiFont", size_hint_y=None, height=100
+                )
             )
 
 

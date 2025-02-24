@@ -67,7 +67,7 @@
                 font_name: 'ThaiFont'
                 size_hint_y: None
                 height: '50dp'
-                background_color: utils.get_color_from_hex('#E91E63')
+                background_color: utils.get_color_from_hex('#023282')
                 color: 1, 1, 1, 1
                 on_press: root.login()
 
@@ -87,7 +87,7 @@
             padding: [10, 0]
             canvas.before:
                 Color:
-                    rgba: utils.get_color_from_hex('#E91E63')
+                    rgba: utils.get_color_from_hex('#023282')
                 Rectangle:
                     pos: self.pos
                     size: self.size
@@ -145,8 +145,193 @@
                     size: self.size
 
             Button:
+                background_normal: '../Image/home_icon.png'
+                size_hint_x: 0.2
+            Button:
+                background_normal: '../Image/report_icon.png'
+                size_hint_x: 0.2
+            Button:
+                background_normal: '../Image/notification_icon.png'
+                size_hint_x: 0.2
+            Button:
+                background_normal: '../Image/profile_icon.png'
+                size_hint_x: 0.2
+
+<ReceiverScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex('#F5F5F5')  # Light gray background
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # Header
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            padding: [10, 0]
+            canvas.before:
+                Color:
+                    rgba: utils.get_color_from_hex('#023282')  # Pink header
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Image:
+                source: '../Image/logo.png'  # Add your M-Help Me logo
+                size_hint: (None, None)
+                size: (50, 50)
+                pos_hint: {'center_x': 0.5,'center_y':0.5}
+
+            # Button:
+            #     size_hint_x: None
+            #     width: '40dp'
+            #     background_normal: '../Image/logo.png' # Add back arrow icon
+            #     on_press: root.manager.current = 'user'
+
+            Label:
+                text: 'รายงานเหตุการณ์'
+                font_name: 'ThaiFont'
+                font_size: '20sp'
+                color: 1, 1, 1, 1
+                halign: 'left'
+                text_size: self.size
+                valign: 'center'
+                padding_x: 10
+
+        # Content
+        ScrollView:
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: [15, 20]
+                spacing: 15
+
+                # Location Input
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '80dp'
+                    
+                    Label:
+                        text: 'สถานที่'
+                        font_name: 'ThaiFont'
+                        color: 0, 0, 0, 0.8
+                        size_hint_y: None
+                        height: '20dp'
+                        halign: 'left'
+                        text_size: self.size
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: '50dp'
+                        padding: [5, 5]
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [8]
+
+                        TextInput:
+                            id: location_input
+                            hint_text: 'ระบุสถานที่เกิดเหตุ'
+                            font_name: 'ThaiFont'
+                            multiline: False
+                            background_color: 0, 0, 0, 0
+                            padding: [10, 10, 10, 0]
+
+                # Description Input
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '150dp'
+                    
+                    Label:
+                        text: 'รายละเอียด'
+                        font_name: 'ThaiFont'
+                        color: 0, 0, 0, 0.8
+                        size_hint_y: None
+                        height: '20dp'
+                        halign: 'left'
+                        text_size: self.size
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: '120dp'
+                        padding: [5, 5]
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [8]
+
+                        TextInput:
+                            id: description_input
+                            hint_text: 'อธิบายรายละเอียดเหตุการณ์'
+                            font_name: 'ThaiFont'
+                            multiline: True
+                            background_color: 0, 0, 0, 0
+                            padding: [10, 10, 10, 0]
+
+                # Add Image Button
+                Button:
+                    text: 'เพิ่มรูปภาพ'
+                    font_name: 'ThaiFont'
+                    size_hint_y: None
+                    height: '50dp'
+                    background_normal: ''
+                    background_color: utils.get_color_from_hex('#F5F5F5')
+                    color: utils.get_color_from_hex('#023282')
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#023282')
+                        Line:
+                            width: 1.5
+                            rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
+
+                # Submit Button
+                Button:
+                    text: 'ส่งรายงาน'
+                    font_name: 'ThaiFont'
+                    size_hint_y: None
+                    height: '50dp'
+                    background_normal: ''
+                    background_color: utils.get_color_from_hex('#023282')
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#023282')
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8]
+                    on_press: root.send_report()
+
+        # Bottom Navigation Bar
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            padding: [10, 5]
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Button:
                 background_normal: 'home_icon.png'
                 size_hint_x: 0.2
+                hint_text: 'ล็อกอิน'
+                font_name: 'ThaiFont'
+                on_press: root.manager.current = 'login'
             Button:
                 background_normal: 'report_icon.png'
                 size_hint_x: 0.2

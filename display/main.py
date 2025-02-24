@@ -8,6 +8,8 @@ from kivy.uix.popup import Popup
 from pymongo import MongoClient, errors
 from kivy.core.text import LabelBase
 from kivy.uix.label import Label
+from kivy.uix.filechooser import FileChooserListView
+import gridfs
 
 # from kivy.config import Config
 
@@ -21,6 +23,7 @@ Window.size = (430, 740)
 # ตั้งค่าฟอนต์ที่รองรับภาษาไทย
 LabelBase.register(name="ThaiFont", fn_regular="../fonts/THSarabunNew.ttf")
 
+
 # ใช้ฟอนต์ใน Label
 label = Label(text="สวัสดี", font_name="ThaiFont")
 
@@ -29,6 +32,7 @@ client = MongoClient("localhost", 27017)
 db = client["rescue_app"]
 users_collection = db["users"]
 reports_collection = db["reports"]
+fs = gridfs.GridFS(db)
 
 # ตรวจสอบและสร้างข้อมูลผู้ใช้และรายงานหากไม่มี
 if users_collection.count_documents({}) == 0:
@@ -109,6 +113,59 @@ class UserScreen(Screen):
 
 # หน้าจอ Receiver
 class ReceiverScreen(Screen):
+    def send_report(self):
+        location = self.ids.location_input.text
+        description = self.ids.description_input.text
+        image_path = self.ids.image_input.text  # ที่อยู่ของไฟล์ที่เลือก
+
+        if location and description:
+            report = {"location": location, "description": description}
+
+            # อัปโหลดรูปภาพเข้า MongoDB GridFS
+            if image_path:
+                with open(image_path, "rb") as image_file:
+                    image_id = fs.put(image_file, filename=os.path.basename(image_path))
+                report["image_id"] = str(image_id)  # บันทึก ObjectId ของรูปในฐานข้อมูล
+
+            # เพิ่มรายงานใหม่ใน MongoDB
+            reports_collection.insert_one(report)
+
+            # ล้างช่อง input
+            self.ids.location_input.text = ""
+            self.ids.description_input.text = ""
+            self.ids.image_input.text = ""
+
+            # แสดง Popup แจ้งเตือน
+            popup = Popup(
+                title="Success",
+                content=Label(text="Report sent successfully!"),
+                size_hint=(0.8, 0.4),
+            )
+            popup.open()
+        else:
+            popup = Popup(
+                title="Error",
+                content=Label(text="Please fill all fields!"),
+                size_hint=(0.8, 0.4),
+            )
+            popup.open()
+
+    def open_file_chooser(self):
+        filechooser = FileChooserListView()
+        popup = Popup(
+            title="Select Image",
+            content=filechooser,
+            size_hint=(0.9, 0.9),
+        )
+
+        def on_selection(instance, selection):
+            if selection:
+                self.ids.image_input.text = selection[0]  # เก็บที่อยู่ไฟล์
+            popup.dismiss()
+
+        filechooser.bind(on_submit=on_selection)
+        popup.open()
+
     def load_reports(self):
         # อ่านรายงานจาก MongoDB
         reports = reports_collection.find()
@@ -130,10 +187,10 @@ class ReceiverScreen(Screen):
 class RescueApp(App):
     def build(self):
         sm = ScreenManager()
-        sm.add_widget(LoginScreen(name="login"))
-        sm.add_widget(UserScreen(name="user"))
-        sm.add_widget(AdminScreen(name="admin"))
         sm.add_widget(ReceiverScreen(name="receiver"))
+        sm.add_widget(UserScreen(name="user"))
+        sm.add_widget(LoginScreen(name="login"))
+        sm.add_widget(AdminScreen(name="admin"))
         return sm
 
 

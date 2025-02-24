@@ -9,6 +9,15 @@ from pymongo import MongoClient, errors
 from kivy.core.text import LabelBase
 from kivy.uix.label import Label
 
+# from kivy.config import Config
+
+# Config.set("graphics", "width", "360")
+# Config.set("graphics", "height", "780")
+
+from kivy.core.window import Window
+
+Window.size = (430, 740)
+
 # ตั้งค่าฟอนต์ที่รองรับภาษาไทย
 LabelBase.register(name="ThaiFont", fn_regular="../fonts/THSarabunNew.ttf")
 
@@ -122,8 +131,8 @@ class RescueApp(App):
     def build(self):
         sm = ScreenManager()
         sm.add_widget(LoginScreen(name="login"))
-        sm.add_widget(AdminScreen(name="admin"))
         sm.add_widget(UserScreen(name="user"))
+        sm.add_widget(AdminScreen(name="admin"))
         sm.add_widget(ReceiverScreen(name="receiver"))
         return sm
 

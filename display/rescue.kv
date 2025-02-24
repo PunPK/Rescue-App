@@ -1,121 +1,158 @@
+#:import utils kivy.utils
+
 <LoginScreen>:
+    canvas.before:
+        Color:
+            rgba: utils.get_color_from_hex('#023282')
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    
     BoxLayout:
         orientation: 'vertical'
-        padding: 20
-        spacing: 15
+        padding: [20, 40]
+        spacing: 20
+
+        Image:
+            source: '../Image/logo.png'  # Add your M-Help Me logo
+            size_hint: (None, None)
+            size: (120, 120)
+            pos_hint: {'center_x': 0.5}
 
         Label:
-            text: 'Login'
-            font_size: 24
+            text: 'Rescue App'
+            font_name: 'ThaiFont'
+            font_size: '28sp'
+            color: 1, 1, 1, 1
             size_hint_y: None
-            height: 50
+            height: self.texture_size[1]
 
-        TextInput:
-            id: username_input
-            hint_text: 'Username'
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 15
+            spacing: 15
             size_hint_y: None
-            height: 50
+            height: self.minimum_height
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [15]
 
-        TextInput:
-            id: password_input
-            hint_text: 'Password'
-            password: True
-            size_hint_y: None
-            height: 50
+            TextInput:
+                id: username_input
+                hint_text: 'ชื่อผู้ใช้'
+                font_name: 'ThaiFont'
+                size_hint_y: None
+                height: '45dp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                padding: [10, 10, 10, 10]
 
-        Button:
-            text: 'Login'
-            size_hint_y: None
-            height: 50
-            on_press: root.login()
+            TextInput:
+                id: password_input
+                hint_text: 'รหัสผ่าน'
+                font_name: 'ThaiFont'
+                password: True
+                size_hint_y: None
+                height: '45dp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                padding: [10, 10, 10, 10]
 
-<AdminScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-        padding: 20
-        spacing: 15
-
-        Label:
-            text: 'Admin Dashboard'
-            font_size: 24
-            size_hint_y: None
-            height: 50
-
-        Button:
-            text: 'Logout'
-            size_hint_y: None
-            height: 50
-            on_press: root.manager.current = 'login'
+            Button:
+                text: 'เข้าสู่ระบบ'
+                font_name: 'ThaiFont'
+                size_hint_y: None
+                height: '50dp'
+                background_color: utils.get_color_from_hex('#E91E63')
+                color: 1, 1, 1, 1
+                on_press: root.login()
 
 <UserScreen>:
     BoxLayout:
         orientation: 'vertical'
-        padding: 20
-        spacing: 15
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex('#F5F5F5')  # Light gray background
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
-        Label:
-            text: 'User Dashboard'
-            font_size: 24
+        BoxLayout:
             size_hint_y: None
-            height: 50
+            height: '60dp'
+            padding: [10, 0]
+            canvas.before:
+                Color:
+                    rgba: utils.get_color_from_hex('#E91E63')
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
 
-        TextInput:
-            id: location_input
-            hint_text: 'สถานที่'
-            font_name: 'ThaiFont'
-            size_hint_y: None
-            multiline: False
-            height: 50
-
-        TextInput:
-            id: description_input
-            hint_text: 'คำอธิบาย'
-            font_name: 'ThaiFont' 
-            size_hint_y: None
-            multiline: True
-            height: 100
-
-        Button:
-            text: 'ส่งรายงาน'
-            font_name: 'ThaiFont'
-            size_hint_y: None
-            height: 50
-            on_press: root.send_report()
-
-        Button:
-            text: 'Go to Receiver'
-            size_hint_y: None
-            height: 50
-            on_press: root.manager.current = 'receiver'
-
-<ReceiverScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-        padding: 20
-        spacing: 15
-
-        Label:
-            text: 'Receiver Screen'
-            font_size: 24
-            size_hint_y: None
-            height: 50
+            Label:
+                text: 'แจ้งเหตุฉุกเฉิน'
+                font_name: 'ThaiFont'
+                font_size: '20sp'
+                color: 1, 1, 1, 1
 
         ScrollView:
             BoxLayout:
-                id: reports_container
                 orientation: 'vertical'
                 size_hint_y: None
                 height: self.minimum_height
-                spacing: 10
+                padding: [15, 15]
+                spacing: 15
 
-        Button:
-            text: 'Go to User'
-            size_hint_y: None
-            height: 50
-            on_press: root.manager.current = 'user'
+                # Service Categories
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: '100dp'
+                    spacing: 10
 
-        Button:
-            text: 'Refresh Reports'
+                    # Add service category buttons with icons
+                    Button:
+                        background_normal: ''
+                        background_color: 1, 1, 1, 1
+                        size_hint_x: 0.25
+                        Image:
+                            source: 'emergency_icon.png'
+                            center_x: self.parent.center_x
+                            center_y: self.parent.center_y + 10
+                        Label:
+                            text: 'ฉุกเฉิน'
+                            font_name: 'ThaiFont'
+                            color: 0, 0, 0, 1
+                            center_x: self.parent.center_x
+                            center_y: self.parent.center_y - 20
+
+                    # Add more category buttons similarly
+
+        # Bottom Navigation Bar
+        BoxLayout:
             size_hint_y: None
-            height: 50
-            on_press: root.load_reports()
+            height: '60dp'
+            padding: [10, 5]
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Button:
+                background_normal: 'home_icon.png'
+                size_hint_x: 0.2
+            Button:
+                background_normal: 'report_icon.png'
+                size_hint_x: 0.2
+            Button:
+                background_normal: 'notification_icon.png'
+                size_hint_x: 0.2
+            Button:
+                background_normal: 'profile_icon.png'
+                size_hint_x: 0.2

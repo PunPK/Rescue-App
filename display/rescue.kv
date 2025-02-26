@@ -1,4 +1,5 @@
 #:import utils kivy.utils
+#:import MapView kivy_garden.mapview.MapView
 
 <LoginScreen>:
     canvas.before:
@@ -280,6 +281,14 @@
                             background_color: 0, 0, 0, 0
                             padding: [10, 10, 10, 0]
 
+                BoxLayout:
+                    id: map_container
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '300dp'
+                    padding: [10, 10]
+                    spacing: 10
+
                 # Add Image Button
                 Button:
                     text: 'เพิ่มรูปภาพ'
@@ -295,6 +304,10 @@
                         Line:
                             width: 1.5
                             rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
+
+                Button:
+                    text: "Select Image"
+                    on_release: root.open_file_chooser()
 
                 # Submit Button
                 Button:

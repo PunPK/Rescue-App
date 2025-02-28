@@ -77,7 +77,7 @@
         orientation: 'vertical'
         canvas.before:
             Color:
-                rgba: utils.get_color_from_hex('#F5F5F5')  # Light gray background
+                rgba: utils.get_color_from_hex('#F5F5F5')
             Rectangle:
                 pos: self.pos
                 size: self.size
@@ -298,6 +298,7 @@
                     background_normal: ''
                     background_color: utils.get_color_from_hex('#F5F5F5')
                     color: utils.get_color_from_hex('#023282')
+                    on_press: root.open_file_chooser()
                     canvas.before:
                         Color:
                             rgba: utils.get_color_from_hex('#023282')
@@ -305,9 +306,6 @@
                             width: 1.5
                             rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
 
-                Button:
-                    text: "Select Image"
-                    on_release: root.open_file_chooser()
 
                 # Submit Button
                 Button:
@@ -340,8 +338,8 @@
                     size: self.size
 
             Button:
-                background_normal: 'home_icon.png'
-                size_hint_x: 0.2
+                background_normal: '../Image/home_icon.png'
+                size_hint_x: 0.1
                 hint_text: 'ล็อกอิน'
                 font_name: 'ThaiFont'
                 on_press: root.manager.current = 'login'

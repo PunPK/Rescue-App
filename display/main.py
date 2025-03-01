@@ -11,6 +11,7 @@ from kivy.uix.label import Label
 from kivy.uix.filechooser import FileChooserListView
 import gridfs
 from kivy_garden.mapview import MapView, MapMarker
+from kivy.lang import Builder
 
 # from plyer import gps
 
@@ -18,6 +19,7 @@ from kivy_garden.mapview import MapView, MapMarker
 
 # Config.set("graphics", "width", "360")
 # Config.set("graphics", "height", "780")
+Builder.load_file("rescue.kv")
 
 from kivy.core.window import Window
 
@@ -239,8 +241,8 @@ class ReceiverScreen(Screen):
 class RescueApp(App):
     def build(self):
         sm = ScreenManager()
-        sm.add_widget(ReceiverScreen(name="receiver"))
         sm.add_widget(UserScreen(name="user"))
+        sm.add_widget(ReceiverScreen(name="receiver"))
         sm.add_widget(LoginScreen(name="login"))
         sm.add_widget(AdminScreen(name="admin"))
         return sm

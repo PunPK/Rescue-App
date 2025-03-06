@@ -10,3 +10,4 @@
 # from rescue_screen.ReportScreen import ReceiverScreen
 
 from rescue_screen import ReportScreen
+from .test_camera import CameraApp

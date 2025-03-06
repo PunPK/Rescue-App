@@ -9,3 +9,5 @@
 # Builder.load_file(kv_path)
 
 from .ReportScreen import ReceiverScreen
+from .db_connection import *
+from .card_page import *

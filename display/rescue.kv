@@ -125,7 +125,7 @@
                 height: '400dp'
 
                 # Send Rescue Button
-                BoxLayout:
+                Button:
                     orientation: 'vertical'
                     canvas.before:
                         Color:
@@ -136,13 +136,14 @@
                             radius: [15, 15, 15, 15]
                     
                     Image:
-                        source: 'send_rescue_icon.png'  # Replace with your icon
+                        source: '../Image/emergency_icon.png'  # Replace with your icon
                         size_hint: (None, None)
-                        size: (60, 60)
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+                        size: (80, 80)  # Increased size for the image
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.7}  # Adjusted vertical position
+                        allow_stretch: True  # Ensures the image scales properly
                     
                     Label:
-                        text: 'Send Rescue\\nalert'
+                        text: 'Send Rescue\nalert'
                         font_name: 'Roboto'
                         font_size: '14sp'
                         color: 1, 1, 1, 1

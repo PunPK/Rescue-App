@@ -22,6 +22,9 @@ from kivy_garden.mapview import MapView, MapMarker
 from kivy.lang import Builder
 from test_camera import CameraApp
 from db_connection import reports_collection, users_collection
+import gridfs
+from kivy.lang import Builder
+from rescue_screen import ReceiverScreen
 
 # Set the window size to simulate a mobile device
 Window.size = (360, 640)

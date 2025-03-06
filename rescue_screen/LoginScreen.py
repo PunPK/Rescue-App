@@ -1,19 +1,16 @@
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.popup import Popup
-from pymongo import MongoClient, errors
+from kivymd.app import MDApp
+from kivymd.uix.screen import MDScreen
 from kivy.core.text import LabelBase
-from kivy.uix.label import Label
-from kivy.uix.filechooser import FileChooserListView
 import gridfs
-from kivy_garden.mapview import MapView, MapMarker
-from kivy.lang import Builder
-
+from kivymd.app import MDApp
+from kivymd.uix.button import MDRaisedButton
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.dialog import MDDialog
+from pymongo import MongoClient, errors
 from kivy.core.window import Window
+from kivymd.uix.button import MDRaisedButton
+from kivymd.uix.label import MDLabel
+from kivymd.uix.button import MDIconButton
 
 Window.size = (430, 740)
 
@@ -38,14 +35,8 @@ if users_collection.count_documents({}) == 0:
         ]
     )
 
-if reports_collection.count_documents({}) == 0:
-    # เพิ่มเอกสารเริ่มต้นหากคอลเลกชันว่าง
-    reports_collection.insert_one(
-        {"location": "Initial Location", "description": "Initial Description"}
-    )
 
-
-class LoginScreen(Screen):
+class LoginScreen(MDScreen):
     def login(self):
         username = self.ids.username_input.text
         password = self.ids.password_input.text
@@ -55,13 +46,29 @@ class LoginScreen(Screen):
         if user and user["password"] == password:
             role = user["role"]
             if role == "admin":
-                self.manager.current = "admin"
+                self.manager.current = "main"
             elif role == "user":
-                self.manager.current = "user"
+                self.manager.current = "main"
+
         else:
-            popup = Popup(
-                title="Error",
-                content=Label(text="Invalid username or password!"),
-                size_hint=(0.8, 0.4),
+
+            self.dialog = MDDialog(
+                title="Invalid username or password!",
+                type="simple",
+                content_cls=MDBoxLayout(
+                    MDIconButton(icon="alert-circle-outline", theme_text_color="Error"),
+                    MDLabel(text="Please try again.", theme_text_color="Error"),
+                    orientation="horizontal",
+                    spacing=10,
+                    adaptive_height=True,
+                ),
+                buttons=[
+                    MDRaisedButton(
+                        text="OK", on_release=lambda x: self.dialog.dismiss()
+                    )
+                ],
             )
-            popup.open()
+            self.dialog.open()
+
+        self.ids.username_input.text = ""
+        self.ids.password_input.text = ""

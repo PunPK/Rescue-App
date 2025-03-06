@@ -175,30 +175,25 @@ class MainScreen(MDScreen):
         # Main layout
         main_layout = MDBoxLayout(orientation="vertical")
 
-        # Top app bar with menu icon
-        # top_bar = MDBoxLayout(
-        #     md_bg_color=(1, 0.6, 0.1, 1),  # Orange color
-        #     padding=[dp(10), dp(10), dp(10), dp(10)],
-        #     adaptive_height=True,
-        # )
-
-        # menu_button = MDIconButton(
-        #     icon="menu",
-        #     pos_hint={"center_y": 0.5},
-        #     theme_icon_color="Custom",
-        #     icon_color=(1, 1, 1, 1),
-        # )
-        # top_bar.add_widget(menu_button)
-
-        # Logo and app name
+        # Logo section with gradient-like effect
         logo_layout = MDBoxLayout(
             orientation="vertical",
             adaptive_height=True,
             padding=[0, dp(20), 0, dp(20)],
-            md_bg_color=(1, 0.6, 0.1, 1),  # Orange color
+            md_bg_color=(0, 0.4, 1, 1),  # Primary blue color
         )
 
-        # Logo image in a white circle
+        # Add a technology-themed pattern to the header (optional)
+        pattern_overlay = MDBoxLayout(
+            orientation="vertical",
+            adaptive_height=True,
+            size_hint_x=1,
+            md_bg_color=(0, 0.45, 1, 0.2),  # Slightly lighter blue with transparency
+            pos_hint={"center_x": 0.5, "center_y": 0.5},
+        )
+        logo_layout.add_widget(pattern_overlay)
+
+        # Logo image in a white circle with shadow
         logo_box = MDBoxLayout(
             size_hint=(None, None),
             size=(dp(100), dp(100)),
@@ -211,12 +206,12 @@ class MainScreen(MDScreen):
             size=(dp(80), dp(80)),
             radius=[dp(40)],
             md_bg_color=(1, 1, 1, 1),
+            elevation=3,  # Added shadow for depth
             pos_hint={"center_x": 0.5, "center_y": 0.5},
         )
 
-        # For testing, we'll use a placeholder for the logo
         logo_image = Image(
-            source="Image/logo.png",  # Replace with your logo or use a placeholder
+            source="Image/logo.png",
             size_hint=(None, None),
             # size=(dp(50), dp(50)),
             pos_hint={"center_x": 0.5, "center_y": 0.5},
@@ -226,25 +221,28 @@ class MainScreen(MDScreen):
         logo_box.add_widget(logo_card)
         logo_layout.add_widget(logo_box)
 
+        # App name with improved typography
         app_name = MDLabel(
             text="Rescue App",
             halign="center",
             theme_text_color="Custom",
             text_color=(1, 1, 1, 1),
             font_style="H5",
+            bold=True,  # Make it bold for emphasis
             adaptive_height=True,
         )
         logo_layout.add_widget(app_name)
 
-        Creator_name = MDLabel(
-            text="BY 67 [005, 270, 280]",
+        # Creator name with improved styling
+        creator_name = MDLabel(
+            text="Developed By CoE36",
             halign="center",
             theme_text_color="Custom",
-            text_color=(1, 1, 1, 1),
-            font_style="H6",
+            text_color=(1, 1, 1, 0.9),  # Slightly transparent for hierarchy
+            font_style="Caption",
             adaptive_height=True,
         )
-        logo_layout.add_widget(Creator_name)
+        logo_layout.add_widget(creator_name)
 
         # Services section
         content_layout = MDBoxLayout(

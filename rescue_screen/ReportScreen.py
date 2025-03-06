@@ -30,18 +30,8 @@ users_collection = db["users"]
 reports_collection = db["reports"]
 fs = gridfs.GridFS(db)
 
-# ตรวจสอบและสร้างข้อมูลผู้ใช้และรายงานหากไม่มี
-if users_collection.count_documents({}) == 0:
-    users_collection.insert_many(
-        [
-            {"username": "admin", "password": "admin123", "role": "admin"},
-            {"username": "user", "password": "user123", "role": "user"},
-        ]
-    )
 
-# ตรวจสอบว่าคอลเลกชัน reports ว่างเปล่า
 if reports_collection.count_documents({}) == 0:
-    # เพิ่มเอกสารเริ่มต้นหากคอลเลกชันว่าง
     reports_collection.insert_one(
         {"location": "Initial Location", "description": "Initial Description"}
     )
@@ -56,31 +46,6 @@ class ReceiverScreen(MDScreen):
         self.ids.map_container.add_widget(self.mapview)
         self.marker = None
         self.current_location = [7.00724, 100.50176]
-
-    # def start_gps(self):
-    #     try:
-    #         gps.configure(
-    #             on_location=self.on_gps_location, on_status=self.on_gps_status
-    #         )
-    #         gps.start()
-    #     except NotImplementedError:
-    #         print("GPS is not supported on this platform.")
-
-    # def on_gps_location(self, **kwargs):
-    #     lat = kwargs.get("lat")
-    #     lon = kwargs.get("lon")
-
-    #     if lat is not None and lon is not None:
-    #         self.current_location = (lat, lon)
-    #         if self.mapview:
-    #             self.mapview.center_on(lat, lon)
-
-    #         if self.marker:
-    #             self.marker.lat = lat
-    #             self.marker.lon = lon
-    #         else:
-    #             self.marker = MapMarker(lat=lat, lon=lon)
-    #             self.mapview.add_marker(self.marker)
 
     def send_report(self):
         location = self.ids.location_input.text

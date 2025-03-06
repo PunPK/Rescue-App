@@ -540,14 +540,14 @@
 
                 # Add Image Button
                 Button:
-                    text: 'เพิ่มรูปภาพ'
+                    text: 'ถ่ายรูปภาพ'
                     font_name: 'ThaiFont'
                     size_hint_y: None
                     height: '50dp'
                     background_normal: ''
                     background_color: utils.get_color_from_hex('#F5F5F5')
                     color: utils.get_color_from_hex('#023282')
-                    on_press: root.open_file_chooser()
+                    on_press: root.setup_camera()
                     canvas.before:
                         Color:
                             rgba: utils.get_color_from_hex('#023282')
@@ -572,6 +572,10 @@
                             size: self.size
                             radius: [8]
                     on_press: root.send_report()
+                
+                Button:
+                    text: 'โหลดรายงาน'
+                    on_press: root.load_reports()
 
         # Bottom Navigation Bar
         BoxLayout:

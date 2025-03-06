@@ -11,19 +11,13 @@ from kivy.core.window import Window
 from kivy.metrics import dp
 from kivy.lang import Builder
 from kivy.properties import StringProperty, BooleanProperty
-from pymongo import MongoClient, errors
 from kivy.core.text import LabelBase
 from kivy.uix.label import Label
-from kivy.uix.filechooser import FileChooserListView
-from kivy_garden.mapview import MapView, MapMarker
 import gridfs
 from kivy.lang import Builder
 from rescue_screen import ReceiverScreen
-from kivy.uix.filechooser import FileChooserListView
-from kivy_garden.mapview import MapView, MapMarker
 from kivy.lang import Builder
-
-# from test_function import CameraApp
+from kivymd.icon_definitions import md_icons
 from rescue_screen.db_connection import reports_collection, users_collection
 
 from rescue_screen.ReportScreen import ReceiverScreen
@@ -34,64 +28,6 @@ Window.size = (360, 640)
 
 # KV string for custom widgets and styling
 KV = """
-<ServiceCard>:
-    orientation: "vertical"
-    padding: dp(8)
-    size_hint: None, None
-    size: dp(100), dp(100)
-    radius: dp(15)
-    ripple_behavior: True
-    md_bg_color: 1, 0.4, 0.1, 1  # Orange color
-    
-    MDBoxLayout:
-        orientation: "vertical"
-        adaptive_height: True
-        spacing: dp(5)
-        padding: dp(5)
-        pos_hint: {"center_x": .5}
-        
-        Image:
-            source: root.icon_source
-            size_hint: None, None
-            size: dp(50), dp(50)
-            pos_hint: {"center_x": .5}
-            
-        MDLabel:
-            text: root.title
-            halign: "center"
-            theme_text_color: "Custom"
-            text_color: 1, 1, 1, 1
-            font_style: "Caption"
-            adaptive_height: True
-
-<CircularButton>:
-    size_hint: None, None
-    size: dp(70), dp(70)
-    md_bg_color: 1, 0.6, 0.1, 1  # Light orange
-    radius: dp(35)
-    
-    MDBoxLayout:
-        orientation: "vertical"
-        adaptive_height: True
-        spacing: dp(2)
-        padding: dp(5)
-        pos_hint: {"center_x": .5, "center_y": .5}
-        
-        Image:
-            source: root.icon_source
-            size_hint: None, None
-            size: dp(40), dp(40)
-            pos_hint: {"center_x": .5}
-            
-        MDLabel:
-            text: root.title
-            halign: "center"
-            theme_text_color: "Custom"
-            text_color: 1, 1, 1, 1
-            font_style: "Caption"
-            font_size: "10sp"
-            adaptive_height: True
-
 <BottomNavItem>:
     orientation: "vertical"
     adaptive_height: True
@@ -121,47 +57,102 @@ Builder.load_string(KV)
 LabelBase.register(name="ThaiFont", fn_regular="fonts/THSarabunNew.ttf")
 
 
-# ใช้ฟอนต์ใน Label
-# label = Label(text="สวัสดี", font_name="ThaiFont")
-
-# เชื่อมต่อกับ MongoDB
-
-
-# ตรวจสอบและสร้างข้อมูลผู้ใช้และรายงานหากไม่มี
-if users_collection.count_documents({}) == 0:
-    users_collection.insert_many(
-        [
-            {"username": "admin", "password": "admin123", "role": "admin"},
-            {"username": "user", "password": "user123", "role": "user"},
-        ]
-    )
-
-# ตรวจสอบว่าคอลเลกชัน reports ว่างเปล่า
-if reports_collection.count_documents({}) == 0:
-    # เพิ่มเอกสารเริ่มต้นหากคอลเลกชันว่าง
-    reports_collection.insert_one(
-        {"location": "Initial Location", "description": "Initial Description"}
-    )
-
-
 class ServiceCard(MDCard):
-    icon_source = StringProperty("")
-    title = StringProperty("")
+    def __init__(self, icon_source, title, **kwargs):
+        super().__init__(**kwargs)
+        self.size_hint_y = None
+        self.height = dp(120)
+        self.radius = [dp(15)]
+        self.elevation = 1
+        self.padding = [dp(10), dp(10), dp(10), dp(10)]
+        self.md_bg_color = (1, 1, 1, 1)
+        self.ripple_behavior = True
+        self.orientation = "vertical"
+
+        # Create a circular background for the icon
+        icon_bg = MDCard(
+            size_hint=(None, None),
+            size=(dp(50), dp(50)),
+            radius=[dp(25)],
+            md_bg_color=(0.9, 0.95, 1, 1),  # Light blue background
+            elevation=0,
+            pos_hint={"center_x": 0.5},
+        )
+
+        # Icon
+        icon = Image(
+            source=icon_source,
+            size_hint=(None, None),
+            size=(dp(30), dp(30)),
+            pos_hint={"center_x": 0.7, "center_y": 0.5},
+        )
+
+        icon_bg.add_widget(icon)
+
+        # Title
+        title_label = MDLabel(
+            text=title,
+            halign="center",
+            theme_text_color="Secondary",
+            font_style="Caption",
+            adaptive_height=True,
+        )
+
+        # Add widgets to card
+        self.add_widget(MDBoxLayout(size_hint_y=None, height=dp(5)))  # Spacing
+        self.add_widget(icon_bg)
+        self.add_widget(MDBoxLayout(size_hint_y=None, height=dp(5)))  # Spacing
+        self.add_widget(title_label)
 
 
-class CircularButton(MDCard):
-    icon_source = StringProperty("")
-    title = StringProperty("")
+class CircularButton(MDBoxLayout):
+    def __init__(self, icon_source, title, **kwargs):
+        super().__init__(**kwargs)
+        self.orientation = "vertical"
+        self.adaptive_height = True
+        self.spacing = dp(8)
+        self.pos_hint = {"center_x": 0.5}
+
+        # Button background
+        button_bg = MDCard(
+            size_hint=(None, None),
+            size=(dp(70), dp(70)),
+            radius=[dp(35)],
+            md_bg_color=(0, 0.4, 1, 1),  # Blue background
+            elevation=3,
+            pos_hint={"center_x": 0.5},
+        )
+
+        # Icon
+        icon = Image(
+            source=icon_source,
+            size_hint=(None, None),
+            size=(dp(40), dp(40)),
+            pos_hint={"center_x": 0.5, "center_y": 0.5},
+        )
+
+        button_bg.add_widget(icon)
+
+        # Title
+        title_label = MDLabel(
+            text=title,
+            halign="center",
+            theme_text_color="Secondary",
+            font_style="Caption",
+            adaptive_height=True,
+        )
+
+        self.add_widget(button_bg)
+        self.add_widget(title_label)
 
 
 class BottomNavItem(MDBoxLayout):
     icon = StringProperty("")
     text = StringProperty("")
     selected = BooleanProperty(False)
-    screen_name = StringProperty("")  # Name of the screen to navigate to
+    screen_name = StringProperty("")
 
     def navigate(self):
-        """Switch to the specified screen."""
         app = MDApp.get_running_app()
         app.root.current = self.screen_name
 
@@ -175,23 +166,24 @@ class MainScreen(MDScreen):
         # Main layout
         main_layout = MDBoxLayout(orientation="vertical")
 
+        # Create a container for scrollable content
+        scroll_container = MDBoxLayout(
+            orientation="vertical",
+            size_hint_y=None,
+            height=dp(800),  # Set a fixed height that fits the content
+        )
+        # Bind the height of scroll_container to its minimum height
+        scroll_container.bind(minimum_height=scroll_container.setter("height"))
+
         # Logo section with gradient-like effect
         logo_layout = MDBoxLayout(
             orientation="vertical",
             adaptive_height=True,
-            padding=[0, dp(20), 0, dp(20)],
-            md_bg_color=(0, 0.4, 1, 1),  # Primary blue color
+            size_hint_y=None,
+            height=dp(200),
+            padding=[0, dp(20), 0, dp(10)],  # Reduced bottom padding
+            md_bg_color=(0, 0.4, 1, 1),
         )
-
-        # Add a technology-themed pattern to the header (optional)
-        pattern_overlay = MDBoxLayout(
-            orientation="vertical",
-            adaptive_height=True,
-            size_hint_x=1,
-            md_bg_color=(0, 0.45, 1, 0.2),  # Slightly lighter blue with transparency
-            pos_hint={"center_x": 0.5, "center_y": 0.5},
-        )
-        logo_layout.add_widget(pattern_overlay)
 
         # Logo image in a white circle with shadow
         logo_box = MDBoxLayout(
@@ -206,14 +198,14 @@ class MainScreen(MDScreen):
             size=(dp(80), dp(80)),
             radius=[dp(40)],
             md_bg_color=(1, 1, 1, 1),
-            elevation=3,  # Added shadow for depth
+            elevation=3,
             pos_hint={"center_x": 0.5, "center_y": 0.5},
         )
 
         logo_image = Image(
             source="Image/logo.png",
             size_hint=(None, None),
-            # size=(dp(50), dp(50)),
+            # size=(dp(60), dp(60)),
             pos_hint={"center_x": 0.5, "center_y": 0.5},
         )
 
@@ -228,7 +220,7 @@ class MainScreen(MDScreen):
             theme_text_color="Custom",
             text_color=(1, 1, 1, 1),
             font_style="H5",
-            bold=True,  # Make it bold for emphasis
+            bold=True,
             adaptive_height=True,
         )
         logo_layout.add_widget(app_name)
@@ -238,7 +230,7 @@ class MainScreen(MDScreen):
             text="Developed By CoE36",
             halign="center",
             theme_text_color="Custom",
-            text_color=(1, 1, 1, 0.9),  # Slightly transparent for hierarchy
+            text_color=(1, 1, 1, 0.9),
             font_style="Caption",
             adaptive_height=True,
         )
@@ -250,6 +242,8 @@ class MainScreen(MDScreen):
             padding=[dp(15), dp(15), dp(15), dp(15)],
             spacing=dp(15),
             md_bg_color=(1, 1, 1, 1),
+            size_hint_y=None,
+            height=dp(500),
         )
 
         services_label = MDLabel(
@@ -257,45 +251,51 @@ class MainScreen(MDScreen):
             theme_text_color="Primary",
             font_style="H6",
             adaptive_height=True,
+            padding=[0, 0, 0, dp(10)],  # Add some bottom padding
         )
         content_layout.add_widget(services_label)
 
         # Grid for service cards (2 rows of 3 cards)
         services_grid1 = MDBoxLayout(
-            adaptive_height=True, spacing=dp(10), padding=[0, dp(5), 0, dp(5)]
+            adaptive_height=True,
+            spacing=dp(10),
+            padding=[0, dp(5), 0, dp(5)],
+            size_hint_x=1,
         )
 
         services_grid2 = MDBoxLayout(
-            adaptive_height=True, spacing=dp(10), padding=[0, dp(5), 0, dp(5)]
+            adaptive_height=True,
+            spacing=dp(10),
+            padding=[0, dp(5), 0, dp(5)],
+            size_hint_x=1,
         )
 
         # Service cards - first row
         services_grid1.add_widget(
             ServiceCard(
-                icon_source="map_icon.png",  # Replace with your icon or use a placeholder
+                icon_source="Image/map_icon.png",
                 title="Send Rescue\nalert",
             )
         )
-
         services_grid1.add_widget(
-            ServiceCard(icon_source="emergency_icon.png", title="Emergency\nContact")
+            ServiceCard(
+                icon_source="Image/emergency_icon.png",
+                title="Emergency\nContact",
+            )
         )
-
         services_grid1.add_widget(
-            ServiceCard(icon_source="ambulance_icon.png", title="Ambulance")
+            ServiceCard(icon_source="Image/ambulance_icon.png", title="Ambulance")
         )
 
         # Service cards - second row
         services_grid2.add_widget(
-            ServiceCard(icon_source="news_icon.png", title="News")
+            ServiceCard(icon_source="Image/news_icon.png", title="News")
         )
-
         services_grid2.add_widget(
-            ServiceCard(icon_source="safety_icon.png", title="Safety Tips")
+            ServiceCard(icon_source="Image/safety_icon.png", title="Safety Tips")
         )
-
         services_grid2.add_widget(
-            ServiceCard(icon_source="bookmarks_icon.png", title="Bookmarks")
+            ServiceCard(icon_source="Image/bookmarks_icon.png", title="Bookmarks")
         )
 
         content_layout.add_widget(services_grid1)
@@ -310,20 +310,29 @@ class MainScreen(MDScreen):
         )
 
         circular_buttons.add_widget(
-            CircularButton(icon_source="hotline_icon.png", title="HOTLINE")
+            CircularButton(icon_source="Image/hotline_icon.png", title="HOTLINE")
         )
-
-        # Add a spacer
         circular_buttons.add_widget(MDBoxLayout(size_hint_x=None, width=dp(50)))
-
         circular_buttons.add_widget(
-            CircularButton(icon_source="fire_app_icon.png", title="Fire Rescue App")
+            CircularButton(icon_source="Image/fire_app_icon.png", title="Fire Rescue")
         )
 
         content_layout.add_widget(circular_buttons)
 
+        # Add logo_layout and content_layout to scroll_container
+        scroll_container.add_widget(logo_layout)
+        scroll_container.add_widget(content_layout)
+
+        # Create ScrollView and add scroll_container to it
+        scroll_view = ScrollView(size_hint=(1, 1))
+        scroll_view.add_widget(scroll_container)
+
         # Bottom navigation bar
-        bottom_nav = MDBoxLayout(adaptive_height=True, md_bg_color=(1, 1, 1, 1))
+        bottom_nav = MDBoxLayout(
+            adaptive_height=True,
+            md_bg_color=(1, 1, 1, 1),
+            padding=[0, dp(5), 0, dp(5)],
+        )
 
         bottom_nav.add_widget(
             BottomNavItem(
@@ -333,30 +342,30 @@ class MainScreen(MDScreen):
                 screen_name="main",
             )
         )
-
         bottom_nav.add_widget(
             BottomNavItem(
-                icon="file-document-outline", text="Reports", screen_name="receiver"
+                icon="file-document-outline",
+                text="Reports",
+                screen_name="receiver",
+            )
+        )
+        bottom_nav.add_widget(
+            BottomNavItem(
+                icon="message-outline",
+                text="Chat",
+                screen_name="chat",
+            )
+        )
+        bottom_nav.add_widget(
+            BottomNavItem(
+                icon="account-outline",
+                text="Login",
+                screen_name="login",
             )
         )
 
-        bottom_nav.add_widget(
-            BottomNavItem(icon="message-outline", text="Chat", screen_name="chat")
-        )
-
-        bottom_nav.add_widget(
-            BottomNavItem(icon="account-outline", text="Login", screen_name="login")
-        )
-
-        # Add all sections to main layout
-        # main_layout.add_widget(top_bar)
-        main_layout.add_widget(logo_layout)
-
-        # Wrap content in ScrollView
-        scroll_view = ScrollView()
-        scroll_view.add_widget(content_layout)
+        # Add ScrollView and bottom nav to the main layout
         main_layout.add_widget(scroll_view)
-
         main_layout.add_widget(bottom_nav)
 
         self.add_widget(main_layout)
@@ -365,12 +374,20 @@ class MainScreen(MDScreen):
 class RescueApp(MDApp):
     def build(self):
         self.theme_cls.primary_palette = "Blue"
+        self.theme_cls.primary_hue = "700"  # Make the blue color darker
+
         # Create a screen manager
         self.screen_manager = MDScreenManager()
+
         # Add screens
-        self.screen_manager.add_widget(MainScreen(name="main"))
+        main_screen = MainScreen(name="main")
+        self.screen_manager.add_widget(main_screen)
         self.screen_manager.add_widget(ReceiverScreen(name="receiver"))
         self.screen_manager.add_widget(LoginScreen(name="login"))
+
+        # Set the current screen to main
+        self.screen_manager.current = "main"
+
         return self.screen_manager
 
 

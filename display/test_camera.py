@@ -3,6 +3,11 @@ from kivy.uix.camera import Camera
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.core.image import Image as CoreImage
+from datetime import datetime
+from pymongo import MongoClient
+import io
+from gridfs import GridFS
+from db_connection import reports_collection
 
 
 class CameraApp(App):
@@ -20,14 +25,30 @@ class CameraApp(App):
 
         return layout
 
-    def capture(self, instance):  # ฟังก์ชันถ่ายรูป
+    def capture(self, instance):
         texture = self.camera.texture
-        size = texture.size
+        image_data = texture.pixels
 
-        # บันทึกภาพเป็นไฟล์
-        img = CoreImage(texture, size=size)
-        img.save("captured_image.png")
-        print("ถ่ายรูป")
+        # Save image as binary data
+        print("Taking photo...")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        image_filename = f"captured_image_{timestamp}.png"
+
+        image_binary = io.BytesIO(image_data)
+
+        fs = GridFS(reports_collection.database)
+        file_id = fs.put(
+            image_binary.getvalue(), filename=image_filename, content_type="image/png"
+        )
+
+        report_data = {
+            "image_filename": image_filename,
+            "timestamp": timestamp,
+            "file_id": file_id,
+        }
+
+        reports_collection.insert_one(report_data)
+        print("เข้า mongo")
 
 
 if __name__ == "__main__":

@@ -5,11 +5,14 @@ from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.clock import Clock
 from kivy.graphics.texture import Texture
+from db_connection import reports_collection
+import datetime
+import base64
 
 
 class CameraApp(App):
     def build(self):
-        self.capture = cv2.VideoCapture("/dev/video2")
+        self.capture = cv2.VideoCapture(0)
         if not self.capture.isOpened():
             print("Error: Could not open video device.")
             return
@@ -24,8 +27,8 @@ class CameraApp(App):
         )  # Bind the button to capture_photo method
 
         # Add the button and image widget to the layout
-        self.layout.add_widget(button)
         self.layout.add_widget(self.image_widget)
+        self.layout.add_widget(button)
 
         # Start a Clock event to update the frame at a regular interval
         Clock.schedule_interval(self.update, 1.0 / 30.0)  # Update 30 frames per second
@@ -35,6 +38,9 @@ class CameraApp(App):
         # Read the next frame from the video capture
         ret, frame = self.capture.read()
         if ret:
+            # Rotate the frame 180 degrees to flip it
+            frame = cv2.rotate(frame, cv2.ROTATE_180)
+
             # Convert the frame to RGB (Kivy uses RGB format)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
@@ -48,16 +54,25 @@ class CameraApp(App):
             self.image_widget.texture = texture
 
     def capture_photo(self, instance):
-        # Capture a single frame and save it as a photo when the button is pressed
+        # Capture a single frame and save it to reports_collection when the button is pressed
         ret, frame = self.capture.read()
         if ret:
             # Convert the frame to RGB (Kivy uses RGB format)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-            # Save the photo to a file (you can change the file name as needed)
-            photo_filename = "captured_photo.jpg"
-            cv2.imwrite(photo_filename, cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
-            print(f"Photo saved as {photo_filename}")
+            # Encode the image as base64 to store it in the database
+            _, buffer = cv2.imencode(".jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+            img_str = base64.b64encode(buffer).decode("utf-8")
+
+            # Save the image data to MongoDB
+            report_data = {
+                "image": img_str,  # Base64-encoded image
+                "time": datetime.datetime.now(),  # Time of when the photo was taken
+            }
+            reports_collection.insert_one(
+                report_data
+            )  # Insert the data into the collection
+            print("Photo captured and stored in the database.")
 
     def on_stop(self):
         # Release the camera when the app stops

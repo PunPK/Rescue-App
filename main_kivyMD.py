@@ -180,11 +180,19 @@ class MainScreen(MDScreen):
         logo_layout = MDBoxLayout(
             orientation="vertical",
             adaptive_height=True,
-            size_hint_y=None,
-            height=dp(200),
-            padding=[0, dp(20), 0, dp(10)],  # Reduced bottom padding
-            md_bg_color=(0, 0.4, 1, 1),
+            padding=[0, dp(20), 0, dp(20)],
+            md_bg_color=(0, 0.4, 1, 1),  # Primary blue color
         )
+
+        # Add a technology-themed pattern to the header (optional)
+        pattern_overlay = MDBoxLayout(
+            orientation="vertical",
+            adaptive_height=True,
+            size_hint_x=1,
+            md_bg_color=(0, 0.45, 1, 0.2),  # Slightly lighter blue with transparency
+            pos_hint={"center_x": 0.5, "center_y": 0.5},
+        )
+        logo_layout.add_widget(pattern_overlay)
 
         # Logo image in a white circle with shadow
         logo_box = MDBoxLayout(

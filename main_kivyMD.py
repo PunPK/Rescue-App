@@ -22,7 +22,8 @@ from rescue_screen import ReceiverScreen
 from kivy.uix.filechooser import FileChooserListView
 from kivy_garden.mapview import MapView, MapMarker
 from kivy.lang import Builder
-from test_function import CameraApp
+
+# from test_function import CameraApp
 from rescue_screen.db_connection import reports_collection, users_collection
 
 from rescue_screen.ReportScreen import ReceiverScreen
@@ -113,14 +114,14 @@ KV = """
 """
 
 Builder.load_string(KV)
-Builder.load_file("rescue.kv")
+# Builder.load_file("rescue.kv")
 
 # ตั้งค่าฟอนต์ที่รองรับภาษาไทย
-LabelBase.register(name="ThaiFont", fn_regular="../fonts/THSarabunNew.ttf")
+LabelBase.register(name="ThaiFont", fn_regular="fonts/THSarabunNew.ttf")
 
 
 # ใช้ฟอนต์ใน Label
-label = Label(text="สวัสดี", font_name="ThaiFont")
+# label = Label(text="สวัสดี", font_name="ThaiFont")
 
 # เชื่อมต่อกับ MongoDB
 

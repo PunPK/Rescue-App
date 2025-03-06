@@ -1,0 +1,592 @@
+#:import utils kivy.utils
+#:import MapView kivy_garden.mapview.MapView
+
+<LoginScreen>:
+    canvas.before:
+        Color:
+            rgba: utils.get_color_from_hex('#023282')
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [20, 40]
+        spacing: 20
+
+        Image:
+            source: '../Image/logo.png'
+            size_hint: (None, None)
+            size: (120, 120)
+            pos_hint: {'center_x': 0.5}
+
+        Label:
+            text: 'Rescue App'
+            font_name: 'ThaiFont'
+            font_size: '28sp'
+            color: 1, 1, 1, 1
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 15
+            spacing: 15
+            size_hint_y: None
+            height: self.minimum_height
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [15]
+
+            TextInput:
+                id: username_input
+                hint_text: 'ชื่อผู้ใช้'
+                font_name: 'ThaiFont'
+                size_hint_y: None
+                height: '45dp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                padding: [10, 10, 10, 10]
+
+            TextInput:
+                id: password_input
+                hint_text: 'รหัสผ่าน'
+                font_name: 'ThaiFont'
+                password: True
+                size_hint_y: None
+                height: '45dp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                padding: [10, 10, 10, 10]
+
+            Button:
+                text: 'เข้าสู่ระบบ'
+                font_name: 'ThaiFont'
+                size_hint_y: None
+                height: '50dp'
+                background_color: utils.get_color_from_hex('#023282')
+                color: 1, 1, 1, 1
+                on_press: root.login()
+<UserScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex('#FFFFFF')
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [20,]
+
+        BoxLayout:
+            size_hint_y: None
+            height: '140dp'
+            padding: [10, 10]
+            canvas.before:
+                Color:
+                    rgba: utils.get_color_from_hex('#023282')
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [20,]
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: [0, 10]
+
+                Image:
+                    source: '../Image/logo.png'
+                    size_hint: (None, None)
+                    size: (80, 80)
+                    pos_hint: {'center_x': 0.5}
+
+                Label:
+                    text: 'Rescue App'
+                    font_name: 'Roboto'
+                    font_size: '24sp'
+                    color: 1, 1, 1, 1
+                    size_hint_y: None
+                    height: '30dp'
+                    pos_hint: {'center_x': 0.5}
+
+        BoxLayout:
+            orientation: 'vertical'
+            padding: [25, 25]
+            spacing: 5
+
+            GridLayout:
+                cols: 3
+                spacing: 10
+                size_hint_y: None
+                height: '400dp'
+
+                # Send Rescue Button
+                Button:
+                    orientation: 'vertical'
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#FF5733')  # Orange-red
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15, 15, 15, 15]
+                    
+                    Image:
+                        source: '../Image/emergency_icon.png'  # Replace with your icon
+                        size_hint: (None, None)
+                        size: (80, 80)  # Increased size for the image
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.7}  # Adjusted vertical position
+                        allow_stretch: True  # Ensures the image scales properly
+                    
+                    Label:
+                        text: 'Send Rescue\nalert'
+                        font_name: 'Roboto'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+                        valign: 'top'
+                        text_size: self.width, None
+                        size_hint_y: None
+                        height: '40dp'
+                        pos_hint: {'center_x': 0.5}
+
+                # Emergency Button
+                BoxLayout:
+                    orientation: 'vertical'
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#FF5733')
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15, 15, 15, 15]
+                    
+                    Image:
+                        source: 'emergency_icon.png'  # Replace with your icon
+                        size_hint: (None, None)
+                        size: (60, 60)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+                    
+                    Label:
+                        text: 'Emergency\\nContact'
+                        font_name: 'Roboto'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+                        valign: 'top'
+                        text_size: self.width, None
+                        size_hint_y: None
+                        height: '40dp'
+                        pos_hint: {'center_x': 0.5}
+
+                # Ambulance Button
+                BoxLayout:
+                    orientation: 'vertical'
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#FF5733')
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15, 15, 15, 15]
+                    
+                    Image:
+                        source: 'ambulance_icon.png'  # Replace with your icon
+                        size_hint: (None, None)
+                        size: (60, 60)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+                    
+                    Label:
+                        text: 'Ambulance'
+                        font_name: 'Roboto'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+                        valign: 'top'
+                        text_size: self.width, None
+                        size_hint_y: None
+                        height: '40dp'
+                        pos_hint: {'center_x': 0.5}
+
+                # News Button
+                BoxLayout:
+                    orientation: 'vertical'
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#FF5733')
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15, 15, 15, 15]
+                    
+                    Image:
+                        source: 'news_icon.png'  # Replace with your icon
+                        size_hint: (None, None)
+                        size: (60, 60)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+                    
+                    Label:
+                        text: 'News'
+                        font_name: 'Roboto'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+                        valign: 'top'
+                        text_size: self.width, None
+                        size_hint_y: None
+                        height: '40dp'
+                        pos_hint: {'center_x': 0.5}
+
+                # Safety Tips Button
+                BoxLayout:
+                    orientation: 'vertical'
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#FF5733')
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15, 15, 15, 15]
+                    
+                    Image:
+                        source: 'safety_icon.png'  # Replace with your icon
+                        size_hint: (None, None)
+                        size: (60, 60)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+                    
+                    Label:
+                        text: 'Safety Tips'
+                        font_name: 'Roboto'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+                        valign: 'top'
+                        text_size: self.width, None
+                        size_hint_y: None
+                        height: '40dp'
+                        pos_hint: {'center_x': 0.5}
+
+                # Bookmarks Button
+                BoxLayout:
+                    orientation: 'vertical'
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#FF5733')
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [15, 15, 15, 15]
+                    
+                    Image:
+                        source: 'bookmark_icon.png'  # Replace with your icon
+                        size_hint: (None, None)
+                        size: (60, 60)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+                    
+                    Label:
+                        text: 'Bookmarks'
+                        font_name: 'Roboto'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+                        valign: 'top'
+                        text_size: self.width, None
+                        size_hint_y: None
+                        height: '40dp'
+                        pos_hint: {'center_x': 0.5}
+
+            # Additional circular buttons
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint_y: None
+                height: '100dp'
+                spacing: 150
+                padding: [40, 0]
+                
+                # Hotline Button
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_x: None
+                    width: '100dp'
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#FF8C00')
+                        Ellipse:
+                            pos: self.pos
+                            size: self.size
+                    
+                    Image:
+                        source: 'hotline_icon.png'  # Replace with your icon
+                        size_hint: (None, None)
+                        size: (60, 60)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                
+                # Fire Rescue Button
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_x: None
+                    width: '100dp'
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#FF8C00')
+                        Ellipse:
+                            pos: self.pos
+                            size: self.size
+                    
+                    Image:
+                        source: 'fire_rescue_icon.png'  # Replace with your icon
+                        size_hint: (None, None)
+                        size: (60, 60)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+        # Bottom Navigation Bar
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            padding: [10, 5]
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            BoxLayout:
+                orientation: 'vertical'
+                Image:
+                    source: 'explore_icon.png'  # Replace with your icon
+                    size_hint: (None, None)
+                    size: (30, 30)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+                Label:
+                    text: 'Explore'
+                    font_name: 'Roboto'
+                    font_size: '12sp'
+                    color: utils.get_color_from_hex('#FF8C00')
+                    size_hint_y: None
+                    height: '20dp'
+                    pos_hint: {'center_x': 0.5}
+                    
+            BoxLayout:
+                orientation: 'vertical'
+                Image:
+                    source: 'list_icon.png'  # Replace with your icon
+                    size_hint: (None, None)
+                    size: (30, 30)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+                    
+            BoxLayout:
+                orientation: 'vertical'
+                Image:
+                    source: 'chat_icon.png'  # Replace with your icon
+                    size_hint: (None, None)
+                    size: (30, 30)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+                    
+            BoxLayout:
+                orientation: 'vertical'
+                Image:
+                    source: 'profile_icon.png'  # Replace with your icon
+                    size_hint: (None, None)
+                    size: (30, 30)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+
+<ReceiverScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex('#F5F5F5')  # Light gray background
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # Header
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            padding: [10, 0]
+            canvas.before:
+                Color:
+                    rgba: utils.get_color_from_hex('#023282')  # Pink header
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Image:
+                source: '../Image/logo.png'
+                size_hint: (None, None)
+                size: (50, 50)
+                pos_hint: {'center_x': 0.5,'center_y':0.5}
+
+            # Button:
+            #     size_hint_x: None
+            #     width: '40dp'
+            #     background_normal: '../Image/logo.png' # Add back arrow icon
+            #     on_press: root.manager.current = 'user'
+
+            Label:
+                text: 'รายงานเหตุการณ์'
+                font_name: 'ThaiFont'
+                font_size: '20sp'
+                color: 1, 1, 1, 1
+                halign: 'left'
+                text_size: self.size
+                valign: 'center'
+                padding_x: 10
+
+        # Content
+        ScrollView:
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: [15, 20]
+                spacing: 15
+
+                # Location Input
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '80dp'
+                    
+                    Label:
+                        text: 'สถานที่'
+                        font_name: 'ThaiFont'
+                        color: 0, 0, 0, 0.8
+                        size_hint_y: None
+                        height: '20dp'
+                        halign: 'left'
+                        text_size: self.size
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: '50dp'
+                        padding: [5, 5]
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [8]
+
+                        TextInput:
+                            id: location_input
+                            hint_text: 'ระบุสถานที่เกิดเหตุ'
+                            font_name: 'ThaiFont'
+                            multiline: False
+                            background_color: 0, 0, 0, 0
+                            padding: [10, 10, 10, 0]
+
+                # Description Input
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '150dp'
+                    
+                    Label:
+                        text: 'รายละเอียด'
+                        font_name: 'ThaiFont'
+                        color: 0, 0, 0, 0.8
+                        size_hint_y: None
+                        height: '20dp'
+                        halign: 'left'
+                        text_size: self.size
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: '120dp'
+                        padding: [5, 5]
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [8]
+
+                        TextInput:
+                            id: description_input
+                            hint_text: 'อธิบายรายละเอียดเหตุการณ์'
+                            font_name: 'ThaiFont'
+                            multiline: True
+                            background_color: 0, 0, 0, 0
+                            padding: [10, 10, 10, 0]
+
+                BoxLayout:
+                    id: map_container
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '300dp'
+                    padding: [10, 10]
+                    spacing: 10
+
+                # Add Image Button
+                Button:
+                    text: 'เพิ่มรูปภาพ'
+                    font_name: 'ThaiFont'
+                    size_hint_y: None
+                    height: '50dp'
+                    background_normal: ''
+                    background_color: utils.get_color_from_hex('#F5F5F5')
+                    color: utils.get_color_from_hex('#023282')
+                    on_press: root.open_file_chooser()
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#023282')
+                        Line:
+                            width: 1.5
+                            rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
+
+
+                # Submit Button
+                Button:
+                    text: 'ส่งรายงาน'
+                    font_name: 'ThaiFont'
+                    size_hint_y: None
+                    height: '50dp'
+                    background_normal: ''
+                    background_color: utils.get_color_from_hex('#023282')
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#023282')
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8]
+                    on_press: root.send_report()
+
+        # Bottom Navigation Bar
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            padding: [10, 5]
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Button:
+                background_normal: '../Image/home_icon.png'
+                size_hint_x: 0.1
+                hint_text: 'ล็อกอิน'
+                font_name: 'ThaiFont'
+                on_press: root.manager.current = 'login'
+            Button:
+                background_normal: 'report_icon.png'
+                size_hint_x: 0.2
+            Button:
+                background_normal: 'notification_icon.png'
+                size_hint_x: 0.2
+            Button:
+                background_normal: 'profile_icon.png'
+                size_hint_x: 0.2

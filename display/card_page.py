@@ -8,7 +8,7 @@ from kivymd.uix.button import MDRaisedButton, MDFlatButton
 from kivymd.uix.button import MDFloatingActionButton
 from kivymd.uix.toolbar import MDTopAppBar
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.list import MDList, OneLineListItem
+from kivymd.uix.list import MDList, TwoLineListItem
 from kivy.uix.scrollview import ScrollView
 from kivy.core.window import Window
 from kivy.metrics import dp
@@ -38,15 +38,17 @@ class HomeScreen(MDScreen):
         scroll_view = ScrollView()
 
         # Content - List of cards (top to bottom)
+        numbers_info_data = numbers_info_collection.find()
 
         card_list = MDList()
         card_list.bind(minimum_height=card_list.setter("height"))  # Expand properly
 
         # Sample cards (Added in top-to-bottom order)
-        for i in range(5):
-            item = OneLineListItem(
-                text=f"Card {i+1}",
-                on_release=lambda x, i=i: print(f"Card {i+1} selected"),
+        for i in numbers_info_data:
+            item = TwoLineListItem(
+                text=f"Phone Number: {i['phone_number']}",
+                secondary_text=f"Agency: {i['agency']}",
+                on_release=lambda x, i=i: print(f"Card {i["agency"]} selected"),
             )
             card_list.add_widget(item)
 
@@ -159,8 +161,6 @@ class CreateCardScreen(MDScreen):
         phone_number = self.phone_number_field.text
         data = {"agency": title, "phone_number": phone_number}
         numbers_info_collection.insert_one(data)
-        print(f"Title: {title}")
-        print(f"Description: {phone_number}")
 
         self.manager.current = "home"
 

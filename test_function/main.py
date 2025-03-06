@@ -241,8 +241,9 @@ class ReceiverScreen(Screen):
 class RescueApp(App):
     def build(self):
         sm = ScreenManager()
-        sm.add_widget(UserScreen(name="user"))
+
         sm.add_widget(ReceiverScreen(name="receiver"))
+        sm.add_widget(UserScreen(name="user"))
         sm.add_widget(LoginScreen(name="login"))
         sm.add_widget(AdminScreen(name="admin"))
         return sm

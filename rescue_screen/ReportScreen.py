@@ -15,10 +15,12 @@ from kivy.uix.filechooser import FileChooserListView
 import gridfs
 from kivy_garden.mapview import MapView, MapMarker
 
-# from kivy.lang import Builder
+from kivy.lang import Builder
 
 
 from kivy.core.window import Window
+
+Builder.load_file("rescue_screen/Screen.kv")
 
 Window.size = (430, 740)
 

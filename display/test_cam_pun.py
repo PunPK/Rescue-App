@@ -8,11 +8,20 @@ from kivy.graphics.texture import Texture
 from db_connection import reports_collection
 import datetime
 import base64
+import platform
 
 
 class CameraApp(App):
     def build(self):
-        self.capture = cv2.VideoCapture(0)
+        print(platform.system())
+        if platform.system() == "Darwin":
+            camera_index = 0
+        elif platform.system() == "Linux":
+            camera_index = 2
+        else:
+            print("ใช้ไม่ได้บอก Hope")
+            return
+        self.capture = cv2.VideoCapture(camera_index)
         if not self.capture.isOpened():
             print("Error: Could not open video device.")
             return

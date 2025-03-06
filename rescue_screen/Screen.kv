@@ -71,6 +71,17 @@
                 background_color: utils.get_color_from_hex('#023282')
                 color: 1, 1, 1, 1
                 on_press: root.login()
+
+        Button:
+            text: 'Register new account'
+            font_name: 'ThaiFont'  # Use the custom font
+            font_size: '28sp'      # Set font size
+            color: 1, 1, 1, 1      # Text color (white)
+            size_hint_y: None      # Disable vertical size hint
+            height: dp(50)         # Set fixed height
+            background_color: 0.1, 0.4, 0.9, 1  # Background color (blue)
+            on_press: root.register() 
+
 <UserScreen>:
     BoxLayout:
         orientation: 'vertical'

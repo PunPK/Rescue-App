@@ -11,6 +11,7 @@ from kivy.core.window import Window
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDIconButton
+from kivymd.uix.button import MDFlatButton
 
 Window.size = (430, 740)
 
@@ -51,20 +52,15 @@ class LoginScreen(MDScreen):
                 self.manager.current = "main"
 
         else:
-
             self.dialog = MDDialog(
                 title="Invalid username or password!",
-                type="simple",
-                content_cls=MDBoxLayout(
-                    MDIconButton(icon="alert-circle-outline", theme_text_color="Error"),
-                    MDLabel(text="Please try again.", theme_text_color="Error"),
-                    orientation="horizontal",
-                    spacing=10,
-                    adaptive_height=True,
-                ),
+                text="Please try again or register new account.",
                 buttons=[
-                    MDRaisedButton(
-                        text="OK", on_release=lambda x: self.dialog.dismiss()
+                    MDFlatButton(
+                        text="OK",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=lambda x: self.dialog.dismiss(),
                     )
                 ],
             )
@@ -72,3 +68,6 @@ class LoginScreen(MDScreen):
 
         self.ids.username_input.text = ""
         self.ids.password_input.text = ""
+
+    def register(self):
+        self.manager.current = "registration"

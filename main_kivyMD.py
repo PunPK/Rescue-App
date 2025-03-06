@@ -22,6 +22,7 @@ from rescue_screen.db_connection import reports_collection, users_collection
 
 from rescue_screen.ReportScreen import ReceiverScreen
 from rescue_screen.LoginScreen import LoginScreen
+from rescue_screen.RegistrationPage import RegistrationScreen
 
 # Set the window size to simulate a mobile device
 Window.size = (360, 640)
@@ -384,6 +385,7 @@ class RescueApp(MDApp):
         self.screen_manager.add_widget(main_screen)
         self.screen_manager.add_widget(ReceiverScreen(name="receiver"))
         self.screen_manager.add_widget(LoginScreen(name="login"))
+        self.screen_manager.add_widget(RegistrationScreen(name="registration"))
 
         # Set the current screen to main
         self.screen_manager.current = "main"

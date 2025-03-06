@@ -15,9 +15,10 @@ from pymongo import MongoClient, errors
 from kivy.core.text import LabelBase
 from kivy.uix.label import Label
 from kivy.uix.filechooser import FileChooserListView
-import gridfs
 from kivy_garden.mapview import MapView, MapMarker
 from kivy.lang import Builder
+from test_camera import CameraApp
+from db_connection import reports_collection, users_collection
 
 # Set the window size to simulate a mobile device
 Window.size = (360, 640)
@@ -115,11 +116,7 @@ LabelBase.register(name="ThaiFont", fn_regular="../fonts/THSarabunNew.ttf")
 label = Label(text="สวัสดี", font_name="ThaiFont")
 
 # เชื่อมต่อกับ MongoDB
-client = MongoClient("localhost", 27017)
-db = client["rescue_app"]
-users_collection = db["users"]
-reports_collection = db["reports"]
-fs = gridfs.GridFS(db)
+
 
 # ตรวจสอบและสร้างข้อมูลผู้ใช้และรายงานหากไม่มี
 if users_collection.count_documents({}) == 0:

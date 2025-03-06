@@ -4,6 +4,7 @@ from kivymd.uix.screenmanager import MDScreenManager
 from kivymd.uix.card import MDCard
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.textfield import MDTextField
+from kivymd.uix.button import MDFloatingActionButton
 from kivymd.uix.toolbar import MDTopAppBar
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.list import MDList, OneLineListItem
@@ -47,6 +48,15 @@ class HomeScreen(MDScreen):
         layout.add_widget(scroll_view)
 
         self.add_widget(layout)
+
+        fab = MDFloatingActionButton(
+            icon="plus",
+            pos_hint={"center_x": 0.85, "center_y": 0.1},
+            on_release=self.go_to_create_card,
+        )
+        self.add_widget(fab)
+
+        # Add layout to screen
 
     def go_to_create_card(self, instance):
         self.manager.current = "create_card"

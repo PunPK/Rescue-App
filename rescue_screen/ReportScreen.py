@@ -54,38 +54,35 @@ class ReceiverScreen(MDScreen):
         self.marker = None
         self.current_location = [7.00724, 100.50176]
 
-        # Initialize camera and layout
-
-        # Set up the camera
-        self.setup_camera()
-
+        self.camera_index = None
+        self.capture = None
+        self.image_widget = None
+        self.layout = None
+        self.captured_image_widget = None
         # Add map and location button
         self.add_map()
 
     def setup_camera(self):
-        # Set camera index based on platform
-        if platform.system() == "Darwin":  # For MacOS
+        if platform.system() == "Darwin":
             self.camera_index = 0
-        elif platform.system() == "Linux":  # For Linux
-            self.camera_index = 2  # Or 0 depending on the number of connected cameras
-        elif platform.system() == "Windows":  # For Windows
-            self.camera_index = 1  # Or 1 depending on the number of connected cameras
+        elif platform.system() == "Linux":
+            self.camera_index = 2
+        elif platform.system() == "Windows":
+            self.camera_index = 1
         else:
-            print("Unsupported platform for camera setup")
+            print("ใช้ไม่ได้บอก Hopeeee")
             return
 
         # Create the layout for the camera feed
-        self.layout = BoxLayout(orientation="vertical")
-        self.image_widget = Image()  # Image widget to display the video
-        self.layout.add_widget(self.image_widget)
+        if not self.layout:
+            self.layout = BoxLayout(orientation="vertical")
+            self.image_widget = Image()
+            self.layout.add_widget(self.image_widget)
 
         # Add the layout to the screen's container (make sure the screen has a container for widgets)
-        self.ids.map_container.add_widget(self.layout)  # Add camera feed layout here
+        self.ids.map_container.add_widget(self.layout)
 
-        # Open the camera
-        self.capture = cv2.VideoCapture(
-            self.camera_index
-        )  # Open the camera with the correct index
+        self.capture = cv2.VideoCapture(self.camera_index)
         if not self.capture.isOpened():
             print("Error: Could not open camera.")
         else:
@@ -112,17 +109,32 @@ class ReceiverScreen(MDScreen):
         else:
             print("Error: Could not read frame.")
 
-    def capture_photo(self, instance):
-        # Capture a single frame when the button is pressed
-        ret, frame = self.capture.read()
-        if ret:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    def capture_photo(self):
+        try:
+            ret, frame = self.capture.read()
+            if ret:
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-            # Encode the image as base64 to store it in the database
-            _, buffer = cv2.imencode(".jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
-            self.img_str = base64.b64encode(buffer).decode("utf-8")
+                # Encode the image as base64 to store it in the database
+                _, buffer = cv2.imencode(".jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+                self.img_str = base64.b64encode(buffer).decode("utf-8")
 
-            print("Photo captured. Ready to send in report.")
+                print("Photo captured. Ready to send in report.")
+                self.show_popup("Success", "Photo captured successfully!")
+
+                if not self.captured_image_widget:
+                    self.captured_image_widget = Image()
+                    self.ids.map_container.add_widget(
+                        self.captured_image_widget, index=1
+                    )
+
+                texture = Texture.create(
+                    size=(frame.shape[1], frame.shape[0]), colorfmt="rgb"
+                )
+                texture.blit_buffer(frame.tobytes(), colorfmt="rgb", bufferfmt="ubyte")
+                self.captured_image_widget.texture = texture
+        except Exception as e:
+            self.show_popup("Error", f"An error occurred: {e}")
 
     def send_report(self):
         location = self.ids.location_input.text
@@ -198,6 +210,5 @@ class ReceiverScreen(MDScreen):
             )
 
     def on_stop(self):
-        # Release the camera when the app stops
         if self.capture and self.capture.isOpened():
             self.capture.release()

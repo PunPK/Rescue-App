@@ -101,12 +101,13 @@
                 screen_name: "receiver"
 
             BottomNavItem:
-                icon: "message-outline"
-                text: "Chat"
-                screen_name: "chat"
+                icon: "account-box-multiple"
+                text: "Officer"
+                screen_name: "officer"
 
             BottomNavItem:
                 icon: "account-outline"
+                selected: True
                 text: "Login"
                 screen_name: "login"
 
@@ -422,7 +423,7 @@
             BoxLayout:
                 orientation: 'vertical'
                 Image:
-                    source: 'chat_icon.png'  # Replace with your icon
+                    source: 'officer_icon.png'  # Replace with your icon
                     size_hint: (None, None)
                     size: (30, 30)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.7}
@@ -619,13 +620,14 @@
 
             BottomNavItem:
                 icon: "file-document-outline"
+                selected: True
                 text: "Reports"
                 screen_name: "receiver"
 
             BottomNavItem:
-                icon: "message-outline"
-                text: "Chat"
-                screen_name: "chat"
+                icon: "account-box-multiple"
+                text: "Officer"
+                screen_name: "officer"
 
             BottomNavItem:
                 icon: "account-outline"

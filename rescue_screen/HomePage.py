@@ -23,7 +23,8 @@ from kivy.uix.behaviors import ButtonBehavior
 from rescue_screen.ReportScreen import ReceiverScreen
 from rescue_screen.LoginScreen import LoginScreen
 from rescue_screen.RegistrationPage import RegistrationScreen
-from rescue_screen.BottonNavItem import BottomNavBar
+
+# from rescue_screen.BottonNavItem import BottomNavBar
 
 # Set the window size to simulate a mobile device
 Window.size = (360, 640)
@@ -329,6 +330,33 @@ class MainScreen(MDScreen):
 
         content_layout.add_widget(circular_buttons)
 
+        bottom_nav = MDBoxLayout(adaptive_height=True, md_bg_color=(1, 1, 1, 1))
+
+        bottom_nav.add_widget(
+            BottomNavItem(
+                icon="compass-outline",
+                text="Explore",
+                selected=True,
+                screen_name="main",
+            )
+        )
+
+        bottom_nav.add_widget(
+            BottomNavItem(
+                icon="file-document-outline", text="Reports", screen_name="receiver"
+            )
+        )
+
+        bottom_nav.add_widget(
+            BottomNavItem(
+                icon="account-box-multiple", text="Officer", screen_name="officer"
+            )
+        )
+
+        bottom_nav.add_widget(
+            BottomNavItem(icon="account-outline", text="Login", screen_name="login")
+        )
+
         # Add logo_layout and content_layout to scroll_container
         scroll_container.add_widget(logo_layout)
         scroll_container.add_widget(content_layout)
@@ -339,7 +367,7 @@ class MainScreen(MDScreen):
 
         # Add ScrollView and bottom nav to the main layout
         main_layout.add_widget(scroll_view)
-        # main_layout.add_widget(BottomNavBar)
+        main_layout.add_widget(bottom_nav)
 
         self.add_widget(main_layout)
 

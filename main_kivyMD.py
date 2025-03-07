@@ -24,6 +24,7 @@ from rescue_screen.ReportScreen import ReceiverScreen
 from rescue_screen.LoginScreen import LoginScreen
 from rescue_screen.RegistrationPage import RegistrationScreen
 from rescue_screen.HomePage import MainScreen
+from rescue_screen.BottonNavItem import BottomNavBar
 
 Window.size = (360, 640)
 

@@ -159,8 +159,3 @@ class RegistrationScreen(MDScreen):
 
     def switch_to_signin(self):
         self.manager.current = "login"
-
-
-if __name__ == "__main__":
-
-    RegistrationScreen().run()

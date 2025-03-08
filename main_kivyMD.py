@@ -22,7 +22,7 @@ from rescue_screen.db_connection import reports_collection, users_collection
 
 from rescue_screen.ReportScreen import ReceiverScreen
 from rescue_screen.LoginScreen import LoginScreen
-from rescue_screen.ReceiveReport import ReceiveReportScreen
+from rescue_screen.ReportList import ReportList
 from rescue_screen.RegistrationPage import RegistrationScreen
 from rescue_screen.HomePage import MainScreen
 

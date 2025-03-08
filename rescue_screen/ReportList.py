@@ -23,7 +23,7 @@ except Exception as e:
 
 
 # ReceiveReportScreen class
-class ReceiveReportScreen(MDScreen):
+class ReportList(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.name = "home"
@@ -71,7 +71,7 @@ class MyApp(MDApp):
     def build(self):
         # Create a ScreenManager to handle screen transitions
         screen_manager = MDScreenManager()
-        screen_manager.add_widget(ReceiveReportScreen(name="home"))
+        screen_manager.add_widget(ReportList(name="home"))
         return screen_manager
 
 

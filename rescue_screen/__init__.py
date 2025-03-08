@@ -17,5 +17,6 @@ from .HomePage import MainScreen
 from .ruam_ber import Ruem_ber
 from .home_admin import Home_Admin
 from .tool_page import Tool_page
+from .card_page import Card_page, EditCardScreen, CreateCardScreen
 
 # from .BottonNavItem import BottomNavBar

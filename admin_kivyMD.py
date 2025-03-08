@@ -6,6 +6,7 @@ from kivy.uix.screenmanager import ScreenManager
 # Import our screen classes
 from rescue_screen.home_admin import Home_Admin
 from rescue_screen.tool_page import Tool_page
+from rescue_screen.card_page import Card_page, CreateCardScreen, EditCardScreen
 
 # Define the KV string for the navigation structure
 KV = """
@@ -30,8 +31,8 @@ BoxLayout:
         
         MDBottomNavigationItem:
             name: 'nav_main'
-            text: 'Main'
-            icon: 'home'
+            text: 'Mangement'
+            icon: 'tools'
             on_tab_press: app.switch_screen('tool-page')
         
         MDBottomNavigationItem:
@@ -59,11 +60,11 @@ class MyApp(MDApp):
         # Get reference to the screen manager
         self.screen_manager = self.root.ids.screen_manager
 
-        # Create and add screens to the manager
-
         self.screen_manager.add_widget(Home_Admin(name="home-admin"))
         self.screen_manager.add_widget(Tool_page(name="tool-page"))
-
+        self.screen_manager.add_widget(Card_page(name=("card-page")))
+        self.screen_manager.add_widget(CreateCardScreen(name=("create_card")))
+        self.screen_manager.add_widget(EditCardScreen(name=("edit_card")))
         # Set initial screen AFTER adding screens
         self.screen_manager.current = "home-admin"
 

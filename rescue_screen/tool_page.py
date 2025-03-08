@@ -15,7 +15,7 @@ Window.size = (360, 640)
 
 
 class ServiceCard(MDCard):
-    def __init__(self, icon_source, title, on_release=None, **kwargs):
+    def __init__(self, icon_source, title, **kwargs):
         super().__init__(**kwargs)
         self.size_hint_y = None
         self.height = dp(120)
@@ -25,7 +25,6 @@ class ServiceCard(MDCard):
         self.md_bg_color = (1, 1, 1, 1)
         self.ripple_behavior = True
         self.orientation = "vertical"
-        self.on_release = on_release
 
         # Create a circular background for the icon
         icon_bg = MDCard(
@@ -63,7 +62,7 @@ class ServiceCard(MDCard):
         self.add_widget(title_label)
 
     def on_card_click(self, *args):
-        if self.on_release:
+        if hasattr(self, "on_release") and self.on_release:
             self.on_release(self)
 
 
@@ -78,7 +77,11 @@ class Tool_page(MDScreen):
         main_layout = MDBoxLayout(orientation="vertical", size_hint=(1, 1))
 
         # Toolbar at the top
-        toolbar = MDTopAppBar(title="My Cards", elevation=0, pos_hint={"top": 2})
+        toolbar = MDTopAppBar(
+            title="Admin Management",
+            elevation=0,
+            pos_hint={"top": 2},
+        )
         main_layout.add_widget(toolbar)
 
         # ScrollView containing the service cards
@@ -113,14 +116,9 @@ class Tool_page(MDScreen):
         # Service cards - first row
         services_grid1.add_widget(
             ServiceCard(
-                icon_source="image/map_icon.png",  # Ensure the image path is correct
-                title="View Map Information",
-            )
-        )
-        services_grid1.add_widget(
-            ServiceCard(
-                icon_source="image/app_icon.png",  # Ensure the image path is correct
-                title="Application\nInformation",
+                icon_source="Image/phone_icon.png",  # Ensure the image path is correct
+                title="Phone Management",
+                on_release=lambda x: MDApp.get_running_app().switch_screen("card-page"),
             )
         )
 
@@ -132,23 +130,12 @@ class Tool_page(MDScreen):
                 on_release=self.Nav,
             )
         )
-        services_grid2.add_widget(
-            ServiceCard(
-                icon_source="image/help_icon.png",  # Ensure the image path is correct
-                title="Safety Tips \nBy Your Self",
-            )
-        )
+
         services_grid3.add_widget(
             ServiceCard(
                 icon_source="image/SignIn.png",  # Ensure the image path is correct
                 title="Sign In\nApplication",
                 on_release=self.Nav,
-            )
-        )
-        services_grid3.add_widget(
-            ServiceCard(
-                icon_source="image/help_icon.png",  # Ensure the image path is correct
-                title="Safety Tips \nBy Your Self",
             )
         )
 
@@ -165,14 +152,5 @@ class Tool_page(MDScreen):
 
         self.add_widget(main_layout)
 
-    def Nav(self, card):
-        print(f"Card clicked: {card}")
-
-
-class MyApp(MDApp):
-    def build(self):
-        return Tool_page()
-
-
-if __name__ == "__main__":
-    MyApp().run()
+    def Nav(self, page):
+        self.manager.current = page

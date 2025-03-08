@@ -16,29 +16,35 @@ BoxLayout:
     ScreenManager:
         id: screen_manager
         size_hint: 1, 1 
-
+    
     MDBottomNavigation:
         panel_color: app.theme_cls.primary_color
         text_color_active: 1, 1, 1, 1
-        
+        size_hint_y: 0.1
+
         MDBottomNavigationItem:
-            name: 'nav_home'
-            text: 'Home'
+            name: 'nav_main'
+            text: 'Main'
             icon: 'home'
             on_tab_press: app.switch_screen('home-admin')
         
         MDBottomNavigationItem:
-            name: 'nav_tools'
-            text: 'Tools'
-            icon: 'tools'
+            name: 'nav_main'
+            text: 'Main'
+            icon: 'home'
             on_tab_press: app.switch_screen('tool-page')
+        
+        MDBottomNavigationItem:
+            name: 'nav_main'
+            text: 'Main'
+            icon: 'home'
+            on_tab_press: app.switch_screen('home-admin')
 
         MDBottomNavigationItem:
             name: 'nav_reviews'
             text: 'Reviews'
             icon: 'star'
             on_tab_press: app.switch_screen('reviews')
-
 """
 
 

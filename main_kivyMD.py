@@ -34,7 +34,7 @@ Window.size = (360, 640)
 class RescueApp(MDApp):
     def build(self):
         self.theme_cls.primary_palette = "Blue"
-        self.theme_cls.primary_hue = "700"
+        self.theme_cls.primary_hue = "900"
 
         # Create a screen manager
         self.screen_manager = MDScreenManager()
@@ -44,7 +44,7 @@ class RescueApp(MDApp):
         self.screen_manager.add_widget(main_screen)
         self.screen_manager.add_widget(ReceiverScreen(name="receiver"))
         self.screen_manager.add_widget(LoginScreen(name="login"))
-        self.screen_manager.add_widget(RegistrationScreen(name="registration"))
+        self.screen_manager.add_widget(RegistrationScreen(name="register"))
 
         # Set the current screen to main
         self.screen_manager.current = "main"

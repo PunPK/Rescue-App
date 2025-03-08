@@ -280,6 +280,7 @@ class MainScreen(MDScreen):
             ServiceCard(
                 icon_source="Image/map_icon.png",
                 title="View Map Information",
+                on_release=lambda x: self.Nav("mapview"),
             )
         )
         services_grid1.add_widget(

@@ -28,6 +28,8 @@ from rescue_screen.HomePage import MainScreen
 from rescue_screen.ruam_ber import Ruem_ber
 from rescue_screen.MyDevelopPage import MyDevelop
 from rescue_screen.ApplicationInfo import ApplicationInfoScreen
+from rescue_screen.MapScreen import MapViewScreen
+from admin_kivyMD import MyApp
 
 # from rescue_screen.BottonNavItem import BottomNavBar
 
@@ -51,10 +53,15 @@ class RescueApp(MDApp):
         self.screen_manager.add_widget(Ruem_ber(name="officer"))
         self.screen_manager.add_widget(MyDevelop(name="mydevelop"))
         self.screen_manager.add_widget(ApplicationInfoScreen(name="applicationinfo"))
+        self.screen_manager.add_widget(MapViewScreen(name="mapview"))
         # Set the current screen to main
         self.screen_manager.current = "main"
 
         return self.screen_manager
+
+    def switch_to_admin_app(self):
+        self.stop()
+        MyApp().run()
 
 
 if __name__ == "__main__":

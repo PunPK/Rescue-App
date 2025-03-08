@@ -19,5 +19,6 @@ from .MyDevelopPage import MyDevelop
 from .ApplicationInfo import ApplicationInfoScreen
 from .home_admin import Home_Admin
 from .tool_page import Tool_page
+from .MapScreen import MapViewScreen
 
 # from .BottonNavItem import BottomNavBar

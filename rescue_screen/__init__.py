@@ -14,5 +14,6 @@ from .card_page import *
 from .LoginScreen import LoginScreen
 from .RegistrationPage import RegistrationScreen
 from .HomePage import MainScreen
+from .ruam_ber import Ruem_ber
 
 # from .BottonNavItem import BottomNavBar

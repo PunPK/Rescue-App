@@ -21,18 +21,17 @@ db = client["rescue_app"]
 numbers_info_collection = db["numbers_info"]
 
 
-class HomeScreen(MDScreen):
+class Ruem_ber(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.name = "home"
+        self.name = "officer"
 
-        # Main layout
         layout = MDBoxLayout(orientation="vertical")
 
-        # Top app bar
         toolbar = MDTopAppBar(
             title="Officer Phone number", elevation=0, pos_hint={"top": 1}
         )
+        toolbar.left_action_items = [["arrow-left", lambda x: self.go_back()]]
         layout.add_widget(toolbar)
 
         scroll_view = ScrollView()
@@ -41,10 +40,8 @@ class HomeScreen(MDScreen):
         self.card_list.bind(minimum_height=self.card_list.setter("height"))
 
         self.load_cards()
-
         scroll_view.add_widget(self.card_list)
         layout.add_widget(scroll_view)
-
         self.add_widget(layout)
 
     def load_cards(self):
@@ -58,17 +55,5 @@ class HomeScreen(MDScreen):
             )
             self.card_list.add_widget(item)
 
-
-class CardApp(MDApp):
-    def build(self):
-        self.theme_cls.primary_palette = "Blue"
-        self.theme_cls.accent_palette = "Amber"
-        self.theme_cls.theme_style = "Light"
-
-        sm = MDScreenManager()
-        sm.add_widget(HomeScreen())
-        return sm
-
-
-if __name__ == "__main__":
-    CardApp().run()
+    def go_back(self, *args):
+        self.manager.current = "main"

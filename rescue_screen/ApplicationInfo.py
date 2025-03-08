@@ -16,6 +16,7 @@ KV = """
     MDBoxLayout:
         orientation: "vertical"
         spacing: "10dp"
+        md_bg_color: utils.get_color_from_hex('#f5f5f5')  # Background color
 
         # Header
         BoxLayout:
@@ -62,14 +63,18 @@ KV = """
                     size_hint_y: None
                     height: self.texture_size[1]
                     halign: "center"
+                    color: utils.get_color_from_hex('#023282')  # Dark blue text
                 
                 # KivyMD section
-                MDBoxLayout:
+                MDCard:
                     orientation: "horizontal"
                     size_hint_y: None
-                    height: "80dp"
+                    height: "100dp"
                     spacing: "4dp"
                     padding: [0, "16dp", 0, "16dp"]
+                    elevation: 5
+                    radius: [15, 15, 15, 15]
+                    md_bg_color: utils.get_color_from_hex('#ffffff')  # White background
                     
                     FitImage:
                         source: "Image/kivymd.png"
@@ -79,18 +84,22 @@ KV = """
                         radius: [40, 40, 40, 40]
                     
                     MDLabel:
-                        text: "kivymd\\n1.2.0"
-                        font_size: "16sp"
+                        text: "KivyMD\\n1.2.0"
+                        font_size: "32sp"
                         size_hint_x: 0.6
                         halign: "center"
+                        color: utils.get_color_from_hex('#023282')  # Dark blue text
                 
                 # Python section
-                MDBoxLayout:
+                MDCard:
                     orientation: "horizontal"
                     size_hint_y: None
-                    height: "80dp"
+                    height: "100dp"
                     spacing: "4dp"
                     padding: [0, "16dp", 0, "16dp"]
+                    elevation: 5
+                    radius: [15, 15, 15, 15]
+                    md_bg_color: utils.get_color_from_hex('#ffffff')  # White background
                     
                     FitImage:
                         source: "Image/python.png"
@@ -101,66 +110,76 @@ KV = """
                     
                     MDLabel:
                         text: "Python\\n3.12.3"
-                        font_size: "16sp"
+                        font_size: "32sp"
                         size_hint_x: 0.6
                         halign: "center"
+                        color: utils.get_color_from_hex('#023282')  # Dark blue text
                 
                 # Database section
-                MDBoxLayout:
+                MDCard:
                     orientation: "vertical"
                     size_hint_y: None
-                    height: "120dp"
+                    height: "140dp"
                     spacing: "6dp"
+                    elevation: 5
+                    radius: [15, 15, 15, 15]
+                    md_bg_color: utils.get_color_from_hex('#ffffff')  # White background
                     
                     MDLabel:
                         text: "DataBase"
-                        font_size: "18sp"
+                        font_size: "36sp"
                         bold: True
                         size_hint_y: None
                         height: self.texture_size[1]
                         halign: "center"
+                        color: utils.get_color_from_hex('#023282')  # Dark blue text
                     
                     MDCard:
                         size_hint_y: None
                         height: "80dp"
-                        md_bg_color: 0, 0.6, 0.2, 1  # Green color for MongoDB
-                        radius: [4, 4, 4, 4]
+                        md_bg_color: utils.get_color_from_hex('#00c853')  # Green color for MongoDB
+                        radius: [15, 15, 15, 15]
+                        elevation: 5
                         
                         FitImage:
                             source: "Image/mongodb.png"
                             size_hint: None, None
                             size: "330dp", "80dp"
-                            # pos_hint: {"center_x": .5, "center_y": .5}
-                            # halign: "center"
                 
                 # Other Tools section
-                MDBoxLayout:
+                MDCard:
                     orientation: "vertical"
                     size_hint_y: None
-                    height: "100dp"
+                    height: "120dp"
                     spacing: "3dp"
+                    elevation: 5
+                    radius: [15, 15, 15, 15]
+                    md_bg_color: utils.get_color_from_hex('#ffffff')  # White background
                     
                     MDLabel:
                         text: "Other Tools"
-                        font_size: "18sp"
+                        font_size: "32sp"
                         bold: True
                         size_hint_y: None
                         height: self.texture_size[1]
                         halign: "center"
+                        color: utils.get_color_from_hex('#023282')  # Dark blue text
                     
                     MDLabel:
                         text: "Font : ThaiFont"
-                        font_size: "16sp"
+                        font_size: "28sp"
                         size_hint_y: None
                         height: self.texture_size[1]
                         halign: "center"
+                        color: utils.get_color_from_hex('#023282')  # Dark blue text
                     
                     MDLabel:
                         text: "CAM : OpenCV2"
-                        font_size: "16sp"
+                        font_size: "28sp"
                         size_hint_y: None
                         height: self.texture_size[1]
                         halign: "center"
+                        color: utils.get_color_from_hex('#023282')
 
         # Bottom navigation
         MDBoxLayout:

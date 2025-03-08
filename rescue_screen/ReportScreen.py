@@ -1,11 +1,20 @@
 import cv2
 import base64
+import cv2
+import base64
 from kivy.uix.button import Button
+from kivy.uix.image import Image
+from kivy.clock import Clock
+from kivy.graphics.texture import Texture
 from kivy.uix.image import Image
 from kivy.clock import Clock
 from kivy.graphics.texture import Texture
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+from kivy.app import App
+from kivymd.app import MDApp
+from kivymd.uix.screen import MDScreen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.app import App
 from kivymd.app import MDApp
@@ -20,12 +29,14 @@ from geopy.geocoders import Nominatim
 from datetime import datetime
 
 # MongoDB setup
+# MongoDB setup
 client = MongoClient("localhost", 27017)
 db = client["rescue_app"]
 users_collection = db["users"]
 reports_collection = db["reports"]
 fs = gridfs.GridFS(db)
 
+# Create user and report collections if they don't exist
 # Create user and report collections if they don't exist
 if users_collection.count_documents({}) == 0:
     users_collection.insert_many(
@@ -39,6 +50,11 @@ if reports_collection.count_documents({}) == 0:
     reports_collection.insert_one(
         {"location": "Initial Location", "description": "Initial Description"}
     )
+
+# Load KV file for UI
+Builder.load_file("rescue_screen/Screen.kv")
+
+Window.size = (430, 740)
 
 # Load KV file for UI
 Builder.load_file("rescue_screen/Screen.kv")
@@ -181,7 +197,11 @@ class ReceiverScreen(MDScreen):
             self.show_popup("Error", f"An error occurred: {e}")
 
     def show_popup(self, title, message):
+    def show_popup(self, title, message):
         popup = Popup(
+            title=title,
+            content=Label(text=message),
+            size_hint=(0.8, 0.4),
             title=title,
             content=Label(text=message),
             size_hint=(0.8, 0.4),
@@ -189,6 +209,8 @@ class ReceiverScreen(MDScreen):
         popup.open()
 
     def add_map(self):
+        # Add map markers and controls here
+        self.marker = MapMarker(lat=7.00724, lon=100.50176)
         # Add map markers and controls here
         self.marker = MapMarker(lat=7.00724, lon=100.50176)
         self.mapview.add_marker(self.marker)

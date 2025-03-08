@@ -12,3 +12,7 @@ from .ReportScreen import ReceiverScreen
 from .db_connection import *
 from .card_page import *
 from .LoginScreen import LoginScreen
+from .RegistrationPage import RegistrationScreen
+from .HomePage import MainScreen
+
+# from .BottonNavItem import BottomNavBar

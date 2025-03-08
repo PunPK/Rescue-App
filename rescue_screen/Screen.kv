@@ -652,9 +652,39 @@
                 spacing: dp(10)
                 adaptive_height: True
 
-        # Bottom Navigation Bar
         MDBoxLayout:
             adaptive_height: True
             md_bg_color: (1, 1, 1, 1)
             padding: [0, dp(5), 0, dp(5)]
             spacing: dp(10)
+
+<ReportDetailsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'Report Details'
+            md_bg_color: app.theme_cls.primary_color
+            elevation: 10
+
+        MDLabel:
+            id: report_location
+            text: "Location: "
+            size_hint_y: None
+            height: dp(40)
+
+        MDLabel:
+            id: report_timestamp
+            text: "Timestamp: "
+            size_hint_y: None
+            height: dp(40)
+
+        MDLabel:
+            id: report_description
+            text: "Description: "
+            size_hint_y: None
+            height: dp(40)
+
+        MDIconButton:
+            icon: "arrow-left"
+            on_release: app.root.current = "home"

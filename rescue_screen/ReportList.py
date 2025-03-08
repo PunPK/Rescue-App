@@ -64,7 +64,31 @@ class ReportList(MDScreen):
                 text=f"Location: {location}",
                 secondary_text=f"Time: {timestamp}",
             )
+            item.bind(
+                on_release=lambda x, report=report: self.view_report_details(report)
+            )
+
             self.card_list.add_widget(item)
+
+    def view_report_details(self, report):
+        self.manager.current = "report_details_screen"
+        report_details_screen = self.manager.get_screen("report_details_screen")
+        report_details_screen.show_report_details(report)
+
+
+class ReportDetailsScreen(MDScreen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.name = "report_details_screen"
+
+    def show_report_details(self, report):
+        self.ids.report_location.text = f"Location: {report.get('location', 'Unknown')}"
+        self.ids.report_timestamp.text = (
+            f"Timestamp: {report.get('timestamp', 'Unknown')}"
+        )
+        self.ids.report_description.text = (
+            f"Description: {report.get('description', 'No Description')}"
+        )
 
 
 class MyApp(MDApp):
@@ -72,6 +96,7 @@ class MyApp(MDApp):
         # Create a ScreenManager to handle screen transitions
         screen_manager = MDScreenManager()
         screen_manager.add_widget(ReportList(name="home"))
+        screen_manager.add_widget(ReportDetailsScreen(name="report_details_screen"))
         return screen_manager
 
 

@@ -25,7 +25,7 @@ numbers_info_collection = db["numbers_info"]
 class HomeScreen(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.name = "home"
+        self.name = "card-page"
 
         # Main layout
         layout = MDBoxLayout(orientation="vertical")

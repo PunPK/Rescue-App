@@ -23,8 +23,8 @@ BoxLayout:
         size_hint_y: 0.1
 
         MDBottomNavigationItem:
-            name: 'nav_home'
-            text: 'Home'
+            name: 'nav_main'
+            text: 'Main'
             icon: 'home'
             on_tab_press: app.switch_screen('home-admin')
         

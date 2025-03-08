@@ -32,14 +32,12 @@ class RegistrationScreen(MDScreen):
 
     def show_registration_success(self):
         Username = self.ids.username_input.text
-        FullName = self.ids.full_name_input.text
         Email = self.ids.email_input.text
         Password = self.ids.password_input.text
 
         if Username and Password:
             new_user = {
                 "username": Username,
-                "fullname": FullName,
                 "email": Email,
                 "password": Password,
                 "role": "user",
@@ -50,7 +48,6 @@ class RegistrationScreen(MDScreen):
 
             # ล้างช่อง input
             self.ids.username_input.text = ""
-            self.ids.full_name_input.text = ""
             self.ids.email_input.text = ""
             self.ids.password_input.text = ""
 

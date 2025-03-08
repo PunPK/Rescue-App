@@ -769,15 +769,15 @@
                     line_color_normal: 0.1, 0.4, 0.9, 1
                     markup: True
                     
-                MDTextField:
-                    hint_text: "Full name"
-                    id: full_name_input
-                    mode: "line"
-                    line_color_normal: 0.1, 0.4, 0.9, 1
-                    # markup: True
+                # MDTextField:
+                #     hint_text: "Full name"
+                #     id: full_name_input
+                #     mode: "line"
+                #     line_color_normal: 0.1, 0.4, 0.9, 1
+                #     # markup: True
                     
                 MDTextField:
-                    hint_text: "E-mail"
+                    hint_text: "E mail"
                     id: email_input
                     mode: "line"
                     line_color_normal: 0.1, 0.4, 0.9, 1
@@ -807,7 +807,7 @@
                         theme_text_color: "Secondary"
                 
                 Widget:
-                    size_hint_y: 0.1
+                    size_hint_y: 0.05
                     
                 MDFillRoundFlatButton:
                     text: "Sign up"
@@ -821,5 +821,33 @@
                     text: "I'm already a member"
                     theme_text_color: "Custom"
                     text_color: 0.3, 0.3, 0.3, 1
+                    size_hint_y: 0.4
                     pos_hint: {"center_x": 0.5}
                     on_release: root.switch_to_signin()
+
+        MDBoxLayout:
+            adaptive_height: True
+            md_bg_color: (1, 1, 1, 1)
+            padding: [0, dp(5), 0, dp(5)]
+            spacing: dp(10)
+
+            BottomNavItem:
+                icon: "compass-outline"
+                text: "Explore"
+                screen_name: "main"
+
+            BottomNavItem:
+                icon: "file-document-outline"
+                text: "Reports"
+                screen_name: "receiver"
+
+            BottomNavItem:
+                icon: "account-box-multiple"
+                text: "Officer"
+                screen_name: "officer"
+
+            BottomNavItem:
+                icon: "account-outline"
+                selected: True
+                text: "Login"
+                screen_name: "login"

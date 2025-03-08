@@ -13,7 +13,10 @@ from kivy.uix.scrollview import ScrollView
 from kivy.core.window import Window
 from kivy.metrics import dp
 from pymongo import MongoClient, errors
+<<<<<<< HEAD
 from rescue_screen.HomePage import BottomNavItem
+=======
+>>>>>>> origin/develop-kong
 
 Window.size = (360, 640)
 
@@ -35,6 +38,7 @@ class Ruem_ber(MDScreen):
         toolbar.left_action_items = [["arrow-left", lambda x: self.go_back()]]
         layout.add_widget(toolbar)
 
+<<<<<<< HEAD
         bottom_nav = MDBoxLayout(adaptive_height=True, md_bg_color=(1, 1, 1, 1))
 
         bottom_nav.add_widget(
@@ -64,6 +68,8 @@ class Ruem_ber(MDScreen):
             BottomNavItem(icon="account-outline", text="Login", screen_name="login")
         )
 
+=======
+>>>>>>> origin/develop-kong
         scroll_view = ScrollView()
 
         self.card_list = MDList()
@@ -72,7 +78,10 @@ class Ruem_ber(MDScreen):
         self.load_cards()
         scroll_view.add_widget(self.card_list)
         layout.add_widget(scroll_view)
+<<<<<<< HEAD
         layout.add_widget(bottom_nav)
+=======
+>>>>>>> origin/develop-kong
         self.add_widget(layout)
 
     def load_cards(self):

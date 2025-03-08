@@ -16,5 +16,6 @@ from .RegistrationPage import RegistrationScreen
 from .HomePage import MainScreen
 from .ruam_ber import Ruem_ber
 from .home_admin import Home_Admin
+from .tool_page import Tool_page
 
 # from .BottonNavItem import BottomNavBar

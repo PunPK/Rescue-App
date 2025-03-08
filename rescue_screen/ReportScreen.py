@@ -74,14 +74,12 @@ class ReceiverScreen(MDScreen):
             print("ใช้ไม่ได้บอก Hopeeee")
             return
 
-        # Create the layout for the camera feed
         if not self.layout:
-            self.layout = BoxLayout(orientation="vertical")
-            self.image_widget = Image()
+            self.layout = BoxLayout(orientation="vertical", size_hint=(1, 1))
+            self.image_widget = Image(size_hint=(1, 1))
             self.layout.add_widget(self.image_widget)
 
-        # Add the layout to the screen's container (make sure the screen has a container for widgets)
-        self.ids.map_container.add_widget(self.layout)
+        self.ids.cam_container.add_widget(self.layout)
 
         self.capture = cv2.VideoCapture(self.camera_index)
         if not self.capture.isOpened():
@@ -89,6 +87,7 @@ class ReceiverScreen(MDScreen):
         else:
             print("Camera opened successfully!")
             Clock.schedule_interval(self.update, 1.0 / 30.0)
+            self.ids.open_cam_button.opacity = 0
 
     def update(self, dt):
         try:
@@ -125,10 +124,11 @@ class ReceiverScreen(MDScreen):
 
                 print("Photo captured. Ready to send in report.")
                 self.show_popup("Success", "Photo captured successfully!")
+                self.ids.photo_container.opacity = 1
 
                 if not self.captured_image_widget:
                     self.captured_image_widget = Image()
-                    self.ids.map_container.add_widget(
+                    self.ids.photo_container.add_widget(
                         self.captured_image_widget, index=1
                     )
 

@@ -7,8 +7,6 @@ from kivy.uix.screenmanager import ScreenManager
 from rescue_screen.home_admin import Home_Admin
 from rescue_screen.tool_page import Tool_page
 
-# from launcher import RescueApp
-
 # Define the KV string for the navigation structure
 KV = """
 BoxLayout:
@@ -25,8 +23,8 @@ BoxLayout:
         size_hint_y: 0.1
 
         MDBottomNavigationItem:
-            name: 'nav_main'
-            text: 'Main'
+            name: 'nav_home'
+            text: 'Home'
             icon: 'home'
             on_tab_press: app.switch_screen('home-admin')
         

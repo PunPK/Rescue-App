@@ -634,11 +634,12 @@
                 Button:
                     text: 'โหลดรายงาน'
                     on_press: root.load_reports()
+
 <ReceiveReportScreen>:
     BoxLayout:
         orientation: 'vertical'
 
-        MDToolbar:
+        MDTopAppBar:
             title: 'Report Viewer'
             md_bg_color: app.theme_cls.primary_color
             elevation: 10
@@ -657,24 +658,3 @@
             md_bg_color: (1, 1, 1, 1)
             padding: [0, dp(5), 0, dp(5)]
             spacing: dp(10)
-
-            BottomNavItem:
-                icon: "compass-outline"
-                text: "Explore"
-                screen_name: "main"
-
-            BottomNavItem:
-                icon: "file-document-outline"
-                selected: True
-                text: "Reports"
-                screen_name: "receiver"
-
-            BottomNavItem:
-                icon: "account-box-multiple"
-                text: "Officer"
-                screen_name: "officer"
-
-            BottomNavItem:
-                icon: "account-outline"
-                text: "Login"
-                screen_name: "login"

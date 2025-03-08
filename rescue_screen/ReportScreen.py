@@ -170,8 +170,7 @@ class ReceiverScreen(MDScreen):
                 # Reset fields after submission
                 self.ids.location_input.text = ""
                 self.ids.description_input.text = ""
-
-                # Show success message
+                self.on_stop()
                 self.show_popup("Success", "Report sent successfully!")
             else:
                 # Show error message if fields are not filled
@@ -217,34 +216,13 @@ class ReceiverScreen(MDScreen):
         except Exception as e:
             print(f"An error occurred while updating the current location: {e}")
 
-    def load_reports(self):
-        try:
-            # Fetch reports from the MongoDB database
-            reports = reports_collection.find()
-
-            # Clear existing widgets in the reports container
-            self.ids.reports_container.clear_widgets()
-
-            # Loop through the fetched reports and display them
-            for report in reports:
-                report_text = f"Location: {report['location']}\nDescription: {report['description']}\n"
-                if "image" in report:
-                    report_text += "Image: [Image included in the report]\n"
-                if "latitude" in report and "longitude" in report:
-                    report_text += f"Latitude: {report['latitude']}, Longitude: {report['longitude']}\n"
-
-                # Add each report to the container
-                self.ids.reports_container.add_widget(
-                    Label(
-                        text=report_text,
-                        font_name="ThaiFont",
-                        size_hint_y=None,
-                        height=100,
-                    )
-                )
-        except Exception as e:
-            print(f"An error occurred while loading the reports: {e}")
-
     def on_stop(self):
-        if self.capture and self.capture.isOpened():
+        if self.capture and self.capture.isOpened() or self.setup_camera():
             self.capture.release()
+            self.capture = None
+            Clock.unschedule(self.update)
+
+        if self.layout and self.layout in self.ids.cam_container.children:
+            self.ids.cam_container.remove_widget(self.layout)
+            self.layout = None
+            self.image_widget = None

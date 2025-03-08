@@ -580,6 +580,22 @@
                 Button:
                     text: 'โหลดรายงาน'
                     on_press: root.load_reports()
+<ReceiveReportScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDToolbar:
+            title: 'Report Viewer'
+            md_bg_color: app.theme_cls.primary_color
+            elevation: 10
+
+        ScrollView:
+            MDBoxLayout:
+                id: reports_container
+                orientation: 'vertical'
+                padding: dp(10)
+                spacing: dp(10)
+                adaptive_height: True
 
         # Bottom Navigation Bar
         BoxLayout:

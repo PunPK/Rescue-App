@@ -28,6 +28,7 @@ from rescue_screen.db_connection import reports_collection, users_collection
 
 from rescue_screen.ReportScreen import ReceiverScreen
 from rescue_screen.LoginScreen import LoginScreen
+from rescue_screen.ReceiveReport import ReceiveReportScreen
 
 # Set the window size to simulate a mobile device
 Window.size = (360, 640)

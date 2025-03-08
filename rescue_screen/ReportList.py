@@ -11,6 +11,11 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.toolbar import MDTopAppBar
 from kivy.core.text import LabelBase
 from kivy.core.window import Window
+import base64
+from io import BytesIO
+from PIL import Image as PILImage
+from kivy.graphics.texture import Texture
+
 
 LabelBase.register(name="ThaiFont", fn_regular="fonts/THSarabunNew.ttf")
 
@@ -97,6 +102,29 @@ class ReportDetailsScreen(MDScreen):
         self.ids.report_location.font_name = "ThaiFont"
         self.ids.report_timestamp.font_name = "ThaiFont"
         self.ids.report_description.font_name = "ThaiFont"
+
+        image_data = report.get("image", None)
+
+        if image_data:
+            try:
+                image_bytes = base64.b64decode(image_data)
+                image = PILImage.open(BytesIO(image_bytes))
+
+                image = image.convert("RGBA")
+                img_data = image.tobytes()
+
+                texture = Texture.create(
+                    size=(image.width, image.height), colorfmt="rgba"
+                )
+                texture.blit_buffer(img_data, colorfmt="rgba", bufferfmt="ubyte")
+
+                self.ids.report_image.texture = texture
+
+            except Exception as e:
+                print(f"Error loading image: {e}")
+                self.ids.report_image.source = "image.jpg"
+        else:
+            self.ids.report_image.source = "image.jpg"
 
 
 class MyApp(MDApp):

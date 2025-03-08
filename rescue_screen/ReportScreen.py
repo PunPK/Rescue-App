@@ -117,7 +117,7 @@ class ReceiverScreen(MDScreen):
             ret, frame = self.capture.read()
             if ret:
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
+                frame = cv2.flip(frame, 0)
                 # Encode the image as base64 to store it in the database
                 _, buffer = cv2.imencode(".jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
                 self.img_str = base64.b64encode(buffer).decode("utf-8")

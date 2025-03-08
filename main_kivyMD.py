@@ -26,6 +26,7 @@ from rescue_screen.ReportList import ReportList
 from rescue_screen.RegistrationPage import RegistrationScreen
 from rescue_screen.HomePage import MainScreen
 from rescue_screen.ruam_ber import Ruem_ber
+from rescue_screen.MyDevelopPage import MyDevelop
 
 # from rescue_screen.BottonNavItem import BottomNavBar
 
@@ -47,6 +48,7 @@ class RescueApp(MDApp):
         self.screen_manager.add_widget(LoginScreen(name="login"))
         self.screen_manager.add_widget(RegistrationScreen(name="register"))
         self.screen_manager.add_widget(Ruem_ber(name="officer"))
+        self.screen_manager.add_widget(MyDevelop(name="mydevelop"))
 
         # Set the current screen to main
         self.screen_manager.current = "main"

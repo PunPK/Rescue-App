@@ -289,7 +289,11 @@ class MainScreen(MDScreen):
             )
         )
         services_grid1.add_widget(
-            ServiceCard(icon_source="Image/group.png", title="Developer\nCoE36")
+            ServiceCard(
+                icon_source="Image/group.png",
+                on_release=lambda x: self.Nav("mydevelop"),
+                title="Developer\nCoE36",
+            )
         )
 
         # Service cards - second row

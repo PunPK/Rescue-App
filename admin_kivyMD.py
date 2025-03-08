@@ -24,7 +24,6 @@ BoxLayout:
         size_hint: 1, 1 
     
     MDBottomNavigation:
-        panel_color: app.theme_cls.primary_color
         text_color_active: 1, 1, 1, 1
         size_hint_y: 0.1
 

@@ -18,5 +18,6 @@ from .ruam_ber import Ruem_ber
 from .MyDevelopPage import MyDevelop
 from .ApplicationInfo import ApplicationInfoScreen
 from .home_admin import Home_Admin
+from .tool_page import Tool_page
 
 # from .BottonNavItem import BottomNavBar

@@ -125,9 +125,9 @@ class Tool_page(MDScreen):
         # Service cards - second row
         services_grid2.add_widget(
             ServiceCard(
-                icon_source="image/SignIn.png",  # Ensure the image path is correct
-                title="Sign In\nApplication",
-                on_release=self.Nav,
+                icon_source="Image/sf_icon.png",  # Ensure the image path is correct
+                title="Safty tips\nManagement",
+                on_release=lambda x: MDApp.get_running_app().switch_screen("tips-page"),
             )
         )
 

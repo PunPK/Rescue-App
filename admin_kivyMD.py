@@ -7,6 +7,11 @@ from kivy.uix.screenmanager import ScreenManager
 from rescue_screen.home_admin import Home_Admin
 from rescue_screen.tool_page import Tool_page
 from rescue_screen.card_page import Card_page, CreateCardScreen, EditCardScreen
+from rescue_screen.safty_tips_management import (
+    Tips_page,
+    CreateTipScreen,
+    EditTipScreen,
+)
 
 # Define the KV string for the navigation structure
 KV = """
@@ -65,6 +70,9 @@ class MyApp(MDApp):
         self.screen_manager.add_widget(Card_page(name=("card-page")))
         self.screen_manager.add_widget(CreateCardScreen(name=("create_card")))
         self.screen_manager.add_widget(EditCardScreen(name=("edit_card")))
+        self.screen_manager.add_widget(Tips_page(name=("tips-page")))
+        self.screen_manager.add_widget(CreateTipScreen(name=("create_tip")))
+        self.screen_manager.add_widget(EditTipScreen(name=("edit_tip")))
         # Set initial screen AFTER adding screens
         self.screen_manager.current = "home-admin"
 

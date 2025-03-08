@@ -18,5 +18,6 @@ from .ruam_ber import Ruem_ber
 from .home_admin import Home_Admin
 from .tool_page import Tool_page
 from .card_page import Card_page, EditCardScreen, CreateCardScreen
+from .safty_tips_management import Tips_page, EditTipScreen, CreateTipScreen
 
 # from .BottonNavItem import BottomNavBar

@@ -8,7 +8,7 @@ from kivymd.uix.button import MDRaisedButton, MDFlatButton
 from kivymd.uix.button import MDFloatingActionButton
 from kivymd.uix.toolbar import MDTopAppBar
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.list import MDList, TwoLineListItem
+from kivymd.uix.list import MDList, TwoLineListItem, OneLineListItem
 from kivy.uix.scrollview import ScrollView
 from kivy.core.window import Window
 from kivy.metrics import dp
@@ -19,19 +19,21 @@ Window.size = (360, 640)
 
 client = MongoClient("localhost", 27017)
 db = client["rescue_app"]
-numbers_info_collection = db["numbers_info"]
+tips_info_collection = db["safty_tips"]
 
 
-class Card_page(MDScreen):
+class Tips_page(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.name = "card-page"
+        self.name = "tips-page"
 
         # Main layout
         layout = MDBoxLayout(orientation="vertical")
 
         # Top app bar
-        toolbar = MDTopAppBar(title="My Cards", elevation=0, pos_hint={"top": 1})
+        toolbar = MDTopAppBar(
+            title="Safty_tips_management", elevation=0, pos_hint={"top": 1}
+        )
         layout.add_widget(toolbar)
 
         # Scrollable list container
@@ -59,28 +61,27 @@ class Card_page(MDScreen):
 
     def load_cards(self):
         self.card_list.clear_widgets()
-        numbers_info_data = numbers_info_collection.find()
+        tip_info_collection = tips_info_collection.find()
 
-        for i in numbers_info_data:
-            item = TwoLineListItem(
-                text=f"Phone Number: {i['phone_number']}",
-                secondary_text=f"Agency: {i['agency']}",
-                on_release=lambda x, i=i: self.edit_card(i),
+        for i in tip_info_collection:
+            item = OneLineListItem(
+                text=f"name: {i['name']}",
+                on_release=lambda x, i=i: self.edit_tip(i),
             )
             self.card_list.add_widget(item)
 
     def go_to_create_card(self, instance):
-        self.manager.current = "create_card"
+        self.manager.current = "create_tip"
 
-    def edit_card(self, card_data):
-        self.manager.get_screen("edit_card").set_card_data(card_data)
-        self.manager.current = "edit_card"
+    def edit_tip(self, card_data):
+        self.manager.get_screen("edit_tip").set_card_data(card_data)
+        self.manager.current = "edit_tip"
 
 
-class CreateCardScreen(MDScreen):
+class CreateTipScreen(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.name = "create_card"
+        self.name = "create_tip"
 
         # Main layout
         layout = MDBoxLayout(orientation="vertical", spacing=dp(10), padding=dp(10))
@@ -118,7 +119,16 @@ class CreateCardScreen(MDScreen):
             mode="rectangle",
         )
 
-        self.phone_number_field = MDTextField(
+        self.description_field = MDTextField(
+            hint_text="Phone Number",
+            helper_text="Enter Phone Number",
+            helper_text_mode="on_focus",
+            multiline=True,
+            size_hint_x=1,
+            mode="rectangle",
+        )
+
+        self.url_field = MDTextField(
             hint_text="Phone Number",
             helper_text="Enter Phone Number",
             helper_text_mode="on_focus",
@@ -151,7 +161,8 @@ class CreateCardScreen(MDScreen):
         buttons_layout.add_widget(save_button)
 
         card_form.add_widget(self.title_field)
-        card_form.add_widget(self.phone_number_field)
+        card_form.add_widget(self.description_field)
+        card_form.add_widget(self.url_field)
         card_form.add_widget(buttons_layout)
 
         content.add_widget(card_form)
@@ -161,21 +172,22 @@ class CreateCardScreen(MDScreen):
         self.add_widget(layout)
 
     def go_back(self, *args):
-        self.manager.current = "card-page"
+        self.manager.current = "tips-page"
 
     def save_card(self, instance):
         title = self.title_field.text
-        phone_number = self.phone_number_field.text
-        data = {"agency": title, "phone_number": phone_number}
-        numbers_info_collection.insert_one(data)
+        description = self.description_field.text
+        url = self.url_field.text
+        data = {"name": title, "description": description, "url": url}
+        tips_info_collection.insert_one(data)
 
-        self.manager.current = "card-page"
+        self.manager.current = "tips-page"
 
 
-class EditCardScreen(MDScreen):
+class EditTipScreen(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.name = "edit_card"
+        self.name = "edit_tip"
 
         # Main layout
         layout = MDBoxLayout(orientation="vertical", spacing=dp(10), padding=dp(10))
@@ -213,7 +225,16 @@ class EditCardScreen(MDScreen):
             mode="rectangle",
         )
 
-        self.phone_number_field = MDTextField(
+        self.description_field = MDTextField(
+            hint_text="Phone Number",
+            helper_text="Enter Phone Number",
+            helper_text_mode="on_focus",
+            multiline=True,
+            size_hint_x=1,
+            mode="rectangle",
+        )
+
+        self.url_field = MDTextField(
             hint_text="Phone Number",
             helper_text="Enter Phone Number",
             helper_text_mode="on_focus",
@@ -255,7 +276,8 @@ class EditCardScreen(MDScreen):
         buttons_layout.add_widget(delete_button)
 
         card_form.add_widget(self.title_field)
-        card_form.add_widget(self.phone_number_field)
+        card_form.add_widget(self.description_field)
+        card_form.add_widget(self.url_field)
         card_form.add_widget(buttons_layout)
 
         content.add_widget(card_form)
@@ -268,24 +290,26 @@ class EditCardScreen(MDScreen):
 
     def set_card_data(self, card_data):
         self.card_data = card_data
-        self.title_field.text = card_data["agency"]
-        self.phone_number_field.text = card_data["phone_number"]
+        self.title_field.text = card_data["name"]
+        self.description_field.text = card_data["description"]
+        self.url_field.text = card_data["url"]
 
     def go_back(self, *args):
-        self.manager.current = "card-page"
+        self.manager.current = "tips-page"
 
     def save_card(self, instance):
         title = self.title_field.text
-        phone_number = self.phone_number_field.text
-        numbers_info_collection.update_one(
+        description = self.description_field.text
+        url = self.url_field.text
+        tips_info_collection.update_one(
             {"_id": self.card_data["_id"]},
-            {"$set": {"agency": title, "phone_number": phone_number}},
+            {"$set": {"name": title, "description": description, "url": url}},
         )
 
-        self.manager.current = "card-page"
-        self.manager.get_screen("card-page").load_cards()
+        self.manager.current = "tips-page"
+        self.manager.get_screen("tips-page").load_cards()
 
     def delete_card(self, instance):
-        numbers_info_collection.delete_one({"_id": self.card_data["_id"]})
-        self.manager.current = "card-page"
-        self.manager.get_screen("card-page").load_cards()
+        tips_info_collection.delete_one({"_id": self.card_data["_id"]})
+        self.manager.current = "tips-page"
+        self.manager.get_screen("tips-page").load_cards()

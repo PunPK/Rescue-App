@@ -108,33 +108,36 @@ class ServiceCard(MDCard):
             self.on_release(self)
 
 
+class ClickableImage(ButtonBehavior, Image):
+
+    def __init__(self, link=None, **kwargs):
+        super().__init__(**kwargs)
+        self.link = link
+
+    def on_release(self):
+        if self.link:
+            import webbrowser
+
+            webbrowser.open(self.link)
+
+
 class CircularButton(MDBoxLayout):
-    def __init__(self, icon_source, title, **kwargs):
+    def __init__(self, icon_source, title, link=None, **kwargs):
         super().__init__(**kwargs)
         self.orientation = "vertical"
         self.adaptive_height = True
         self.spacing = dp(8)
-        # self.padding = dp(2)  # Added padding for a cleaner look
         self.pos_hint = {"center_x": 0.5}
+        self.link = link  # Store the link for later use
 
-        # Button background
-        button_bg = MDCard(
-            size_hint=(None, None),
-            size=(dp(70), dp(70)),
-            radius=[dp(35)],
-            md_bg_color=(0, 0.4, 1, 1),  # Blue background
-            elevation=1,  # Increased elevation for better shadow
-            ripple_behavior=True,  # Added ripple effect for button feel
-        )
-
-        # Icon
-        icon = Image(
+        # Clickable Image (without a background)
+        image = ClickableImage(
             source=icon_source,
             size_hint=(None, None),
-            size=(dp(40), dp(40)),  # Slightly reduced size for better fit
+            size=(dp(70), dp(70)),  # Adjust size as needed
             pos_hint={"center_x": 0.5, "center_y": 0.5},
+            link=link,  # Pass the link to the ClickableImage
         )
-        button_bg.add_widget(icon)
 
         # Title
         title_label = MDLabel(
@@ -147,8 +150,14 @@ class CircularButton(MDBoxLayout):
         )
 
         # Adding widgets
-        self.add_widget(button_bg)
+        self.add_widget(image)
         self.add_widget(title_label)
+
+    def open_link(self, *args):
+        if self.link:
+            import webbrowser
+
+            webbrowser.open(self.link)
 
 
 class BottomNavItem(MDBoxLayout):
@@ -327,11 +336,19 @@ class MainScreen(MDScreen):
         )
 
         circular_buttons.add_widget(
-            CircularButton(icon_source="Image/coepsu.png", title="PSU CoE36")
+            CircularButton(
+                icon_source="Image/coepsu.png",
+                title="PSU CoE36",
+                link="https://www.coe.psu.ac.th",
+            )
         )
         circular_buttons.add_widget(MDBoxLayout(size_hint_x=None, width=dp(50)))
         circular_buttons.add_widget(
-            CircularButton(icon_source="Image/sf_icon.png", title="Safety First")
+            CircularButton(
+                icon_source="Image/sf_icon.png",
+                title="Safety First",
+                link="https://www.safetyfirst.com",
+            )
         )
 
         content_layout.add_widget(circular_buttons)

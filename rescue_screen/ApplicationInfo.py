@@ -146,41 +146,7 @@ KV = """
                             size_hint: None, None
                             size: "330dp", "80dp"
                 
-                # Other Tools section
-                MDCard:
-                    orientation: "vertical"
-                    size_hint_y: None
-                    height: "120dp"
-                    spacing: "3dp"
-                    elevation: 5
-                    radius: [15, 15, 15, 15]
-                    md_bg_color: utils.get_color_from_hex('#ffffff')  # White background
-                    
-                    MDLabel:
-                        text: "Other Tools"
-                        font_size: "32sp"
-                        bold: True
-                        size_hint_y: None
-                        height: self.texture_size[1]
-                        halign: "center"
-                        color: utils.get_color_from_hex('#023282')  # Dark blue text
-                    
-                    MDLabel:
-                        text: "Font : ThaiFont"
-                        font_size: "28sp"
-                        size_hint_y: None
-                        height: self.texture_size[1]
-                        halign: "center"
-                        color: utils.get_color_from_hex('#023282')  # Dark blue text
-                    
-                    MDLabel:
-                        text: "CAM : OpenCV2"
-                        font_size: "28sp"
-                        size_hint_y: None
-                        height: self.texture_size[1]
-                        halign: "center"
-                        color: utils.get_color_from_hex('#023282')
-
+               
         # Bottom navigation
         MDBoxLayout:
             adaptive_height: True

@@ -22,7 +22,7 @@ db = client["rescue_app"]
 numbers_info_collection = db["numbers_info"]
 
 
-class HomeScreen(MDScreen):
+class Card_page(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.name = "card-page"
@@ -161,7 +161,7 @@ class CreateCardScreen(MDScreen):
         self.add_widget(layout)
 
     def go_back(self, *args):
-        self.manager.current = "home"
+        self.manager.current = "card-page"
 
     def save_card(self, instance):
         title = self.title_field.text
@@ -169,7 +169,7 @@ class CreateCardScreen(MDScreen):
         data = {"agency": title, "phone_number": phone_number}
         numbers_info_collection.insert_one(data)
 
-        self.manager.current = "home"
+        self.manager.current = "card-page"
 
 
 class EditCardScreen(MDScreen):
@@ -272,7 +272,7 @@ class EditCardScreen(MDScreen):
         self.phone_number_field.text = card_data["phone_number"]
 
     def go_back(self, *args):
-        self.manager.current = "home"
+        self.manager.current = "card-page"
 
     def save_card(self, instance):
         title = self.title_field.text
@@ -282,28 +282,28 @@ class EditCardScreen(MDScreen):
             {"$set": {"agency": title, "phone_number": phone_number}},
         )
 
-        self.manager.current = "home"
-        self.manager.get_screen("home").load_cards()
+        self.manager.current = "card-page"
+        self.manager.get_screen("card-page").load_cards()
 
     def delete_card(self, instance):
         numbers_info_collection.delete_one({"_id": self.card_data["_id"]})
-        self.manager.current = "home"
-        self.manager.get_screen("home").load_cards()
+        self.manager.current = "card-page"
+        self.manager.get_screen("card-page").load_cards()
 
 
-class CardApp(MDApp):
-    def build(self):
-        self.theme_cls.primary_palette = "Blue"
-        self.theme_cls.accent_palette = "Amber"
-        self.theme_cls.theme_style = "Light"
+# class CardApp(MDApp):
+#     def build(self):
+#         self.theme_cls.primary_palette = "Blue"
+#         self.theme_cls.accent_palette = "Amber"
+#         self.theme_cls.theme_style = "Light"
 
-        sm = MDScreenManager()
-        sm.add_widget(HomeScreen())
-        sm.add_widget(CreateCardScreen())
-        sm.add_widget(EditCardScreen())
+#         sm = MDScreenManager()
+#         sm.add_widget(Card_page())
+#         sm.add_widget(CreateCardScreen())
+#         sm.add_widget(EditCardScreen())
 
-        return sm
+#         return sm
 
 
-if __name__ == "__main__":
-    CardApp().run()
+# if __name__ == "__main__":
+#     CardApp().run()

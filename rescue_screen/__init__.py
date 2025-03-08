@@ -20,5 +20,6 @@ from .ApplicationInfo import ApplicationInfoScreen
 from .home_admin import Home_Admin
 from .tool_page import Tool_page
 from .MapScreen import MapViewScreen
+from .card_page import Card_page, EditCardScreen, CreateCardScreen
 
 # from .BottonNavItem import BottomNavBar

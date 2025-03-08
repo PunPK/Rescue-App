@@ -284,16 +284,11 @@ class MainScreen(MDScreen):
         )
         services_grid1.add_widget(
             ServiceCard(
-                icon_source="Image/app_icon.png",
-                title="Application\nInformation",
+                icon_source="Image/help_icon.png", title="Safety Tips \nBy Your Self"
             )
         )
         services_grid1.add_widget(
-            ServiceCard(
-                icon_source="Image/group.png",
-                on_release=lambda x: self.Nav("mydevelop"),
-                title="Developer\nCoE36",
-            )
+            ServiceCard(icon_source="Image/rescue_icon.png", title="Rescue \nSymbol")
         )
 
         # Service cards - second row
@@ -306,11 +301,17 @@ class MainScreen(MDScreen):
         )
         services_grid2.add_widget(
             ServiceCard(
-                icon_source="Image/help_icon.png", title="Safety Tips \nBy Your Self"
+                icon_source="Image/app_icon.png",
+                on_release=lambda x: self.Nav("applicationinfo"),
+                title="Application\nInformation",
             )
         )
         services_grid2.add_widget(
-            ServiceCard(icon_source="Image/rescue_icon.png", title="Rescue \nSymbol")
+            ServiceCard(
+                icon_source="Image/group.png",
+                on_release=lambda x: self.Nav("mydevelop"),
+                title="Developer\nCoE36",
+            )
         )
 
         content_layout.add_widget(services_grid1)

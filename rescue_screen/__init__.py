@@ -16,6 +16,6 @@ from .RegistrationPage import RegistrationScreen
 from .HomePage import MainScreen
 from .ruam_ber import Ruem_ber
 from .MyDevelopPage import MyDevelop
-
+from .ApplicationInfo import ApplicationInfoScreen
 
 # from .BottonNavItem import BottomNavBar

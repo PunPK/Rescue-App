@@ -6,7 +6,7 @@ from pymongo import MongoClient
 from kivy.lang import Builder
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.toolbar.toolbar import MDTooltip  # ใช้ MDToolbar แทน MDTopAppBar
-from kivymd.uix.floatingactionbutton import MDFloatingActionButton
+from kivymd.uix.button import MDIconButton
 from kivymd.uix.list import MDList, TwoLineListItem
 from kivy.uix.scrollview import ScrollView
 
@@ -52,12 +52,12 @@ class ReceiveReportScreen(MDScreen):
 
         self.add_widget(layout)
 
-        fab = MDFloatingActionButton(
-            icon="plus",
+        icon_button = MDIconButton(
+            icon="plus",  # เลือกไอคอนที่ต้องการ
             pos_hint={"center_x": 0.85, "center_y": 0.1},
             on_release=self.go_to_create_card,
         )
-        self.add_widget(fab)
+        self.add_widget(icon_button)
 
     def load_cards(self):
         self.card_list.clear_widgets()

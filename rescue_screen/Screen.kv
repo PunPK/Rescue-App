@@ -2,85 +2,114 @@
 #:import MapView kivy_garden.mapview.MapView
 
 <LoginScreen>:
-    canvas.before:
-        Color:
-            rgba: utils.get_color_from_hex('#023282')
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    
     BoxLayout:
         orientation: 'vertical'
-        padding: [20, 40]
-        spacing: 20
-
-        Image:
-            source: 'Image/logo.png'
-            size_hint: (None, None)
-            size: (120, 120)
-            pos_hint: {'center_x': 0.5}
-
-        Label:
-            text: 'Rescue App'
-            font_name: 'ThaiFont'
-            font_size: '28sp'
-            color: 1, 1, 1, 1
-            size_hint_y: None
-            height: self.texture_size[1]
-
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex('#023282')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
         BoxLayout:
             orientation: 'vertical'
-            padding: 15
-            spacing: 15
-            size_hint_y: None
-            height: self.minimum_height
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                RoundedRectangle:
-                    pos: self.pos
-                    size: self.size
-                    radius: [15]
+            padding: [20, 40]
+            spacing: 20
 
-            TextInput:
-                id: username_input
-                hint_text: 'ชื่อผู้ใช้'
-                font_name: 'ThaiFont'
-                size_hint_y: None
-                height: '45dp'
-                multiline: False
-                background_color: 0, 0, 0, 0
-                padding: [10, 10, 10, 10]
+            Image:
+                source: 'Image/logo.png'
+                size_hint: (None, None)
+                size: (120, 120)
+                pos_hint: {'center_x': 0.5}
 
-            TextInput:
-                id: password_input
-                hint_text: 'รหัสผ่าน'
+            Label:
+                text: 'Rescue App'
                 font_name: 'ThaiFont'
-                password: True
+                font_size: '28sp'
+                color: 1, 1, 1, 1
                 size_hint_y: None
-                height: '45dp'
-                multiline: False
-                background_color: 0, 0, 0, 0
-                padding: [10, 10, 10, 10]
+                height: self.texture_size[1]
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 15
+                spacing: 15
+                size_hint_y: None
+                height: self.minimum_height
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [15]
+
+                TextInput:
+                    id: username_input
+                    hint_text: 'ชื่อผู้ใช้'
+                    font_name: 'ThaiFont'
+                    size_hint_y: None
+                    height: '45dp'
+                    multiline: False
+                    background_color: 0, 0, 0, 0
+                    padding: [10, 10, 10, 10]
+
+                TextInput:
+                    id: password_input
+                    hint_text: 'รหัสผ่าน'
+                    font_name: 'ThaiFont'
+                    password: True
+                    size_hint_y: None
+                    height: '45dp'
+                    multiline: False
+                    background_color: 0, 0, 0, 0
+                    padding: [10, 10, 10, 10]
+
+                Button:
+                    text: 'เข้าสู่ระบบ'
+                    font_name: 'ThaiFont'
+                    size_hint_y: None
+                    height: '50dp'
+                    background_color: utils.get_color_from_hex('#023282')
+                    color: 1, 1, 1, 1
+                    on_press: root.login()
 
             Button:
-                text: 'เข้าสู่ระบบ'
-                font_name: 'ThaiFont'
-                size_hint_y: None
-                height: '50dp'
-                background_color: utils.get_color_from_hex('#023282')
-                color: 1, 1, 1, 1
-                on_press: root.login()
+                text: 'Register new account'
+                font_name: 'ThaiFont'  # Use the custom font
+                font_size: '28sp'      # Set font size
+                color: 1, 1, 1, 1      # Text color (white)
+                size_hint_y: None      # Disable vertical size hint
+                height: dp(50)         # Set fixed height
+                background_color: 0.1, 0.4, 0.9, 1  # Background color (blue)
+                on_press: root.register() 
 
-        Button:
-            text: 'Register new account'
-            font_name: 'ThaiFont'  # Use the custom font
-            font_size: '28sp'      # Set font size
-            color: 1, 1, 1, 1      # Text color (white)
-            size_hint_y: None      # Disable vertical size hint
-            height: dp(50)         # Set fixed height
-            background_color: 0.1, 0.4, 0.9, 1  # Background color (blue)
-            on_press: root.register() 
+        MDBoxLayout:
+            adaptive_height: True
+            md_bg_color: (1, 1, 1, 1)
+            padding: [0, dp(5), 0, dp(5)]
+            spacing: dp(10)
+
+            BottomNavItem:
+                icon: "compass-outline"
+                text: "Explore"
+                screen_name: "main"
+
+            BottomNavItem:
+                icon: "file-document-outline"
+                text: "Reports"
+                screen_name: "receiver"
+
+            BottomNavItem:
+                icon: "account-box-multiple"
+                text: "Officer"
+                screen_name: "officer"
+
+            BottomNavItem:
+                icon: "account-outline"
+                selected: True
+                text: "Login"
+                screen_name: "login"
 
 <UserScreen>:
     BoxLayout:
@@ -394,7 +423,7 @@
             BoxLayout:
                 orientation: 'vertical'
                 Image:
-                    source: 'chat_icon.png'  # Replace with your icon
+                    source: 'officer_icon.png'  # Replace with your icon
                     size_hint: (None, None)
                     size: (30, 30)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.7}
@@ -540,7 +569,7 @@
 
                 # Add Image Button
                 Button:
-                    text: 'ถ่ายรูปภาพ'
+                    text: 'เปิดกล้อง'
                     font_name: 'ThaiFont'
                     size_hint_y: None
                     height: '50dp'
@@ -555,6 +584,21 @@
                             width: 1.5
                             rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
 
+                Button:
+                    text: 'ถ่ายรูปภาพ'
+                    font_name: 'ThaiFont'
+                    size_hint_y: None
+                    height: '50dp'
+                    background_normal: ''
+                    background_color: utils.get_color_from_hex('#F5F5F5')
+                    color: utils.get_color_from_hex('#023282')
+                    on_press: root.capture_photo()
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#023282')
+                        Line:
+                            width: 1.5
+                            rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
 
                 # Submit Button
                 Button:
@@ -577,31 +621,194 @@
                     text: 'โหลดรายงาน'
                     on_press: root.load_reports()
 
-        # Bottom Navigation Bar
-        BoxLayout:
-            size_hint_y: None
-            height: '60dp'
-            padding: [10, 5]
-            spacing: 10
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+        MDBoxLayout:
+            adaptive_height: True
+            md_bg_color: (1, 1, 1, 1)
+            padding: [0, dp(5), 0, dp(5)]
+            spacing: dp(10)
 
-            Button:
-                background_normal: '../Image/home_icon.png'
-                size_hint_x: 0.1
-                hint_text: 'ล็อกอิน'
-                font_name: 'ThaiFont'
-                on_press: root.manager.current = 'login'
-            Button:
-                background_normal: 'report_icon.png'
-                size_hint_x: 0.2
-            Button:
-                background_normal: 'notification_icon.png'
-                size_hint_x: 0.2
-            Button:
-                background_normal: 'profile_icon.png'
-                size_hint_x: 0.2
+            BottomNavItem:
+                icon: "compass-outline"
+                text: "Explore"
+                screen_name: "main"
+
+            BottomNavItem:
+                icon: "file-document-outline"
+                selected: True
+                text: "Reports"
+                screen_name: "receiver"
+
+            BottomNavItem:
+                icon: "account-box-multiple"
+                text: "Officer"
+                screen_name: "officer"
+
+            BottomNavItem:
+                icon: "account-outline"
+                text: "Login"
+                screen_name: "login"
+
+<ReceiveReportScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDToolbar:
+            title: 'Report Viewer'
+            md_bg_color: app.theme_cls.primary_color
+            elevation: 10
+
+        ScrollView:
+            MDBoxLayout:
+                id: reports_container
+                orientation: 'vertical'
+                padding: dp(10)
+                spacing: dp(10)
+                adaptive_height: True
+
+        # Bottom Navigation Bar
+        MDBoxLayout:
+            adaptive_height: True
+            md_bg_color: (1, 1, 1, 1)
+            padding: [0, dp(5), 0, dp(5)]
+            spacing: dp(10)
+
+            BottomNavItem:
+                icon: "compass-outline"
+                text: "Explore"
+                screen_name: "main"
+
+            BottomNavItem:
+                icon: "file-document-outline"
+                selected: True
+                text: "Reports"
+                screen_name: "receiver"
+
+            BottomNavItem:
+                icon: "account-box-multiple"
+                text: "Officer"
+                screen_name: "officer"
+
+            BottomNavItem:
+                icon: "account-outline"
+                text: "Login"
+                screen_name: "login"
+
+<RegistrationScreen>:
+    MDScreen:
+        md_bg_color: 1, 1, 1, 1
+        
+        MDBoxLayout:
+            orientation: 'vertical'
+            padding: 0
+            spacing: 0
+            
+            # Top blue wave section
+            MDRelativeLayout:
+                size_hint_y: 0.3
+                
+                # Blue background
+                MDFloatLayout:
+                    md_bg_color: 0.1, 0.4, 0.9, 1
+                    size_hint: 1, 1
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                
+                # Wave shape (white)
+                Image:
+                    source: "wave.png"
+                    size_hint: 1, 1
+                    pos_hint: {"center_x": 0.5, "center_y": 0}
+                    allow_stretch: True
+                    keep_ratio: False
+                
+                # Status bar elements
+                MDLabel:
+                    text: "12:00"
+                    pos_hint: {"center_y": 0.85, "center_x": 0.1}
+                    font_style: "Caption"
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    
+                # Sign up / Sign in tabs
+                MDBoxLayout:
+                    adaptive_height: True
+                    spacing: dp(10)
+                    pos_hint: {"center_x": 0.6, "center_y": 0.3}
+                    
+                    MDLabel:
+                        text: "Sign up"
+                        theme_text_color: "Custom"
+                        text_color: 0.1, 0.4, 0.9, 1
+                        font_style: "H6"
+                        bold: True
+                        
+                    MDLabel:
+                        text: "Sign in"
+                        theme_text_color: "Custom"
+                        text_color: 0.5, 0.7, 1, 1
+                        font_style: "H6"
+            
+            # Form section
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(15)
+                size_hint_y: 0.7
+                md_bg_color: 0.95, 0.98, 1, 1
+                
+                MDTextField:
+                    hint_text: "Username"
+                    id: username_input
+                    mode: "line"
+                    line_color_normal: 0.1, 0.4, 0.9, 1
+                    
+                MDTextField:
+                    hint_text: "Full name"
+                    id: full_name_input
+                    mode: "line"
+                    line_color_normal: 0.1, 0.4, 0.9, 1
+                    
+                MDTextField:
+                    hint_text: "E-mail"
+                    id: email_input
+                    mode: "line"
+                    line_color_normal: 0.1, 0.4, 0.9, 1
+                    
+                MDTextField:
+                    hint_text: "Password"
+                    id: password_input
+                    mode: "line"
+                    password: True
+                    line_color_normal: 0.1, 0.4, 0.9, 1
+                
+                MDBoxLayout:
+                    adaptive_height: True
+                    spacing: dp(10)
+                    
+                    MDCheckbox:
+                        size_hint: None, None
+                        size: dp(48), dp(48)
+                        active: True
+                        selected_color: 0.1, 0.4, 0.9, 1
+                        
+                    MDLabel:
+                        text: "Agree with [color=0066CC]Terms & Conditions[/color]"
+                        markup: True
+                        theme_text_color: "Secondary"
+                
+                Widget:
+                    size_hint_y: 0.1
+                    
+                MDFillRoundFlatButton:
+                    text: "Sign up"
+                    md_bg_color: 0.1, 0.4, 0.9, 1
+                    text_color: 1, 1, 1, 1
+                    size_hint_x: 0.5
+                    pos_hint: {"center_x": 0.5}
+                    on_release: root.show_registration_success()
+                    
+                MDTextButton:
+                    text: "I'm already a member"
+                    theme_text_color: "Custom"
+                    text_color: 0.3, 0.3, 0.3, 1
+                    pos_hint: {"center_x": 0.5}
+                    on_release: root.switch_to_signin()

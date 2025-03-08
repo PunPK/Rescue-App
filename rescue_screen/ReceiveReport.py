@@ -11,15 +11,11 @@ from kivymd.uix.list import MDList, TwoLineListItem
 from kivy.uix.scrollview import ScrollView
 
 
-# MongoDB setup
-try:
-    client = MongoClient("localhost", 27017)
-    db = client["rescue_app"]
-    reports_collection = db["reports"]
-
-    Builder.load_file("rescue_screen/Screen.kv")
-except Exception as e:
-    print(f"An error occurred: {e}")
+client = MongoClient("localhost", 27017)
+db = client["rescue_app"]
+users_collection = db["users"]
+reports_collection = db["reports"]
+Builder.load_file("rescue_screen/Screen.kv")
 
 
 class ReceiveReportScreen(MDScreen):

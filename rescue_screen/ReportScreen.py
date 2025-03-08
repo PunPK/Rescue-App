@@ -1,20 +1,11 @@
 import cv2
 import base64
-import cv2
-import base64
 from kivy.uix.button import Button
-from kivy.uix.image import Image
-from kivy.clock import Clock
-from kivy.graphics.texture import Texture
 from kivy.uix.image import Image
 from kivy.clock import Clock
 from kivy.graphics.texture import Texture
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
-from kivy.uix.boxlayout import BoxLayout
-from kivy.app import App
-from kivymd.app import MDApp
-from kivymd.uix.screen import MDScreen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.app import App
 from kivymd.app import MDApp
@@ -56,11 +47,6 @@ Builder.load_file("rescue_screen/Screen.kv")
 
 Window.size = (430, 740)
 
-# Load KV file for UI
-Builder.load_file("rescue_screen/Screen.kv")
-
-Window.size = (430, 740)
-
 
 class ReceiverScreen(MDScreen):
     def __init__(self, **kwargs):
@@ -90,14 +76,12 @@ class ReceiverScreen(MDScreen):
             print("ใช้ไม่ได้บอก Hopeeee")
             return
 
-        # Create the layout for the camera feed
         if not self.layout:
-            self.layout = BoxLayout(orientation="vertical")
-            self.image_widget = Image()
+            self.layout = BoxLayout(orientation="vertical", size_hint=(1, 1))
+            self.image_widget = Image(size_hint=(1, 1))
             self.layout.add_widget(self.image_widget)
 
-        # Add the layout to the screen's container (make sure the screen has a container for widgets)
-        self.ids.map_container.add_widget(self.layout)
+        self.ids.cam_container.add_widget(self.layout)
 
         self.capture = cv2.VideoCapture(self.camera_index)
         if not self.capture.isOpened():
@@ -105,6 +89,7 @@ class ReceiverScreen(MDScreen):
         else:
             print("Camera opened successfully!")
             Clock.schedule_interval(self.update, 1.0 / 30.0)
+            self.ids.open_cam_button.opacity = 0
 
     def update(self, dt):
         try:
@@ -141,10 +126,11 @@ class ReceiverScreen(MDScreen):
 
                 print("Photo captured. Ready to send in report.")
                 self.show_popup("Success", "Photo captured successfully!")
+                self.ids.photo_container.opacity = 1
 
                 if not self.captured_image_widget:
                     self.captured_image_widget = Image()
-                    self.ids.map_container.add_widget(
+                    self.ids.photo_container.add_widget(
                         self.captured_image_widget, index=1
                     )
 
@@ -197,11 +183,7 @@ class ReceiverScreen(MDScreen):
             self.show_popup("Error", f"An error occurred: {e}")
 
     def show_popup(self, title, message):
-    def show_popup(self, title, message):
         popup = Popup(
-            title=title,
-            content=Label(text=message),
-            size_hint=(0.8, 0.4),
             title=title,
             content=Label(text=message),
             size_hint=(0.8, 0.4),
@@ -209,8 +191,6 @@ class ReceiverScreen(MDScreen):
         popup.open()
 
     def add_map(self):
-        # Add map markers and controls here
-        self.marker = MapMarker(lat=7.00724, lon=100.50176)
         # Add map markers and controls here
         self.marker = MapMarker(lat=7.00724, lon=100.50176)
         self.mapview.add_marker(self.marker)

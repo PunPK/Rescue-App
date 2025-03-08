@@ -564,11 +564,10 @@
                     orientation: 'vertical'
                     size_hint_y: None
                     height: '300dp'
-                    padding: [10, 10]
                     spacing: 10
-
-                # Add Image Button
+                    
                 Button:
+                    id: open_cam_button
                     text: 'เปิดกล้อง'
                     font_name: 'ThaiFont'
                     size_hint_y: None
@@ -577,7 +576,6 @@
                     background_color: utils.get_color_from_hex('#F5F5F5')
                     color: utils.get_color_from_hex('#023282')
                     on_press: root.setup_camera()
-                    on_press: root.setup_camera()
                     canvas.before:
                         Color:
                             rgba: utils.get_color_from_hex('#023282')
@@ -585,23 +583,38 @@
                             width: 1.5
                             rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
 
-                Button:
-                    text: 'ถ่ายรูปภาพ'
-                    font_name: 'ThaiFont'
+                BoxLayout:
+                    orientation: 'vertical'
                     size_hint_y: None
-                    height: '50dp'
-                    background_normal: ''
-                    background_color: utils.get_color_from_hex('#F5F5F5')
-                    color: utils.get_color_from_hex('#023282')
-                    on_press: root.capture_photo()
-                    canvas.before:
-                        Color:
-                            rgba: utils.get_color_from_hex('#023282')
-                        Line:
-                            width: 1.5
-                            rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
+                    height: '300dp'
+                    BoxLayout:
+                        id: cam_container
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: '300dp'
+                    Button:
+                        text: 'ถ่ายรูปภาพ'
+                        font_name: 'ThaiFont'
+                        size_hint_y: None
+                        height: '50dp'
+                        background_normal: ''
+                        background_color: utils.get_color_from_hex('#F5F5F5')
+                        color: utils.get_color_from_hex('#023282')
+                        on_press: root.capture_photo()
+                        canvas.before:
+                            Color:
+                                rgba: utils.get_color_from_hex('#023282')
+                            Line:
+                                width: 1.5
+                                rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
 
-                # Submit Button
+                BoxLayout:
+                    id: photo_container
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '300dp'
+                    opacity: 0
+
                 Button:
                     text: 'ส่งรายงาน'
                     font_name: 'ThaiFont'

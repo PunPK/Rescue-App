@@ -70,4 +70,4 @@ class LoginScreen(MDScreen):
         self.ids.password_input.text = ""
 
     def register(self):
-        self.manager.current = "registration"
+        self.manager.current = "register"

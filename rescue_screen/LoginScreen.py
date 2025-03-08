@@ -47,9 +47,11 @@ class LoginScreen(MDScreen):
         if user and user["password"] == password:
             role = user["role"]
             if role == "admin":
-                self.manager.current = "main"
-            elif role == "user":
-                self.manager.current = "main"
+                # Switch to admin app
+                MDApp.get_running_app().switch_to_admin_app()
+            # elif role == "user":
+            #     # Switch to user app
+            #     MDApp.get_running_app().switch_to_user_app()
 
         else:
             self.dialog = MDDialog(

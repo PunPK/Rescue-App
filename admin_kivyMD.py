@@ -1,65 +1,77 @@
 from kivymd.app import MDApp
-from kivymd.uix.screen import MDScreen
-from kivymd.uix.bottomnavigation import MDBottomNavigation
-from kivymd.uix.bottomnavigation import MDBottomNavigationItem
-from kivymd.uix.label import MDLabel
-from kivymd.icon_definitions import md_icons
-from kivy.core.window import Window
+from kivy.lang import Builder
+from kivymd.uix.bottomnavigation import MDBottomNavigation, MDBottomNavigationItem
+from kivy.uix.screenmanager import ScreenManager
 
-# Set window size to mobile dimensions (360x640)
-Window.size = (360, 640)
+# Import our screen classes
+from rescue_screen.home_admin import Home_Admin
+from rescue_screen.tool_page import Tool_page
 
+# Define the KV string for the navigation structure
+KV = """
+BoxLayout:
+    orientation: 'vertical'
+    size_hint: 1, 1
+    
+    ScreenManager:
+        id: screen_manager
+        size_hint: 1, 1 
+    
+    MDBottomNavigation:
+        panel_color: app.theme_cls.primary_color
+        text_color_active: 1, 1, 1, 1
+        size_hint_y: 0.1
 
-class BottomNavScreen(MDScreen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        MDBottomNavigationItem:
+            name: 'nav_main'
+            text: 'Main'
+            icon: 'home'
+            on_tab_press: app.switch_screen('home-admin')
+        
+        MDBottomNavigationItem:
+            name: 'nav_main'
+            text: 'Main'
+            icon: 'home'
+            on_tab_press: app.switch_screen('tool-page')
+        
+        MDBottomNavigationItem:
+            name: 'nav_main'
+            text: 'Main'
+            icon: 'home'
+            on_tab_press: app.switch_screen('home-admin')
 
-        # Create the bottom navigation bar
-        bottom_navigation = MDBottomNavigation(
-            panel_color=self.theme_cls.primary_color,
-            selected_color_background=self.theme_cls.accent_color,
-            text_color_active=self.theme_cls.primary_dark,
-        )
-
-        # Home tab
-        home_tab = MDBottomNavigationItem(name="home", text="Home", icon="home")
-        home_tab.add_widget(MDLabel(text="Welcome to the Home Screen", halign="center"))
-
-        # Search tab
-        search_tab = MDBottomNavigationItem(
-            name="search", text="Search", icon="magnify"
-        )
-        search_tab.add_widget(MDLabel(text="Search Screen", halign="center"))
-
-        # Profile tab
-        profile_tab = MDBottomNavigationItem(
-            name="profile", text="Profile", icon="account"
-        )
-        profile_tab.add_widget(MDLabel(text="User Profile Screen", halign="center"))
-
-        # Settings tab
-        settings_tab = MDBottomNavigationItem(
-            name="settings", text="Settings", icon="cog"
-        )
-        settings_tab.add_widget(MDLabel(text="Settings Screen", halign="center"))
-
-        # Add all tabs to the bottom navigation
-        bottom_navigation.add_widget(home_tab)
-        bottom_navigation.add_widget(search_tab)
-        bottom_navigation.add_widget(profile_tab)
-        bottom_navigation.add_widget(settings_tab)
-
-        # Add the bottom navigation to the screen
-        self.add_widget(bottom_navigation)
+        MDBottomNavigationItem:
+            name: 'nav_reviews'
+            text: 'Reviews'
+            icon: 'star'
+            on_tab_press: app.switch_screen('reviews')
+"""
 
 
-class BottomNavApp(MDApp):
+class MyApp(MDApp):
     def build(self):
         self.theme_cls.primary_palette = "Blue"
         self.theme_cls.accent_palette = "Amber"
-        self.theme_cls.theme_style = "Light"
-        return BottomNavScreen()
+
+        # Create the root widget from KV string
+        self.root = Builder.load_string(KV)
+
+        # Get reference to the screen manager
+        self.screen_manager = self.root.ids.screen_manager
+
+        # Create and add screens to the manager
+
+        self.screen_manager.add_widget(Home_Admin(name="home-admin"))
+        self.screen_manager.add_widget(Tool_page(name="tool-page"))
+
+        # Set initial screen AFTER adding screens
+        self.screen_manager.current = "home-admin"
+
+        return self.root
+
+    def switch_screen(self, screen_name):
+        self.screen_manager.current = screen_name
 
 
 if __name__ == "__main__":
-    BottomNavApp().run()
+    MyApp().run()

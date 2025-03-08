@@ -704,7 +704,7 @@
             
             # Top blue wave section
             MDRelativeLayout:
-                size_hint_y: 0.3
+                size_hint_y: 0.25
                 
                 # Blue background
                 MDFloatLayout:
@@ -720,6 +720,13 @@
                     allow_stretch: True
                     keep_ratio: False
                 
+                # Logo
+                Image:
+                    source: "Image/logo.png" 
+                    size_hint: None, None
+                    size: dp(100), dp(100)
+                    pos_hint: {"center_x": 0.5, "center_y": 0.6}
+                
                 # Status bar elements
                 MDLabel:
                     text: "12:00"
@@ -732,7 +739,7 @@
                 MDBoxLayout:
                     adaptive_height: True
                     spacing: dp(10)
-                    pos_hint: {"center_x": 0.6, "center_y": 0.3}
+                    pos_hint: {"center_x": 0.65, "center_y": 0.3}
                     
                     MDLabel:
                         text: "Sign up"
@@ -745,7 +752,7 @@
                         text: "Sign in"
                         theme_text_color: "Custom"
                         text_color: 0.5, 0.7, 1, 1
-                        font_style: "H6"
+                        font_style: "H4"
             
             # Form section
             MDBoxLayout:
@@ -756,29 +763,33 @@
                 md_bg_color: 0.95, 0.98, 1, 1
                 
                 MDTextField:
-                    hint_text: "Username"
+                    hint_text: "Username *"
                     id: username_input
                     mode: "line"
                     line_color_normal: 0.1, 0.4, 0.9, 1
+                    markup: True
                     
                 MDTextField:
                     hint_text: "Full name"
                     id: full_name_input
                     mode: "line"
                     line_color_normal: 0.1, 0.4, 0.9, 1
+                    # markup: True
                     
                 MDTextField:
                     hint_text: "E-mail"
                     id: email_input
                     mode: "line"
                     line_color_normal: 0.1, 0.4, 0.9, 1
+                    # markup: True
                     
                 MDTextField:
-                    hint_text: "Password"
+                    hint_text: "Password *"
                     id: password_input
                     mode: "line"
                     password: True
                     line_color_normal: 0.1, 0.4, 0.9, 1
+                    markup: True
                 
                 MDBoxLayout:
                     adaptive_height: True

@@ -242,8 +242,17 @@ class EditCardScreen(MDScreen):
             on_release=self.save_card,
         )
 
+        delete_button = MDRaisedButton(
+            text="DELETE",
+            size_hint=(0.5, None),
+            height=dp(50),
+            md_bg_color=(1, 0, 0, 1),  # Red color for delete button
+            on_release=self.delete_card,
+        )
+
         buttons_layout.add_widget(cancel_button)
         buttons_layout.add_widget(save_button)
+        buttons_layout.add_widget(delete_button)
 
         card_form.add_widget(self.title_field)
         card_form.add_widget(self.phone_number_field)
@@ -273,6 +282,11 @@ class EditCardScreen(MDScreen):
             {"$set": {"agency": title, "phone_number": phone_number}},
         )
 
+        self.manager.current = "home"
+        self.manager.get_screen("home").load_cards()
+
+    def delete_card(self, instance):
+        numbers_info_collection.delete_one({"_id": self.card_data["_id"]})
         self.manager.current = "home"
         self.manager.get_screen("home").load_cards()
 

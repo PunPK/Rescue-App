@@ -7,8 +7,6 @@ from kivy.graphics.texture import Texture
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
-from kivy.app import App
-from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivy_garden.mapview import MapView, MapMarker
 from kivy.lang import Builder

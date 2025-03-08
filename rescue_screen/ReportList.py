@@ -8,7 +8,11 @@ from kivymd.uix.button import MDIconButton
 from kivymd.uix.list import MDList, TwoLineListItem
 from kivy.uix.scrollview import ScrollView
 from kivymd.uix.label import MDLabel
-from kivymd.uix.toolbar import MDTopAppBar  # ใช้ MDToolbar แทน MDTopAppBar
+from kivymd.uix.toolbar import MDTopAppBar
+from kivy.core.text import LabelBase
+from kivy.core.window import Window
+
+LabelBase.register(name="ThaiFont", fn_regular="fonts/THSarabunNew.ttf")
 
 # MongoDB setup
 client = MongoClient("localhost", 27017)
@@ -20,6 +24,7 @@ try:
     print("KV file loaded successfully")
 except Exception as e:
     print(f"Error loading KV file: {e}")
+Window.size = [360, 640]
 
 
 # ReceiveReportScreen class
@@ -32,7 +37,7 @@ class ReportList(MDScreen):
         layout = MDBoxLayout(orientation="vertical")
 
         # Top app bar (toolbar)
-        toolbar = MDTopAppBar(title="My Cards", elevation=0, pos_hint={"top": 1})
+        toolbar = MDTopAppBar(title="Reports list", elevation=0, pos_hint={"top": 1})
         layout.add_widget(toolbar)
 
         # Scrollable list container
@@ -89,6 +94,9 @@ class ReportDetailsScreen(MDScreen):
         self.ids.report_description.text = (
             f"Description: {report.get('description', 'No Description')}"
         )
+        self.ids.report_location.font_name = "ThaiFont"
+        self.ids.report_timestamp.font_name = "ThaiFont"
+        self.ids.report_description.font_name = "ThaiFont"
 
 
 class MyApp(MDApp):

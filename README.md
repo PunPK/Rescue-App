@@ -111,25 +111,25 @@ python main_kivyMD.py
 ![viewmap](./image_of_App/map-view-img.png)
 
 หน้านี้จะแสดงถึงตำแหน่งปัจจุบันของผู้ใช้งาน
----
+
 
 #### หน้า Safty Tips
 ![safty](./image_of_App/safty-tips.png)
 
 หน้านี้จะรวมคลิปวิดีโอวิธีการช่วยเหลือตนเอง
----
+
 
 #### หน้า Rescure Symbol
 ![rescure-symbol](./image_of_App/rescure-symbol.png)
 
 หน้าจะรวมป้ายด้านความปลอดภัย
----
+
 
 #### หน้า sign up
 ![signup](./image_of_App/signup.png)
 
 หน้าสำหรับการสมัครการใช้งาน
---- 
+
 
 #### หน้า Developer CoE36
 ![developBy](./image_of_App/developby.png)
@@ -175,8 +175,33 @@ python main_kivyMD.py
 ![report-detail](./image_of_App/report-detail.png)
 ---
 
-### Tool Management 
+### หน้า Tool Management 
 ![tool-management](./image_of_App/tool-management.png)
+
+หน้าจะประกอบด้วยปุ่ม
+  - Phone Management ใช้เพื่อ create update delete ข้อมูล
+  - Safty Tips Management ใช้เพื่อ create update delete ข้อมูล
+  - View team develop แสดงผู้พัฒนา App
+
+#### หน้า Phone Management
+![phoneM](./image_of_App/phone-mangement.png)
+![edit](./image_of_App/edit-phone.png)
+![create](./image_of_App/create-phone.png)
+
+หน้า Phone Managent จะประกอบดด้วย3หน้าหลักๆ
+  - หน้าสำหรับแสดงผลเบอร์ทุกเบอร์โทรที่มีอยู่ในdb
+  - หน้าสำหรับ create เบอร์โทร
+  - หน้าสำหรับ edit เบอร์โทร
+
+#### หน้า Safty Tips Management
+![Safty-Tips](./image_of_App/safty-management.png)
+![create-tips](./image_of_App/create-safty.png)
+![edit-tips](./image_of_App/edit-safty.png)
+
+หน้า Safty Tips Management 
+  - หน้าสำหรับแสดงผลSafty-tipsที่มีอยู่ในdbทั้งหมด
+  - หน้าสำหรับ create Safty-tip
+  - หน้าสำหรับ edit Safty-tip
 
 ## 🚨 การใช้งานแอป:
 

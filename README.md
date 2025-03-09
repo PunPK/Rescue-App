@@ -658,7 +658,96 @@ class ReportDetailsScreen(MDScreen): #หน้าดูรายละเอี
         marker = MapMarker(lat=lat, lon=lon)
         self.mapview.add_marker(marker) # เพิ่ม marker ลงบนแผนที่
 ```
+###  6. Function Sign Up
+```python
+*1. การเรียกใช้งาน DataBase*
 
+from pymongo import MongoClient, errors
+
+client = MongoClient("localhost", 27017) # เชื่อมต่อ MongoDB localhost 27017
+db = client["rescue_app"] # เรียกใช้ ฐานข้อมูลใน DataBase MongoDB
+users_collection = db["users"] # ตั้งชื่อ collection users MongoDB
+
+*2. RegistrationPage.py*
+class RegistrationScreen(MDScreen):
+    def show_registration_success(self):
+        Username = self.ids.username_input.text # ดึงค่าจาก .kv มาเก็บไว้
+        Email = self.ids.email_input.text # ดึงค่าจาก .kv มาเก็บไว้
+        Password = self.ids.password_input.text # ดึงค่าจาก .kv มาเก็บไว้
+
+        if Username and Password: # ตั้งค่าข้อมูลต่างๆ
+            new_user = {
+                "username": Username,
+                "email": Email,
+                "password": Password,
+                "role": "user",
+            }
+
+            # เพิ่มรายงานใหม่ใน MongoDB
+            users_collection.insert_one(new_user)
+
+            # ล้างช่อง input
+            self.ids.username_input.text = ""
+            self.ids.email_input.text = ""
+            self.ids.password_input.text = ""
+
+            # login ผ่าน มี PopUp บอก
+            if not self.dialog:
+                self.dialog = MDDialog(
+                    title="Registration Successful!",
+                    text="Your account has been created successfully.",
+                    buttons=[
+                        MDFlatButton(
+                            text="OK",
+                            theme_text_color="Custom",
+                            text_color=self.theme_cls.primary_color,
+                            on_release=lambda x: self.dialog.dismiss(),
+                        )
+                    ],
+                )
+            self.dialog.open()
+        else:
+            # login ไม่ผ่าน มี PopUp บอก
+            if not self.dialog:
+                self.dialog = MDDialog(
+                    title="Registration Error!",
+                    text="Registration have a problem. Check your new username and password",
+                    buttons=[
+                        MDFlatButton(
+                            text="OK",
+                            theme_text_color="Custom",
+                            text_color=self.theme_cls.primary_color,
+                            on_release=lambda x: self.dialog.dismiss(),
+                        )
+                    ],
+                )
+            self.dialog.open()
+
+*3. Screen.kv*
+kv
+                MDTextField:
+                    hint_text: "Username *"
+                    id: username_input # ตั้งชื่อ ID สำหรับไปเรียกใช้ใน .py
+                    mode: "line"
+                    line_color_normal: 0.1, 0.4, 0.9, 1
+                    markup: True
+                
+                MDTextField:
+                    hint_text: "E mail"
+                    id: email_input # ตั้งชื่อ ID สำหรับไปเรียกใช้ใน .py
+                    mode: "line"
+                    line_color_normal: 0.1, 0.4, 0.9, 1
+                    # markup: True
+                    
+                MDTextField:
+                    hint_text: "Password *"
+                    id: password_input # ตั้งชื่อ ID สำหรับไปเรียกใช้ใน .py
+                    mode: "line"
+                    password: True
+                    line_color_normal: 0.1, 0.4, 0.9, 1
+                    markup: True
+
+```
 ## หน้าต่างของApp
 
 ### หน้า explore

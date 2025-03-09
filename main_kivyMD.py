@@ -31,6 +31,7 @@ from rescue_screen.MyDevelopPage import MyDevelop
 from rescue_screen.ApplicationInfo import ApplicationInfoScreen
 from rescue_screen.MapScreen import MapViewScreen
 from rescue_screen.salfty_tips import Tips_page
+from rescue_screen.SymbolPage import SymbolScreen
 
 # from launcher import RescueAdminApp
 
@@ -56,6 +57,7 @@ class RescueApp(MDApp):
         self.screen_manager.add_widget(ApplicationInfoScreen(name="applicationinfo"))
         self.screen_manager.add_widget(MapViewScreen(name="mapview"))
         self.screen_manager.add_widget(Tips_page(name="tipsview"))
+        self.screen_manager.add_widget(SymbolScreen(name="symbolview"))
         self.screen_manager.current = "main"
 
         return self.screen_manager

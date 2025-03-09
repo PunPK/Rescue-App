@@ -300,7 +300,14 @@ class MainScreen(MDScreen):
             )
         )
         services_grid1.add_widget(
-            ServiceCard(icon_source="Image/rescue_icon.png", title="Rescue \nSymbol")
+            ServiceCard(
+                icon_source="Image/rescue_icon.png",
+                title="Rescue \nSymbol",
+                # on_release=lambda x: self.Link(
+                #     "https://santofire.co.th/safety-symbol/"
+                # ),
+                on_release=lambda x: self.Nav("symbolview"),
+            )
         )
 
         # Service cards - second row
@@ -349,7 +356,7 @@ class MainScreen(MDScreen):
             CircularButton(
                 icon_source="Image/sf_icon.png",
                 title="Safety First",
-                link="https://www.safetyfirst.com",
+                link="https://www.youtube.com/watch?v=8DXDmI85VUw",
             )
         )
 
@@ -398,3 +405,9 @@ class MainScreen(MDScreen):
 
     def Nav(self, page):
         self.manager.current = page
+
+    def Link(self, link):
+        if link:
+            import webbrowser
+
+            webbrowser.open(link)

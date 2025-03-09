@@ -1,5 +1,6 @@
 import cv2
 import base64
+import requests
 from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.clock import Clock
@@ -13,20 +14,15 @@ from kivy.lang import Builder
 from kivy.core.window import Window
 import platform
 from pymongo import MongoClient
-import gridfs
-from geopy.geocoders import Nominatim
 from datetime import datetime
 
-# MongoDB setup
-# MongoDB setup
+# from plyer import gps
+
 client = MongoClient("localhost", 27017)
 db = client["rescue_app"]
 users_collection = db["users"]
 reports_collection = db["reports"]
-fs = gridfs.GridFS(db)
 
-# Create user and report collections if they don't exist
-# Create user and report collections if they don't exist
 if users_collection.count_documents({}) == 0:
     users_collection.insert_many(
         [
@@ -40,7 +36,6 @@ if reports_collection.count_documents({}) == 0:
         {"location": "Initial Location", "description": "Initial Description"}
     )
 
-# Load KV file for UI
 Builder.load_file("rescue_screen/Screen.kv")
 
 Window.size = (430, 740)
@@ -50,18 +45,97 @@ class ReceiverScreen(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.mapview = MapView(zoom=15, lat=7.00724, lon=100.50176)
+        self.mapview = MapView(zoom=13, lat=7.00724, lon=100.50176)
         self.ids.map_container.add_widget(self.mapview)
         self.marker = None
-        self.current_location = [7.00724, 100.50176]
+        self.current_location = None
+        self.get_location_from_ip()
 
         self.camera_index = None
         self.capture = None
         self.image_widget = None
         self.layout = None
         self.captured_image_widget = None
-        # Add map and location button
+
         self.add_map()
+
+    def get_location_from_ip(self):
+        try:
+            response = requests.get("https://ipinfo.io")
+            data = response.json()
+            loc = data["loc"].split(",")
+            lat, lon = float(loc[0]), float(loc[1])
+            print(f"Location from IP: lat={lat}, lon={lon}")
+            self.current_location = [lat, lon]
+
+            if self.marker:
+                self.mapview.remove_marker(self.marker)
+            self.marker = MapMarker(lat=lat, lon=lon)
+            self.mapview.add_marker(self.marker)
+
+        except Exception as e:
+            print(f"Error fetching location from IP: {e}")
+
+    def update_current_location(self, *args):
+        self.get_location_from_ip()
+        print(f"Using real-time IP-based location: {self.current_location}")
+
+    def add_map(self):
+        self.marker = MapMarker(lat=7.00724, lon=100.50176)
+        self.mapview.add_marker(self.marker)
+
+        get_location_btn = Button(
+            text="Get Current Location", size_hint=(1, None), height="50dp"
+        )
+        get_location_btn.bind(on_press=self.update_current_location)
+        self.ids.map_container.add_widget(get_location_btn)
+
+    # def setup_gps(self):
+    #     try:
+    #         gps.configure(
+    #             on_location=self.on_gps_location, on_status=self.on_gps_status
+    #         )
+    #         gps.start(minTime=1000, minDistance=1)
+    #         print("GPS Started Successfully")
+
+    #     except NotImplementedError:
+    #         print("GPS not implemented on this platform.")
+    #     except Exception as e:
+    #         print(f"Error starting GPS: {e}")
+
+    # def on_gps_location(self, **kwargs):
+    #     lat = kwargs.get("lat", 0)
+    #     lon = kwargs.get("lon", 0)
+    #     print(f"GPS Callback Received: lat={lat}, lon={lon}")  # Debugging print
+
+    #     if lat == 0 and lon == 0:
+    #         print("Warning: GPS data is not updating correctly.")
+
+    #     self.current_location = [lat, lon]
+
+    #     if self.marker:
+    #         self.mapview.remove_marker(self.marker)
+    #     self.marker = MapMarker(lat=lat, lon=lon)
+    #     self.mapview.add_marker(self.marker)
+
+    # def on_gps_status(self, status):
+    #     print(f"GPS Status: {status}")
+
+    # def update_current_location(self, *args):
+    #     self.setup_gps()
+    #     print(f"Using real-time GPS location: {self.current_location}")
+
+    # def add_map(self):
+    #     self.marker = MapMarker(lat=7.00724, lon=100.50176)
+    #     self.mapview.add_marker(self.marker)
+
+    #     get_location_btn = Button(
+    #         text="Get Current Location", size_hint=(1, None), height="50dp"
+    #     )
+    #     get_location_btn.bind(
+    #         on_press=self.update_current_location
+    #     )  # Update location based on IP
+    #     self.ids.map_container.add_widget(get_location_btn)
 
     def setup_camera(self):
         if platform.system() == "Darwin":
@@ -186,35 +260,6 @@ class ReceiverScreen(MDScreen):
             size_hint=(0.8, 0.4),
         )
         popup.open()
-
-    def add_map(self):
-        # Add map markers and controls here
-        self.marker = MapMarker(lat=7.00724, lon=100.50176)
-        self.mapview.add_marker(self.marker)
-
-        # Add a button to get current location
-        get_location_btn = Button(
-            text="Get Current Location", size_hint=(1, None), height="50dp"
-        )
-        get_location_btn.bind(on_press=self.update_current_location)
-        self.ids.map_container.add_widget(get_location_btn)
-
-    def get_current_location(self, instance):
-        # This method can be used to update location based on GPS or other methods
-        print(f"Current Location: {self.current_location}")
-
-    def update_current_location(self, *args):
-        try:
-            # Update the current location based on GPS or other methods
-            geolocator = Nominatim(user_agent="rescue_app")
-            location = geolocator.geocode("R202")
-            if location:
-                self.current_location = [location.latitude, location.longitude]
-                print(f"Updated current location: {self.current_location}")
-            else:
-                print("Could not get the current location")
-        except Exception as e:
-            print(f"An error occurred while updating the current location: {e}")
 
     def on_stop(self):
         if self.capture and self.capture.isOpened() or self.setup_camera():

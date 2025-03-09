@@ -14,6 +14,7 @@ from kivy.core.window import Window
 from kivy.metrics import dp
 from pymongo import MongoClient, errors
 from rescue_screen.HomePage import BottomNavItem
+from kivymd.uix.list import TwoLineAvatarIconListItem, IconRightWidget
 
 Window.size = (360, 640)
 
@@ -80,10 +81,18 @@ class Ruem_ber(MDScreen):
         numbers_info_data = numbers_info_collection.find()
 
         for i in numbers_info_data:
-            item = TwoLineListItem(
+            item = TwoLineAvatarIconListItem(
                 text=f"Phone Number: {i['phone_number']}",
                 secondary_text=f"Agency: {i['agency']}",
             )
+
+            phone_icon = IconRightWidget(
+                icon="phone",
+            )
+            phone_icon.theme_text_color = "Custom"
+            phone_icon.text_color = (0, 1, 0, 1)
+
+            item.add_widget(phone_icon)
             self.card_list.add_widget(item)
 
     def go_back(self, *args):

@@ -630,10 +630,6 @@
                             size: self.size
                             radius: [8]
                     on_press: root.send_report()
-                
-                Button:
-                    text: 'โหลดรายงาน'
-                    on_press: root.load_reports()
 
         MDBoxLayout:
             adaptive_height: True
@@ -678,78 +674,7 @@
                 padding: dp(10)
                 spacing: dp(10)
                 adaptive_height: True
-
-        MDBoxLayout:
-            adaptive_height: True
-            md_bg_color: (1, 1, 1, 1)
-            padding: [0, dp(5), 0, dp(5)]
-            spacing: dp(10)
-
-            BottomNavItem:
-                icon: "compass-outline"
-                text: "Explore"
-                screen_name: "main"
-
-            BottomNavItem:
-                icon: "file-document-outline"
-                selected: True
-                text: "Reports"
-                screen_name: "receiver"
-
-            BottomNavItem:
-                icon: "account-box-multiple"
-                text: "Officer"
-                screen_name: "officer"
-
-            BottomNavItem:
-                icon: "account-outline"
-                text: "Login"
-                screen_name: "login"
-
-<ReceiveReportScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-
-        MDToolbar:
-            title: 'Report Viewer'
-            md_bg_color: app.theme_cls.primary_color
-            elevation: 10
-
-        ScrollView:
-            MDBoxLayout:
-                id: reports_container
-                orientation: 'vertical'
-                padding: dp(10)
-                spacing: dp(10)
-                adaptive_height: True
-
-        # Bottom Navigation Bar
-        MDBoxLayout:
-            adaptive_height: True
-            md_bg_color: (1, 1, 1, 1)
-            padding: [0, dp(5), 0, dp(5)]
-            spacing: dp(10)
-
-            BottomNavItem:
-                icon: "compass-outline"
-                text: "Explore"
-                screen_name: "main"
-
-            BottomNavItem:
-                icon: "file-document-outline"
-                selected: True
-                text: "Reports"
-                screen_name: "receiver"
-
-            BottomNavItem:
-                icon: "account-box-multiple"
-                text: "Officer"
-                screen_name: "officer"
-
-            BottomNavItem:
-                icon: "account-outline"
-                text: "Login"
-                screen_name: "login"
+                font_name: 'ThaiFont'
 
 <RegistrationScreen>:
     MDScreen:
@@ -910,32 +835,44 @@
                 text: "Login"
                 screen_name: "login"
 <ReportDetailsScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-
-        MDTopAppBar:
-            title: 'Report Details'
-            md_bg_color: app.theme_cls.primary_color
-            elevation: 10
-
-        MDLabel:
-            id: report_location
-            text: "Location: "
+    ScrollView:
+        BoxLayout:
+            orientation: 'vertical'
             size_hint_y: None
-            height: dp(40)
+            height: self.minimum_height
 
-        MDLabel:
-            id: report_timestamp
-            text: "Timestamp: "
-            size_hint_y: None
-            height: dp(40)
+            Image:
+                id: report_image
+                source: 'image.jpg'
+                size_hint_y: None
+                height: '200dp'
+                allow_stretch: True
+                keep_ratio: True
 
-        MDLabel:
-            id: report_description
-            text: "Description: "
-            size_hint_y: None
-            height: dp(40)
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                
+                BoxLayout:
+                    id: map_container
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '200dp'
+                    spacing: 10
 
-        MDIconButton:
-            icon: "arrow-left"
-            on_release: app.root.current = "home"
+                MDLabel:
+                    id: report_location
+                    size_hint_y: None
+                    height: '40dp'
+
+                MDLabel:
+                    id: report_timestamp
+                    size_hint_y: None
+                    height: '40dp'
+
+                MDLabel:
+                    id: report_description
+                    size_hint_y: None
+                    height: '40dp'
+

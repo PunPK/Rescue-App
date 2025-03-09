@@ -14,6 +14,7 @@ from kivy.core.window import Window
 from kivy.metrics import dp
 from pymongo import MongoClient, errors
 import webbrowser
+from rescue_screen.HomePage import BottomNavItem
 
 # Set window size to mobile dimensions (360x640)
 Window.size = (360, 640)
@@ -26,7 +27,7 @@ tips_info_collection = db["safty_tips"]
 class Tips_page(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.name = "tips-page"
+        self.name = "tipsview"
 
         # Main layout
         layout = MDBoxLayout(orientation="vertical")
@@ -48,17 +49,37 @@ class Tips_page(MDScreen):
 
         self.load_cards()
 
+        bottom_nav = MDBoxLayout(adaptive_height=True, md_bg_color=(1, 1, 1, 1))
+
+        bottom_nav.add_widget(
+            BottomNavItem(
+                icon="compass-outline",
+                text="Explore",
+                screen_name="main",
+            )
+        )
+
+        bottom_nav.add_widget(
+            BottomNavItem(
+                icon="file-document-outline", text="Reports", screen_name="receiver"
+            )
+        )
+
+        bottom_nav.add_widget(
+            BottomNavItem(
+                icon="account-box-multiple", text="Officer", screen_name="officer"
+            )
+        )
+
+        bottom_nav.add_widget(
+            BottomNavItem(icon="account-outline", text="Login", screen_name="login")
+        )
+
         scroll_view.add_widget(self.card_list)
         layout.add_widget(scroll_view)
+        layout.add_widget(bottom_nav)
 
         self.add_widget(layout)
-
-        fab = MDFloatingActionButton(
-            icon="plus",
-            pos_hint={"center_x": 0.85, "center_y": 0.1},
-            on_release=self.go_to_create_card,
-        )
-        self.add_widget(fab)
 
     def load_cards(self):
         self.card_list.clear_widgets()

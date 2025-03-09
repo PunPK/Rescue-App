@@ -32,16 +32,15 @@ class RegistrationScreen(MDScreen):
 
     def show_registration_success(self):
         Username = self.ids.username_input.text
-        FullName = self.ids.full_name_input.text
         Email = self.ids.email_input.text
         Password = self.ids.password_input.text
 
-        if Username and FullName:
+        if Username and Password:
             new_user = {
                 "username": Username,
-                "fullname": FullName,
                 "email": Email,
                 "password": Password,
+                "role": "user",
             }
 
             # เพิ่มรายงานใหม่ใน MongoDB
@@ -49,24 +48,38 @@ class RegistrationScreen(MDScreen):
 
             # ล้างช่อง input
             self.ids.username_input.text = ""
-            self.ids.full_name_input.text = ""
             self.ids.email_input.text = ""
             self.ids.password_input.text = ""
 
-        if not self.dialog:
-            self.dialog = MDDialog(
-                title="Registration Successful!",
-                text="Your account has been created successfully.",
-                buttons=[
-                    MDFlatButton(
-                        text="OK",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=lambda x: self.dialog.dismiss(),
-                    )
-                ],
-            )
-        self.dialog.open()
+            if not self.dialog:
+                self.dialog = MDDialog(
+                    title="Registration Successful!",
+                    text="Your account has been created successfully.",
+                    buttons=[
+                        MDFlatButton(
+                            text="OK",
+                            theme_text_color="Custom",
+                            text_color=self.theme_cls.primary_color,
+                            on_release=lambda x: self.dialog.dismiss(),
+                        )
+                    ],
+                )
+            self.dialog.open()
+        else:
+            if not self.dialog:
+                self.dialog = MDDialog(
+                    title="Registration Error!",
+                    text="Registration have a problem. Check your new username and password",
+                    buttons=[
+                        MDFlatButton(
+                            text="OK",
+                            theme_text_color="Custom",
+                            text_color=self.theme_cls.primary_color,
+                            on_release=lambda x: self.dialog.dismiss(),
+                        )
+                    ],
+                )
+            self.dialog.open()
 
     def switch_to_signin(self):
         self.manager.current = "login"

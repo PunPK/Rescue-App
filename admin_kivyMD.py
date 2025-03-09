@@ -39,21 +39,21 @@ BoxLayout:
             icon: 'tools'
             on_tab_press: app.switch_screen('tool-page')
         
-        MDBottomNavigationItem:
-            name: 'nav_main'
-            text: 'Main'
-            icon: 'home'
-            on_tab_press: app.switch_screen('home-admin')
+        # MDBottomNavigationItem:
+        #     name: 'nav_main'
+        #     text: 'Main'
+        #     icon: 'home'
+        #     on_tab_press: app.switch_screen('home-admin')
 
         MDBottomNavigationItem:
-            name: 'nav_reviews'
-            text: 'Reviews'
-            icon: 'star'
-            on_tab_press: app.switch_screen('reviews')
+            name: 'nav_logout'
+            text: 'logout'
+            icon: 'logout-variant'
+            on_tab_press: app.switch_to_user_app()
 """
 
 
-class MyApp(MDApp):
+class RescueAdminApp(MDApp):
     def build(self):
         self.theme_cls.primary_palette = "Blue"
         self.theme_cls.accent_palette = "Amber"
@@ -80,6 +80,12 @@ class MyApp(MDApp):
     def switch_screen(self, screen_name):
         self.screen_manager.current = screen_name
 
+    def switch_to_user_app(self):
+        self.stop()
+        from main_kivyMD import RescueApp
+
+        RescueApp().run()
+
 
 if __name__ == "__main__":
-    MyApp().run()
+    RescueAdminApp().run()

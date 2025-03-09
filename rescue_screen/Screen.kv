@@ -564,11 +564,10 @@
                     orientation: 'vertical'
                     size_hint_y: None
                     height: '300dp'
-                    padding: [10, 10]
                     spacing: 10
-
-                # Add Image Button
+                    
                 Button:
+                    id: open_cam_button
                     text: 'เปิดกล้อง'
                     font_name: 'ThaiFont'
                     size_hint_y: None
@@ -584,23 +583,38 @@
                             width: 1.5
                             rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
 
-                Button:
-                    text: 'ถ่ายรูปภาพ'
-                    font_name: 'ThaiFont'
+                BoxLayout:
+                    orientation: 'vertical'
                     size_hint_y: None
-                    height: '50dp'
-                    background_normal: ''
-                    background_color: utils.get_color_from_hex('#F5F5F5')
-                    color: utils.get_color_from_hex('#023282')
-                    on_press: root.capture_photo()
-                    canvas.before:
-                        Color:
-                            rgba: utils.get_color_from_hex('#023282')
-                        Line:
-                            width: 1.5
-                            rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
+                    height: '300dp'
+                    BoxLayout:
+                        id: cam_container
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: '300dp'
+                    Button:
+                        text: 'ถ่ายรูปภาพ'
+                        font_name: 'ThaiFont'
+                        size_hint_y: None
+                        height: '50dp'
+                        background_normal: ''
+                        background_color: utils.get_color_from_hex('#F5F5F5')
+                        color: utils.get_color_from_hex('#023282')
+                        on_press: root.capture_photo()
+                        canvas.before:
+                            Color:
+                                rgba: utils.get_color_from_hex('#023282')
+                            Line:
+                                width: 1.5
+                                rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
 
-                # Submit Button
+                BoxLayout:
+                    id: photo_container
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '300dp'
+                    opacity: 0
+
                 Button:
                     text: 'ส่งรายงาน'
                     font_name: 'ThaiFont'
@@ -620,6 +634,50 @@
                 Button:
                     text: 'โหลดรายงาน'
                     on_press: root.load_reports()
+
+        MDBoxLayout:
+            adaptive_height: True
+            md_bg_color: (1, 1, 1, 1)
+            padding: [0, dp(5), 0, dp(5)]
+            spacing: dp(10)
+
+            BottomNavItem:
+                icon: "compass-outline"
+                text: "Explore"
+                screen_name: "main"
+
+            BottomNavItem:
+                icon: "file-document-outline"
+                selected: True
+                text: "Reports"
+                screen_name: "receiver"
+
+            BottomNavItem:
+                icon: "account-box-multiple"
+                text: "Officer"
+                screen_name: "officer"
+
+            BottomNavItem:
+                icon: "account-outline"
+                text: "Login"
+                screen_name: "login"
+
+<ReportList>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'Report Viewer'
+            md_bg_color: app.theme_cls.primary_color
+            elevation: 10
+
+        ScrollView:
+            MDBoxLayout:
+                id: reports_container
+                orientation: 'vertical'
+                padding: dp(10)
+                spacing: dp(10)
+                adaptive_height: True
 
         MDBoxLayout:
             adaptive_height: True
@@ -704,7 +762,7 @@
             
             # Top blue wave section
             MDRelativeLayout:
-                size_hint_y: 0.3
+                size_hint_y: 0.25
                 
                 # Blue background
                 MDFloatLayout:
@@ -720,6 +778,13 @@
                     allow_stretch: True
                     keep_ratio: False
                 
+                # Logo
+                Image:
+                    source: "Image/logo.png" 
+                    size_hint: None, None
+                    size: dp(100), dp(100)
+                    pos_hint: {"center_x": 0.5, "center_y": 0.6}
+                
                 # Status bar elements
                 MDLabel:
                     text: "12:00"
@@ -732,7 +797,7 @@
                 MDBoxLayout:
                     adaptive_height: True
                     spacing: dp(10)
-                    pos_hint: {"center_x": 0.6, "center_y": 0.3}
+                    pos_hint: {"center_x": 0.65, "center_y": 0.3}
                     
                     MDLabel:
                         text: "Sign up"
@@ -745,7 +810,7 @@
                         text: "Sign in"
                         theme_text_color: "Custom"
                         text_color: 0.5, 0.7, 1, 1
-                        font_style: "H6"
+                        font_style: "H4"
             
             # Form section
             MDBoxLayout:
@@ -756,29 +821,33 @@
                 md_bg_color: 0.95, 0.98, 1, 1
                 
                 MDTextField:
-                    hint_text: "Username"
+                    hint_text: "Username *"
                     id: username_input
                     mode: "line"
                     line_color_normal: 0.1, 0.4, 0.9, 1
+                    markup: True
+                    
+                # MDTextField:
+                #     hint_text: "Full name"
+                #     id: full_name_input
+                #     mode: "line"
+                #     line_color_normal: 0.1, 0.4, 0.9, 1
+                #     # markup: True
                     
                 MDTextField:
-                    hint_text: "Full name"
-                    id: full_name_input
-                    mode: "line"
-                    line_color_normal: 0.1, 0.4, 0.9, 1
-                    
-                MDTextField:
-                    hint_text: "E-mail"
+                    hint_text: "E mail"
                     id: email_input
                     mode: "line"
                     line_color_normal: 0.1, 0.4, 0.9, 1
+                    # markup: True
                     
                 MDTextField:
-                    hint_text: "Password"
+                    hint_text: "Password *"
                     id: password_input
                     mode: "line"
                     password: True
                     line_color_normal: 0.1, 0.4, 0.9, 1
+                    markup: True
                 
                 MDBoxLayout:
                     adaptive_height: True
@@ -796,7 +865,7 @@
                         theme_text_color: "Secondary"
                 
                 Widget:
-                    size_hint_y: 0.1
+                    size_hint_y: 0.05
                     
                 MDFillRoundFlatButton:
                     text: "Sign up"
@@ -810,5 +879,63 @@
                     text: "I'm already a member"
                     theme_text_color: "Custom"
                     text_color: 0.3, 0.3, 0.3, 1
+                    size_hint_y: 0.4
                     pos_hint: {"center_x": 0.5}
                     on_release: root.switch_to_signin()
+
+        MDBoxLayout:
+            adaptive_height: True
+            md_bg_color: (1, 1, 1, 1)
+            padding: [0, dp(5), 0, dp(5)]
+            spacing: dp(10)
+
+            BottomNavItem:
+                icon: "compass-outline"
+                text: "Explore"
+                screen_name: "main"
+
+            BottomNavItem:
+                icon: "file-document-outline"
+                text: "Reports"
+                screen_name: "receiver"
+
+            BottomNavItem:
+                icon: "account-box-multiple"
+                text: "Officer"
+                screen_name: "officer"
+
+            BottomNavItem:
+                icon: "account-outline"
+                selected: True
+                text: "Login"
+                screen_name: "login"
+<ReportDetailsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'Report Details'
+            md_bg_color: app.theme_cls.primary_color
+            elevation: 10
+
+        MDLabel:
+            id: report_location
+            text: "Location: "
+            size_hint_y: None
+            height: dp(40)
+
+        MDLabel:
+            id: report_timestamp
+            text: "Timestamp: "
+            size_hint_y: None
+            height: dp(40)
+
+        MDLabel:
+            id: report_description
+            text: "Description: "
+            size_hint_y: None
+            height: dp(40)
+
+        MDIconButton:
+            icon: "arrow-left"
+            on_release: app.root.current = "home"

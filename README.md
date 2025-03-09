@@ -658,17 +658,20 @@ class ReportDetailsScreen(MDScreen): #หน้าดูรายละเอี
         marker = MapMarker(lat=lat, lon=lon)
         self.mapview.add_marker(marker) # เพิ่ม marker ลงบนแผนที่
 ```
-###  6. Function Sign Up
-```python
-*1. การเรียกใช้งาน DataBase*
+###  8. Function Sign Up
 
+**1. การเรียกใช้งาน DataBase**
+
+```python
 from pymongo import MongoClient, errors
 
 client = MongoClient("localhost", 27017) # เชื่อมต่อ MongoDB localhost 27017
 db = client["rescue_app"] # เรียกใช้ ฐานข้อมูลใน DataBase MongoDB
 users_collection = db["users"] # ตั้งชื่อ collection users MongoDB
+```
 
-*2. RegistrationPage.py*
+**2. RegistrationPage.py**
+```python
 class RegistrationScreen(MDScreen):
     def show_registration_success(self):
         Username = self.ids.username_input.text # ดึงค่าจาก .kv มาเก็บไว้
@@ -722,9 +725,10 @@ class RegistrationScreen(MDScreen):
                     ],
                 )
             self.dialog.open()
+```
 
-*3. Screen.kv*
-kv
+**3. Screen.kv**
+```kv
                 MDTextField:
                     hint_text: "Username *"
                     id: username_input # ตั้งชื่อ ID สำหรับไปเรียกใช้ใน .py
@@ -746,8 +750,8 @@ kv
                     password: True
                     line_color_normal: 0.1, 0.4, 0.9, 1
                     markup: True
-
 ```
+
 ## หน้าต่างของApp
 
 ### หน้า explore

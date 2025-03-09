@@ -87,7 +87,9 @@ class CreateTipScreen(MDScreen):
         layout = MDBoxLayout(orientation="vertical", spacing=dp(10), padding=dp(10))
 
         # Top app bar
-        toolbar = MDTopAppBar(title="Create New Card", elevation=0, pos_hint={"top": 1})
+        toolbar = MDTopAppBar(
+            title="Create Safty Tips", elevation=0, pos_hint={"top": 1}
+        )
         toolbar.left_action_items = [["arrow-left", lambda x: self.go_back()]]
         layout.add_widget(toolbar)
 
@@ -183,7 +185,7 @@ class EditTipScreen(MDScreen):
         layout = MDBoxLayout(orientation="vertical", spacing=dp(10), padding=dp(10))
 
         # Top app bar
-        toolbar = MDTopAppBar(title="Edit Card", elevation=0, pos_hint={"top": 1})
+        toolbar = MDTopAppBar(title="Edit Safty Tips", elevation=0, pos_hint={"top": 1})
         toolbar.left_action_items = [["arrow-left", lambda x: self.go_back()]]
         layout.add_widget(toolbar)
 

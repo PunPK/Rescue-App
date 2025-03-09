@@ -31,7 +31,9 @@ class Card_page(MDScreen):
         layout = MDBoxLayout(orientation="vertical")
 
         # Top app bar
-        toolbar = MDTopAppBar(title="My Cards", elevation=0, pos_hint={"top": 1})
+        toolbar = MDTopAppBar(
+            title="Phone Management", elevation=0, pos_hint={"top": 1}
+        )
         layout.add_widget(toolbar)
 
         # Scrollable list container
@@ -86,7 +88,7 @@ class CreateCardScreen(MDScreen):
         layout = MDBoxLayout(orientation="vertical", spacing=dp(10), padding=dp(10))
 
         # Top app bar
-        toolbar = MDTopAppBar(title="Create New Card", elevation=0, pos_hint={"top": 1})
+        toolbar = MDTopAppBar(title="Create Phone", elevation=0, pos_hint={"top": 1})
         toolbar.left_action_items = [["arrow-left", lambda x: self.go_back()]]
         layout.add_widget(toolbar)
 
@@ -182,7 +184,7 @@ class EditCardScreen(MDScreen):
         layout = MDBoxLayout(orientation="vertical", spacing=dp(10), padding=dp(10))
 
         # Top app bar
-        toolbar = MDTopAppBar(title="Edit Card", elevation=0, pos_hint={"top": 1})
+        toolbar = MDTopAppBar(title="Edit Phone", elevation=0, pos_hint={"top": 1})
         toolbar.left_action_items = [["arrow-left", lambda x: self.go_back()]]
         layout.add_widget(toolbar)
 

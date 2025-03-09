@@ -194,9 +194,17 @@ python main_kivyMD.py
   - หน้าสำหรับ edit เบอร์โทร
 
 #### หน้า Safty Tips Management
-![Safty-Tips](./image_of_App/safty-management.png)
-![create-tips](./image_of_App/create-safty.png)
-![edit-tips](./image_of_App/edit-safty.png)
+<p align="center">
+  <img src="./image_of_App/safty-management.png" alt="Safty-Tips">
+</p>
+
+<p align="center">
+  <img src="./image_of_App/create-safty.png" alt="Create-Tips">
+</p>
+
+<p align="center">
+  <img src="./image_of_App/edit-safty.png" alt="Edit-Tips">
+</p>
 
 หน้า Safty Tips Management 
   - หน้าสำหรับแสดงผลSafty-tipsที่มีอยู่ในdbทั้งหมด

@@ -15,6 +15,7 @@ from kivy.metrics import dp
 from pymongo import MongoClient, errors
 from rescue_screen.HomePage import BottomNavItem
 from kivymd.uix.list import TwoLineAvatarIconListItem, IconRightWidget
+import webbrowser
 
 Window.size = (360, 640)
 
@@ -88,6 +89,7 @@ class Ruem_ber(MDScreen):
 
             phone_icon = IconRightWidget(
                 icon="phone",
+                on_release=lambda x, i=i: webbrowser.open(f"tel:{i['phone_number']}"),
             )
             phone_icon.theme_text_color = "Custom"
             phone_icon.text_color = (0, 1, 0, 1)

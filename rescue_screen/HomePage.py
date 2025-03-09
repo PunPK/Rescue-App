@@ -294,7 +294,9 @@ class MainScreen(MDScreen):
         )
         services_grid1.add_widget(
             ServiceCard(
-                icon_source="Image/help_icon.png", title="Safety Tips \nBy Your Self"
+                icon_source="Image/help_icon.png",
+                title="Safety Tips \nBy Your Self",
+                on_release=lambda x: self.Nav("tipsview"),
             )
         )
         services_grid1.add_widget(

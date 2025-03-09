@@ -15,7 +15,8 @@ from kivy.core.text import LabelBase
 from kivy.uix.label import Label
 import gridfs
 from kivy.lang import Builder
-from rescue_screen import ReceiverScreen
+
+# from rescue_screen import ReceiverScreen
 from kivy.lang import Builder
 from kivymd.icon_definitions import md_icons
 from rescue_screen.db_connection import reports_collection, users_collection
@@ -29,6 +30,7 @@ from rescue_screen.ruam_ber import Ruem_ber
 from rescue_screen.MyDevelopPage import MyDevelop
 from rescue_screen.ApplicationInfo import ApplicationInfoScreen
 from rescue_screen.MapScreen import MapViewScreen
+from rescue_screen.salfty_tips import Tips_page
 
 # from launcher import RescueAdminApp
 
@@ -53,6 +55,7 @@ class RescueApp(MDApp):
         self.screen_manager.add_widget(MyDevelop(name="mydevelop"))
         self.screen_manager.add_widget(ApplicationInfoScreen(name="applicationinfo"))
         self.screen_manager.add_widget(MapViewScreen(name="mapview"))
+        self.screen_manager.add_widget(Tips_page(name="tipsview"))
         self.screen_manager.current = "main"
 
         return self.screen_manager

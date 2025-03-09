@@ -93,7 +93,7 @@ KV = """
                     height: dp(100)
                     padding: dp(10)
                     spacing: dp(10)
-                    elevation: 5
+                    elevation: 1
                     radius: [15, 15, 15, 15]
                     md_bg_color: utils.get_color_from_hex('#ffffff')  # White background
                     
@@ -131,7 +131,7 @@ KV = """
                     height: dp(100)
                     padding: dp(10)
                     spacing: dp(10)
-                    elevation: 5
+                    elevation: 1
                     radius: [15, 15, 15, 15]
                     md_bg_color: utils.get_color_from_hex('#ffffff')  # White background
                     
@@ -169,7 +169,7 @@ KV = """
                     height: dp(100)
                     padding: dp(10)
                     spacing: dp(10)
-                    elevation: 5
+                    elevation: 1
                     radius: [15, 15, 15, 15]
                     md_bg_color: utils.get_color_from_hex('#ffffff')  # White background
                     

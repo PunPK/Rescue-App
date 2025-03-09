@@ -95,9 +95,7 @@ class ReportDetailsScreen(MDScreen):
 
     def show_report_details(self, report):
         self.ids.report_location.text = f"Location: {report.get('location', 'Unknown')}"
-        self.ids.report_timestamp.text = (
-            f"Timestamp: {report.get('timestamp', 'Unknown')}"
-        )
+        self.ids.report_timestamp.text = f"Time: {report.get('timestamp', 'Unknown')}"
         self.ids.report_description.text = (
             f"Description: {report.get('description', 'No Description')}"
         )

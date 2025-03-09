@@ -33,8 +33,6 @@ from rescue_screen.MapScreen import MapViewScreen
 from rescue_screen.salfty_tips import Tips_page
 from rescue_screen.SymbolPage import SymbolScreen
 
-# from launcher import RescueAdminApp
-from rescue_screen.ruam_ber import Ruem_ber
 
 # from rescue_screen.BottonNavItem import BottomNavBar
 

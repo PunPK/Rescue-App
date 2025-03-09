@@ -133,9 +133,11 @@ class Tool_page(MDScreen):
 
         services_grid3.add_widget(
             ServiceCard(
-                icon_source="image/SignIn.png",  # Ensure the image path is correct
-                title="Sign In\nApplication",
-                on_release=self.Nav,
+                icon_source="Image/group.png",  # Ensure the image path is correct
+                title="View\nTeam Develop",
+                on_release=lambda x: MDApp.get_running_app().switch_screen(
+                    "view-develop"
+                ),
             )
         )
 

@@ -12,6 +12,7 @@ from rescue_screen.safty_tips_management import (
     CreateTipScreen,
     EditTipScreen,
 )
+from rescue_screen.MyAdminDevelopPage import MyAdminDevelop
 
 # Define the KV string for the navigation structure
 KV = """
@@ -72,6 +73,7 @@ class RescueAdminApp(MDApp):
         self.screen_manager.add_widget(Tips_page(name=("tips-page")))
         self.screen_manager.add_widget(CreateTipScreen(name=("create_tip")))
         self.screen_manager.add_widget(EditTipScreen(name=("edit_tip")))
+        self.screen_manager.add_widget(MyAdminDevelop(name=("view-develop")))
         # Set initial screen AFTER adding screens
         self.screen_manager.current = "home-admin"
 

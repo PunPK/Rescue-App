@@ -4,7 +4,7 @@ from kivy.lang import Builder
 
 # Import your apps
 from main_kivyMD import RescueApp
-from admin_kivyMD import MyApp
+from admin_kivyMD import RescueAdminApp
 
 # Import your login screen
 from rescue_screen.LoginScreen import LoginScreen
@@ -19,29 +19,25 @@ from rescue_screen.ApplicationInfo import ApplicationInfoScreen
 from rescue_screen.MapScreen import MapScreen
 
 
-class LauncherApp(MDApp):
+# shared.py
+from kivymd.app import MDApp
+
+
+class RescueApp(MDApp):
     def build(self):
-        # Create a screen manager
-        self.screen_manager = ScreenManager()
-
-        main_screen = MainScreen(name="main")
-        self.screen_manager.add_widget(main_screen)
-        self.screen_manager.add_widget(ReceiverScreen(name="receiver"))
-        self.screen_manager.add_widget(LoginScreen(name="login"))
-        self.screen_manager.add_widget(RegistrationScreen(name="register"))
-        self.screen_manager.add_widget(LoginScreen(name="login"))
-
-        self.screen_manager.current = "main"
-        return self.screen_manager
+        pass
 
     def switch_to_admin_app(self):
         self.stop()
-        MyApp().run()
+        rescue_admin_app = RescueAdminApp()
+        rescue_admin_app.run()
+
+
+class RescueAdminApp(MDApp):
+    def build(self):
+        pass
 
     def switch_to_user_app(self):
         self.stop()
-        RescueApp().run()
-
-
-if __name__ == "__main__":
-    LauncherApp().run()
+        rescue_app = RescueApp()
+        rescue_app.run()

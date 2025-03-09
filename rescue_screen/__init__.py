@@ -27,5 +27,6 @@ from .SymbolPage import SymbolScreen
 from .MyAdminDevelopPage import MyAdminDevelop
 from .card_page import Card_page, EditCardScreen, CreateCardScreen
 from .safty_tips_management import Tips_page, EditTipScreen, CreateTipScreen
+from salfty_tips import Tips_page
 
 # from .BottonNavItem import BottomNavBar

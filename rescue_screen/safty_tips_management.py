@@ -119,18 +119,9 @@ class CreateTipScreen(MDScreen):
             mode="rectangle",
         )
 
-        self.description_field = MDTextField(
-            hint_text="Phone Number",
-            helper_text="Enter Phone Number",
-            helper_text_mode="on_focus",
-            multiline=True,
-            size_hint_x=1,
-            mode="rectangle",
-        )
-
         self.url_field = MDTextField(
-            hint_text="Phone Number",
-            helper_text="Enter Phone Number",
+            hint_text="Link Url",
+            helper_text="Enter Link Url",
             helper_text_mode="on_focus",
             multiline=True,
             size_hint_x=1,
@@ -161,7 +152,6 @@ class CreateTipScreen(MDScreen):
         buttons_layout.add_widget(save_button)
 
         card_form.add_widget(self.title_field)
-        card_form.add_widget(self.description_field)
         card_form.add_widget(self.url_field)
         card_form.add_widget(buttons_layout)
 
@@ -176,11 +166,11 @@ class CreateTipScreen(MDScreen):
 
     def save_card(self, instance):
         title = self.title_field.text
-        description = self.description_field.text
         url = self.url_field.text
-        data = {"name": title, "description": description, "url": url}
+        data = {"name": title, "url": url}
         tips_info_collection.insert_one(data)
 
+        self.manager.get_screen("tips-page").load_cards()
         self.manager.current = "tips-page"
 
 
@@ -225,18 +215,9 @@ class EditTipScreen(MDScreen):
             mode="rectangle",
         )
 
-        self.description_field = MDTextField(
-            hint_text="Phone Number",
-            helper_text="Enter Phone Number",
-            helper_text_mode="on_focus",
-            multiline=True,
-            size_hint_x=1,
-            mode="rectangle",
-        )
-
         self.url_field = MDTextField(
-            hint_text="Phone Number",
-            helper_text="Enter Phone Number",
+            hint_text="Link Url",
+            helper_text="Enter Link Url",
             helper_text_mode="on_focus",
             multiline=True,
             size_hint_x=1,
@@ -276,7 +257,6 @@ class EditTipScreen(MDScreen):
         buttons_layout.add_widget(delete_button)
 
         card_form.add_widget(self.title_field)
-        card_form.add_widget(self.description_field)
         card_form.add_widget(self.url_field)
         card_form.add_widget(buttons_layout)
 
@@ -291,7 +271,6 @@ class EditTipScreen(MDScreen):
     def set_card_data(self, card_data):
         self.card_data = card_data
         self.title_field.text = card_data["name"]
-        self.description_field.text = card_data["description"]
         self.url_field.text = card_data["url"]
 
     def go_back(self, *args):
@@ -299,11 +278,10 @@ class EditTipScreen(MDScreen):
 
     def save_card(self, instance):
         title = self.title_field.text
-        description = self.description_field.text
         url = self.url_field.text
         tips_info_collection.update_one(
             {"_id": self.card_data["_id"]},
-            {"$set": {"name": title, "description": description, "url": url}},
+            {"$set": {"name": title, "url": url}},
         )
 
         self.manager.current = "tips-page"

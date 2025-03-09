@@ -170,6 +170,7 @@ class CreateCardScreen(MDScreen):
         numbers_info_collection.insert_one(data)
 
         self.manager.current = "card-page"
+        self.manager.get_screen("card-page").load_cards()
 
 
 class EditCardScreen(MDScreen):

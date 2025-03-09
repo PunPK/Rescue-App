@@ -246,6 +246,7 @@ class ReceiverScreen(MDScreen):
                 self.ids.description_input.text = ""
                 self.on_stop()
                 self.show_popup("Success", "Report sent successfully!")
+                self.Nav("main")
             else:
                 # Show error message if fields are not filled
                 self.show_popup("Error", "Please fill all fields!")
@@ -271,3 +272,6 @@ class ReceiverScreen(MDScreen):
             self.ids.cam_container.remove_widget(self.layout)
             self.layout = None
             self.image_widget = None
+
+    def Nav(self, page):
+        self.manager.current = page

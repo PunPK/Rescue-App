@@ -117,19 +117,19 @@ python main_kivyMD.py
 ![safty](./image_of_App/safty-tips.png)
 
 หน้านี้จะรวมคลิปวิดีโอวิธีการช่วยเหลือตนเอง
-
+--
 
 #### หน้า Rescure Symbol
 ![rescure-symbol](./image_of_App/rescure-symbol.png)
 
 หน้าจะรวมป้ายด้านความปลอดภัย
-
+--
 
 #### หน้า sign up
 ![signup](./image_of_App/signup.png)
 
 หน้าสำหรับการสมัครการใช้งาน
-
+--
 
 #### หน้า Developer CoE36
 ![developBy](./image_of_App/developby.png)
@@ -161,7 +161,7 @@ python main_kivyMD.py
 ![login](./image_of_App/admin-login.png)
 
 หน้าสำหรับเข้าใช้งานระบบฝั่ง admin
----
+--
 
 ### หน้า main
 ![admin-main](./image_of_App/admin-report.png)
@@ -173,7 +173,7 @@ python main_kivyMD.py
   - เหตุการณ์
 
 ![report-detail](./image_of_App/report-detail.png)
----
+--
 
 ### หน้า Tool Management 
 ![tool-management](./image_of_App/tool-management.png)

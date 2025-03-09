@@ -381,6 +381,222 @@ class EditTipScreen(MDScreen):
         self.manager.get_screen("tips-page").load_cards() # กลับไปหน้า card-page และ fetch ข้อมูลให้ตรงตาม DataBase
 ```
 
+### 6. หน้าสำหรับ ส่งreport
+```bash
+client = MongoClient("localhost", 27017)
+db = client["rescue_app"]
+users_collection = db["users"]
+reports_collection = db["reports"]
+```
+เชื่อม database(MongoDB) ใช้ library pymongo import MongoClient (เป็น localhost ที่ port 27017) และกำหนด collection
+
+```bash
+if users_collection.count_documents({}) == 0:
+    users_collection.insert_many(
+        [
+            {"username": "admin", "password": "admin123", "role": "admin"},
+            {"username": "user", "password": "user123", "role": "user"},
+        ]
+    )
+
+if reports_collection.count_documents({}) == 0:
+    reports_collection.insert_one(
+        {"location": "Initial Location", "description": "Initial Description"}
+    )
+```
+ถ้าใน collection นั้นไม่มีเอกสารให้ใส่ไปเป็นค่า default ไปก่อน 1 อัน เช่นใน report ให้ใส่ location เป็น “Initial Location” description เป็น “Initial Description”
+
+```bash
+Builder.load_file("rescue_screen/Screen.kv") #โหลดไฟล์ Kivy Layout
+
+Window.size = (430, 740) #กำหนดขนาดของหน้าต่าง kivy
+
+
+class ReceiverScreen(MDScreen): #สร้างคลาส ReceiverScreen
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        #สร้าง MapView ที่แสดงแผนที่และกำหนดค่าพิกัดเริ่มต้น ใส่ map ใน boxlayout ที่ id map_container
+        self.mapview = MapView(zoom=13, lat=7.00724, lon=100.50176)
+        self.ids.map_container.add_widget(self.mapview)
+        self.marker = None #set maker ใน map และตำแหน่ง เป็น None
+        self.current_location = None
+        self.get_location_from_ip()   #ใช้ ฟังชั่น get_location_from_ip ฟังก์ชั่นนี้จะเอาpublic ip ไปหาตำแหน่ง
+
+        #set การ setup กล้อง,capture ,widget ของ image, layout,รูปที่ capture เป็น none
+        self.camera_index = None
+        self.capture = None
+        self.image_widget = None
+        self.layout = None
+        self.captured_image_widget = None
+        #ใช้ฟังก์ชันเพื่อเพิ่มแผนที่
+        self.add_map()
+
+    def get_location_from_ip(self):
+        try:
+            response = requests.get("https://ipinfo.io") #ใช้ library request  เพื่อไปget ข้อมูลของ public ip ที่เว็บ https://ipinfo.io/ (ไฟล์ json)
+            data = response.json()
+            loc = data["loc"].split(",")
+            lat, lon = float(loc[0]), float(loc[1]) #เอาแค่ค่า latitude longitude
+            print(f"Location from IP: lat={lat}, lon={lon}")
+            self.current_location = [lat, lon]
+
+            if self.marker:
+                self.mapview.remove_marker(self.marker)
+            self.marker = MapMarker(lat=lat, lon=lon) #เพิ่มตัวชี้ตำแหน่งลงบนแผนที่ ที่ latitude longitude นั้น
+            self.mapview.add_marker(self.marker)
+
+        except Exception as e:
+            print(f"Error fetching location from IP: {e}")
+
+    def update_current_location(self, *args): #อัปเดตตำแหน่งปัจจุบันโดยการดึงจาก IP อีกครั้ง
+        self.get_location_from_ip()
+        print(f"Using real-time IP-based location: {self.current_location}")
+
+    def add_map(self): #เพิ่มแผนที่และปุ่มเพื่อดึงตำแหน่งปัจจุบันตั้ง default ของตัวชี้ตำแหน่งไว้
+        self.marker = MapMarker(lat=7.00724, lon=100.50176)
+        self.mapview.add_marker(self.marker)
+        #ปุ่มเพื่อดึงตำแหน่งปัจจุบัน เมื่อกดแล้วจะได้ตำแหน่งปัจจุบันมา
+        get_location_btn = Button(
+            text="Get Current Location", size_hint=(1, None), height="50dp"
+        )
+        get_location_btn.bind(on_press=self.update_current_location)
+        self.ids.map_container.add_widget(get_location_btn)
+    def setup_camera(self):
+        if platform.system() == "Darwin": #ตั้งค่ากล้องโดยใช้ค่า index กล้องของ platformนั้น
+            self.camera_index = 0
+        elif platform.system() == "Linux":
+            self.camera_index = 2
+        elif platform.system() == "Windows":
+            self.camera_index = 1
+        else:
+            print("ใช้ไม่ได้บอก Hopeeee")
+            return
+
+        if not self.layout: #สร้างเลย์เอาต์สำหรับแสดงภาพจากกล้อง ใช้ library from kivy.uix.image import Image
+            self.layout = BoxLayout(orientation="vertical", size_hint=(1, 1))
+            self.image_widget = Image(size_hint=(1, 1))
+            self.layout.add_widget(self.image_widget)
+
+        self.ids.cam_container.add_widget(self.layout)
+
+        self.capture = cv2.VideoCapture(self.camera_index) #เปิดการจับภาพจากกล้อง ใช้ cv2
+        if not self.capture.isOpened():
+            print("Error: Could not open camera.")
+        else:
+            print("Camera opened successfully!")
+            Clock.schedule_interval(self.update, 1.0 / 30.0)
+            self.ids.open_cam_button.opacity = 0
+
+    def update(self, dt): #ฟังก์ชันที่อัปเดตภาพจากกล้องทุกๆ 30 เฟรม
+        try:
+            ret, frame = self.capture.read()
+
+            if ret:
+                print("Frame captured successfully.")
+                frame = cv2.rotate(frame, cv2.ROTATE_180)
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
+
+                texture = Texture.create(
+                    size=(frame.shape[1], frame.shape[0]), colorfmt="rgb"
+                )
+                texture.blit_buffer(frame.tobytes(), colorfmt="rgb", bufferfmt="ubyte")
+
+                #เอาภาพที่ได้จาก texture ใส่ ใน image widget
+                self.image_widget.texture = texture
+            else:
+                print("Error: Could not read frame.")
+        except Exception as e:
+            print(f"An error occurred while updating the frame: {e}")
+
+    def capture_photo(self):
+        try:
+            self.update_current_location()
+            ret, frame = self.capture.read()
+            if ret:
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                frame = cv2.flip(frame, 0)
+                #แสดงภาพที่จับได้บน widget
+                _, buffer = cv2.imencode(".jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+                self.img_str = base64.b64encode(buffer).decode("utf-8")
+                print("Photo captured. Ready to send in report.")
+                self.show_popup("Success", "Photo captured successfully!")
+                self.ids.photo_container.opacity = 1
+
+                if not self.captured_image_widget:
+                    self.captured_image_widget = Image()
+                    self.ids.photo_container.add_widget(
+                        self.captured_image_widget, index=1
+                    )
+
+                texture = Texture.create(
+                    size=(frame.shape[1], frame.shape[0]), colorfmt="rgb"
+                )
+                texture.blit_buffer(frame.tobytes(), colorfmt="rgb", bufferfmt="ubyte")
+                self.captured_image_widget.texture = texture
+            else:
+                print("Error: Could not capture the photo.")
+                self.show_popup("Error", "Failed to capture the photo.")
+        except Exception as e:
+            print(f"An error occurred while capturing the photo: {e}")
+            self.show_popup("Error", f"An error occurred: {e}")
+
+    def send_report(self): #การส่งreport
+        try:
+            self.update_current_location()   # เอา location ล่าสุดที่ได้จากการupdate locatin
+            location = self.ids.location_input.text #ชื่อ location,descriptipn เอามาจากการ input ข้อมูล
+            description = self.ids.description_input.text
+
+            if location and description:
+                report = {
+                    "location": location,
+                    "description": description,
+                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                }
+                if self.current_location:
+                    report["latitude"] = self.current_location[0]
+                    report["longitude"] = self.current_location[1]
+
+                if hasattr(self, "img_str"):
+                    report["image"] = self.img_str # image ส่งที่เข้ารหัสไว้แล้ว
+
+                # เพิ่มเอกสารเข้า DB (report collection)
+                reports_collection.insert_one(report)
+
+                # reset field หลังจากส่ง,หยุดการทำงานกล้อง,show ข้อความ และให้กลับไปที่หน้า main
+                self.ids.location_input.text = ""
+                self.ids.description_input.text = ""
+                self.on_stop()
+                self.show_popup("Success", "Report sent successfully!")
+                self.Nav("main")
+            else:
+                # Show error message if fields are not filled
+                self.show_popup("Error", "Please fill all fields!")
+        except Exception as e:
+            print(f"An error occurred while sending the report: {e}")
+            self.show_popup("Error", f"An error occurred: {e}")
+
+    def show_popup(self, title, message): #ฟังก์ชั่นไว้สำหรับ show ข้อความ
+        popup = Popup(
+            title=title,
+            content=Label(text=message),
+            size_hint=(0.8, 0.4),
+        )
+        popup.open()
+
+    def on_stop(self): # ฟังชั่นการหยุดกล้อง
+        if self.capture and self.capture.isOpened() or self.setup_camera(): #ถ้ากล้องเปิดอยู่ให้มีค่าเป็น None และไม่ update frame ที่ได้
+            self.capture.release()
+            self.capture = None 
+            Clock.unschedule(self.update)
+        #ถ้ามี layout ของ image ให้ set layout image widget เป็น None
+        if self.layout and self.layout in self.ids.cam_container.children:
+            self.ids.cam_container.remove_widget(self.layout)
+            self.layout = None
+            self.image_widget = None
+
+    def Nav(self, page): #ฟังก์ชั่น Navigate ไปหน้าอื่น
+        self.manager.current = page
+```
 ## หน้าต่างของApp
 
 ### หน้า explore

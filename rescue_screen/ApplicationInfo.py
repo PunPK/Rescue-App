@@ -72,7 +72,7 @@ KV = """
                     height: "100dp"
                     spacing: "4dp"
                     padding: [0, "16dp", 0, "16dp"]
-                    elevation: 5
+                    elevation: 1
                     radius: [15, 15, 15, 15]
                     md_bg_color: utils.get_color_from_hex('#ffffff')  # White background
                     
@@ -97,7 +97,7 @@ KV = """
                     height: "100dp"
                     spacing: "4dp"
                     padding: [0, "16dp", 0, "16dp"]
-                    elevation: 5
+                    elevation: 1
                     radius: [15, 15, 15, 15]
                     md_bg_color: utils.get_color_from_hex('#ffffff')  # White background
                     
@@ -121,7 +121,7 @@ KV = """
                     size_hint_y: None
                     height: "140dp"
                     spacing: "6dp"
-                    elevation: 5
+                    elevation: 1
                     radius: [15, 15, 15, 15]
                     md_bg_color: utils.get_color_from_hex('#ffffff')  # White background
                     
@@ -139,7 +139,7 @@ KV = """
                         height: "80dp"
                         md_bg_color: utils.get_color_from_hex('#00c853')  # Green color for MongoDB
                         radius: [15, 15, 15, 15]
-                        elevation: 5
+                        elevation: 1
                         
                         FitImage:
                             source: "Image/mongodb.png"

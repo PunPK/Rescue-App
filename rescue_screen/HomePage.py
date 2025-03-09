@@ -294,7 +294,9 @@ class MainScreen(MDScreen):
         )
         services_grid1.add_widget(
             ServiceCard(
-                icon_source="Image/help_icon.png", title="Safety Tips \nBy Your Self"
+                icon_source="Image/help_icon.png",
+                title="Safety Tips \nBy Your Self",
+                on_release=lambda x: self.Nav("tipsview"),
             )
         )
         services_grid1.add_widget(
@@ -305,8 +307,8 @@ class MainScreen(MDScreen):
         services_grid2.add_widget(
             ServiceCard(
                 icon_source="Image/SignIn.png",
-                title="Sign In\nApplication",
-                on_release=lambda x: self.Nav("login"),
+                title="Sign Up\nApplication",
+                on_release=lambda x: self.Nav("register"),
             )
         )
         services_grid2.add_widget(

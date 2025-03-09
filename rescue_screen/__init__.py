@@ -25,5 +25,6 @@ from .home_admin import Home_Admin
 from .tool_page import Tool_page
 from .card_page import Card_page, EditCardScreen, CreateCardScreen
 from .safty_tips_management import Tips_page, EditTipScreen, CreateTipScreen
+from .salfty_tips import Tips_page
 
 # from .BottonNavItem import BottomNavBar

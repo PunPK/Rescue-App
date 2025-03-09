@@ -835,47 +835,44 @@
                 text: "Login"
                 screen_name: "login"
 <ReportDetailsScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-
-        MDTopAppBar:
-            title: 'Report Details'
-            md_bg_color: app.theme_cls.primary_color
-            elevation: 10
-            size_hint_y: None
-            height: '56dp'
-        Image:
-            id: report_image
-            source: 'image.jpg'
-            size_hint_y: None
-            height: '200dp'
-            allow_stretch: True
-            keep_ratio: True
+    ScrollView:
         BoxLayout:
             orientation: 'vertical'
-            padding: '10dp'
-            spacing: '10dp'
-
-            MDLabel:
-                id: report_location
-                text: "Location: "
-                size_hint_y: None
-                height: '40dp'
-
-            MDLabel:
-                id: report_timestamp
-                text: "Timestamp: "
-                size_hint_y: None
-                height: '40dp'
-
-            MDLabel:
-                id: report_description
-                text: "Description: "
-                size_hint_y: None
-                height: '40dp'
-
-        MDIconButton:
-            icon: "arrow-left"
-            on_release: app.root.current = "home"
             size_hint_y: None
-            height: '40dp'
+            height: self.minimum_height
+
+            Image:
+                id: report_image
+                source: 'image.jpg'
+                size_hint_y: None
+                height: '200dp'
+                allow_stretch: True
+                keep_ratio: True
+
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                
+                BoxLayout:
+                    id: map_container
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '200dp'
+                    spacing: 10
+
+                MDLabel:
+                    id: report_location
+                    size_hint_y: None
+                    height: '40dp'
+
+                MDLabel:
+                    id: report_timestamp
+                    size_hint_y: None
+                    height: '40dp'
+
+                MDLabel:
+                    id: report_description
+                    size_hint_y: None
+                    height: '40dp'
+

@@ -12,6 +12,7 @@ from rescue_screen.safty_tips_management import (
     CreateTipScreen,
     EditTipScreen,
 )
+from rescue_screen.ReportList import ReportList, ReportDetailsScreen
 
 # Define the KV string for the navigation structure
 KV = """
@@ -64,7 +65,8 @@ class RescueAdminApp(MDApp):
         # Get reference to the screen manager
         self.screen_manager = self.root.ids.screen_manager
 
-        self.screen_manager.add_widget(Home_Admin(name="home-admin"))
+        self.screen_manager.add_widget(ReportList(name="home-admin"))
+        self.screen_manager.add_widget(ReportDetailsScreen(name="reports-detail"))
         self.screen_manager.add_widget(Tool_page(name="tool-page"))
         self.screen_manager.add_widget(Card_page(name=("card-page")))
         self.screen_manager.add_widget(CreateCardScreen(name=("create_card")))

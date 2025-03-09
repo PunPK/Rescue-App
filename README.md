@@ -597,6 +597,68 @@ class ReceiverScreen(MDScreen): #สร้างคลาส ReceiverScreen
     def Nav(self, page): #ฟังก์ชั่น Navigate ไปหน้าอื่น
         self.manager.current = page
 ```
+
+### 7. หน้าสำหรับ show report detail
+```bash
+class ReportDetailsScreen(MDScreen): #หน้าดูรายละเอียด
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.name = "reports-detail"
+        self.mapview = None
+
+    def show_report_details(self, report):
+        self.ids.report_location.text = f"Location: {report.get('location', 'Unknown')}"
+        self.ids.report_timestamp.text = f"Time: {report.get('timestamp', 'Unknown')}"
+        self.ids.report_description.text = (
+            f"Description: {report.get('description', 'No Description')}"
+        )
+        self.ids.report_location.font_name = "ThaiFont"
+        self.ids.report_timestamp.font_name = "ThaiFont"
+        self.ids.report_description.font_name = "ThaiFont"
+
+        image_data = report.get("image", None)
+
+        if image_data: # ถ้ามีข้อมูล image_data เป็น base64 stringให้ทำการแปลงข้อมูลนั้นเป็น bytes
+            try:
+                image_bytes = base64.b64decode(image_data)
+                image = PILImage.open(BytesIO(image_bytes)) # เปิดภาพจาก image_bytes โดยใช้ PIL (Pillow library) 
+
+                image = image.convert("RGBA")
+                img_data = image.tobytes() # แปลงภาพเป็นข้อมูล raw bytes สำหรับใช้งานกับ texture
+                
+                # สร้าง texture ใหม่โดยใช้ขนาดของภาพและกำหนดสีเป็น RGBA
+                texture = Texture.create(
+                    size=(image.width, image.height), colorfmt="rgba"
+                )
+                 # ใส่ข้อมูล image ลงใน texture
+                texture.blit_buffer(img_data, colorfmt="rgba", bufferfmt="ubyte")
+
+                # ตั้งค่า texture ให้กับ widget ที่แสดงภาพ (report_image)
+                self.ids.report_image.texture = texture
+
+            except Exception as e:
+                print(f"Error loading image: {e}")
+                self.ids.report_image.source = "image.jpg"
+        else:
+            # ถ้าไม่มีข้อมูล image_data ใช้ภาพเริ่มต้น
+            self.ids.report_image.source = "image.jpg"
+        
+        # รับค่าพิกัด latitude และ longitude จาก report ถ้าไม่มีให้กำหนดเป็นค่าเริ่มต้น 0
+        lat = report.get("latitude", 0)
+        lon = report.get("longitude", 0)
+
+        # ถ้า mapview ยังไม่มีการสร้างขึ้น ให้สร้างขึ้นใหม่และเพิ่ม widget mapview เข้าไป
+        if self.mapview is None:
+            self.mapview = MapView(zoom=13, lat=lat, lon=lon)
+            self.ids.map_container.add_widget(self.mapview)
+
+        # ทำการกำหนด center แผนที่ไปที่พิกัดที่ได้จาก report
+        self.mapview.center_on(lat, lon)
+        # สร้าง marker ที่จุดพิกัด latitude, longitude ที่ได้มา
+        marker = MapMarker(lat=lat, lon=lon)
+        self.mapview.add_marker(marker) # เพิ่ม marker ลงบนแผนที่
+```
+
 ## หน้าต่างของApp
 
 ### หน้า explore

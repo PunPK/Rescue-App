@@ -15,6 +15,7 @@ from kivy.metrics import dp
 from pymongo import MongoClient, errors
 import webbrowser
 from rescue_screen.HomePage import BottomNavItem
+from kivymd.uix.list import OneLineAvatarIconListItem, IconRightWidget
 
 # Set window size to mobile dimensions (360x640)
 Window.size = (360, 640)
@@ -85,9 +86,14 @@ class Tips_page(MDScreen):
         self.card_list.clear_widgets()
         tip_info_collection = tips_info_collection.find()
 
-        for i in tip_info_collection:
-            item = OneLineListItem(
-                text=f"name: {i['name']}",
-                on_release=lambda x, i=i: webbrowser.open(i["url"]),
+        for index, i in enumerate(tip_info_collection, start=1):
+            item = OneLineAvatarIconListItem(text=f"{index}: {i['name']}")
+
+            youtube_icon = IconRightWidget(
+                icon="youtube", on_release=lambda x, i=i: webbrowser.open(i["url"])
             )
+            youtube_icon.theme_text_color = "Custom"
+            youtube_icon.text_color = (1, 0, 0, 1)
+
+            item.add_widget(youtube_icon)
             self.card_list.add_widget(item)

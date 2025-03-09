@@ -97,7 +97,9 @@ python main_kivyMD.py
 ## หน้าต่างของApp
 
 ### หน้า explore
-![explore_image](./image_of_App/explore_img.png)
+<p align="center">
+  <img src="./image_of_App/explore_img.png" alt="explore_image">
+</p>
 
 หน้าexplore จะเป็นหน้าศูนย์รวมการควบคุมประกอบด้วย:
   - View Map Information
@@ -108,37 +110,51 @@ python main_kivyMD.py
   - Developer CoE36
 ---
 #### หน้า View Map Information
-![viewmap](./image_of_App/map-view-img.png)
+<p align="center">
+  <img src="./image_of_App/map-view-img.png" alt="viewmap">
+</p>
 
 หน้านี้จะแสดงถึงตำแหน่งปัจจุบันของผู้ใช้งาน
 
 
 #### หน้า Safty Tips
-![safty](./image_of_App/safty-tips.png)
+<p align="center">
+  <img src="./image_of_App/safty-tips.png" alt="safty">
+</p>
+
 
 หน้านี้จะรวมคลิปวิดีโอวิธีการช่วยเหลือตนเอง
 --
 
 #### หน้า Rescure Symbol
-![rescure-symbol](./image_of_App/rescure-symbol.png)
+<p align="center">
+  <img src="./image_of_App/rescure-symbol.png" alt="rescure-symbol">
+</p>
 
 หน้าจะรวมป้ายด้านความปลอดภัย
 --
 
 #### หน้า sign up
-![signup](./image_of_App/signup.png)
+<p align="center">
+  <img src="./image_of_App/signup.png" alt="signup">
+</p>
 
 หน้าสำหรับการสมัครการใช้งาน
 --
 
 #### หน้า Developer CoE36
-![developBy](./image_of_App/developby.png)
+<p align="center">
+  <img src="./image_of_App/developby.png" alt="developBy">
+</p>
+
 
 เป็นหน้าสำหรับแสดงถึงผู้พัฒนา Application นี้
 
 ---
 ### หน้าส่ง report
-![report_image](./image_of_App/report.png)
+<p align="center">
+  <img src="./image_of_App/report.png" alt="report_image">
+</p>
 
 เป็นหน้าที่ใช้ในการส่งreport ซึ่งจะประกอบด้วย
   - สถานที่
@@ -148,7 +164,9 @@ python main_kivyMD.py
 ---
 
 ### หน้ารวมเบอร์
-![phone_img](./image_of_App/phone_img.png)
+<p align="center">
+  <img src="./image_of_App/phone_img.png" alt="phone_img">
+</p>
 
 หน้านี่จะเป็นหน้ารวมเบอร์ขององค์กรต่างๆที่สามารถโทรเพื่อขอความช่วยเหลือ เช่น 1669 , 191
 ประกอบด้วย:
@@ -158,13 +176,17 @@ python main_kivyMD.py
 ---
 
 ### หน้าlogin สำหรับ admin
-![login](./image_of_App/admin-login.png)
+<p align="center">
+  <img src="./image_of_App/admin-login.png" alt="login">
+</p>
 
 หน้าสำหรับเข้าใช้งานระบบฝั่ง admin
 --
 
 ### หน้า main
-![admin-main](./image_of_App/admin-report.png)
+<p align="center">
+  <img src="./image_of_App/admin-report.png" alt="admin-main">
+</p>
 
 หน้าจะแสดง report ที่userส่งมาถ้ากดเข้าไปจะประกอบด้วย:
   - สถานที่
@@ -172,11 +194,15 @@ python main_kivyMD.py
   - ตำแหน่งgps
   - เหตุการณ์
 
-![report-detail](./image_of_App/report-detail.png)
+<p align="center">
+  <img src="./image_of_App/report-detail.png" alt="report-detail">
+</p>
 --
 
 ### หน้า Tool Management 
-![tool-management](./image_of_App/tool-management.png)
+<p align="center">
+  <img src="./image_of_App/tool-management.png" alt="tool-management">
+</p>
 
 หน้าจะประกอบด้วยปุ่ม
   - Phone Management ใช้เพื่อ create update delete ข้อมูล
@@ -184,9 +210,17 @@ python main_kivyMD.py
   - View team develop แสดงผู้พัฒนา App
 
 #### หน้า Phone Management
-![phoneM](./image_of_App/phone-mangement.png)
-![edit](./image_of_App/edit-phone.png)
-![create](./image_of_App/create-phone.png)
+<p align="center">
+  <img src="./image_of_App/phone-mangement.png" alt="phoneM">
+</p>
+
+<p align="center">
+  <img src="./image_of_App/edit-phone.png" alt="edit">
+</p>
+
+<p align="center">
+  <img src="./image_of_App/create-phone.png" alt="create">
+</p>
 
 หน้า Phone Managent จะประกอบดด้วย3หน้าหลักๆ
   - หน้าสำหรับแสดงผลเบอร์ทุกเบอร์โทรที่มีอยู่ในdb

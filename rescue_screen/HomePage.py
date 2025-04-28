@@ -219,7 +219,7 @@ class MainScreen(MDScreen):
         logo_image = Image(
             source="Image/logo.png",
             size_hint=(None, None),
-            # size=(dp(60), dp(60)),
+            size=(dp(100), dp(100)),
             pos_hint={"center_x": 0.5, "center_y": 0.5},
         )
 
